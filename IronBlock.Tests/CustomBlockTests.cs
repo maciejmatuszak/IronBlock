@@ -5,25 +5,24 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronBlock.Tests
 {
-
-  internal class CustomPrintBlock : IBlock
-  {
-    public List<string> Text { get; set; } = new List<string>();
-
-    public override object Evaluate(Context context)
+    internal class CustomPrintBlock : IBlock
     {
-      Text.Add((this.Values.FirstOrDefault(x => x.Name == "VALUE")?.Evaluate(context) ?? "").ToString());
-      return base.Evaluate(context);
+        public List<string> Text { get; set; } = new List<string>();
+
+        public override object Evaluate(Context context)
+        {
+            Text.Add((Values.FirstOrDefault(x => x.Name == "VALUE")?.Evaluate(context) ?? "").ToString());
+            return base.Evaluate(context);
+        }
     }
-  }
 
-  [TestClass]
-  public class CustomBlockTests
-  {
-    [TestMethod]
-    public void Test_Custom_Block()
+    [TestClass]
+    public class CustomBlockTests
     {
-      const string xml = @"
+        [TestMethod]
+        public void Test_Custom_Block()
+        {
+            const string xml = @"
 <xml>
   <block type=""text_print"">
     <value name=""VALUE"">
@@ -35,16 +34,14 @@ namespace IronBlock.Tests
 </xml>
 ";
 
-      var printBlock = new CustomPrintBlock();
-      var output = new Parser()
-        .AddStandardBlocks()
-        .AddBlock("text_print", printBlock)
-        .Parse(xml)
-        .Evaluate();
+            var printBlock = new CustomPrintBlock();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .AddBlock("text_print", printBlock)
+                .Parse(xml)
+                .Evaluate();
 
-      Assert.AreEqual("abc", string.Join("", printBlock.Text));
-
+            Assert.AreEqual("abc", string.Join("", printBlock.Text));
+        }
     }
-
-  }
 }

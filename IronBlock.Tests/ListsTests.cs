@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using IronBlock.Blocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,7 +8,6 @@ namespace IronBlock.Tests
     [TestClass]
     public class ListsTests
     {
-
         [TestMethod]
         public void Test_List_Create_With()
         {
@@ -37,13 +35,12 @@ namespace IronBlock.Tests
 ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
+
             Assert.AreEqual("x,y,z", string.Join(",", (output as IEnumerable<object>).Select(x => x.ToString())));
         }
-
 
 
         [TestMethod]
@@ -69,12 +66,11 @@ namespace IronBlock.Tests
 ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
-            Assert.AreEqual("x,y,z", string.Join(",", output as IEnumerable<object>));
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
 
+            Assert.AreEqual("x,y,z", string.Join(",", output as IEnumerable<object>));
         }
 
         [TestMethod]
@@ -115,14 +111,12 @@ namespace IronBlock.Tests
             ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
+
             Assert.AreEqual("x,y,z", output);
-
         }
-
 
 
         [TestMethod]
@@ -152,12 +146,11 @@ namespace IronBlock.Tests
 ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
-            Assert.AreEqual(3, (double) output);
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
 
+            Assert.AreEqual(3, (double) output);
         }
 
 
@@ -182,12 +175,12 @@ namespace IronBlock.Tests
 ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
-            Assert.AreEqual("hello,hello,hello", string.Join(",", (output as IEnumerable<object>).Select(x => x.ToString())));
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
 
+            Assert.AreEqual("hello,hello,hello",
+                string.Join(",", (output as IEnumerable<object>).Select(x => x.ToString())));
         }
 
 
@@ -207,12 +200,11 @@ namespace IronBlock.Tests
 ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
-            Assert.IsTrue((bool) output);
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
 
+            Assert.IsTrue((bool) output);
         }
 
         [TestMethod]
@@ -249,12 +241,11 @@ namespace IronBlock.Tests
 ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
-            Assert.AreEqual(2, (int) output);
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
 
+            Assert.AreEqual(2, (int) output);
         }
 
         [TestMethod]
@@ -292,13 +283,11 @@ namespace IronBlock.Tests
 ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
+
             Assert.AreEqual("bar", (string) output);
-
         }
-
     }
 }

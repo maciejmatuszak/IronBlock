@@ -1,6 +1,6 @@
+using System.Linq;
 using IronBlock.Blocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace IronBlock.Tests
 {
@@ -10,7 +10,6 @@ namespace IronBlock.Tests
         [TestMethod]
         public void Test_Controls_If()
         {
-
             const string xml = @"
 <xml>
   <block type=""controls_if"" >
@@ -36,7 +35,7 @@ namespace IronBlock.Tests
                 .AddDebugPrinter()
                 .Parse(xml)
                 .Evaluate();
-            
+
             Assert.AreEqual("success", TestExtensions.GetDebugText().First());
         }
 
@@ -44,7 +43,6 @@ namespace IronBlock.Tests
         [TestMethod]
         public void Test_Controls_WhileUntil()
         {
-
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <variables>
@@ -107,7 +105,7 @@ namespace IronBlock.Tests
                 .AddDebugPrinter()
                 .Parse(xml)
                 .Evaluate();
-            
+
             Assert.AreEqual("0", string.Join(",", TestExtensions.GetDebugText()));
         }
 
@@ -115,7 +113,6 @@ namespace IronBlock.Tests
         [TestMethod]
         public void Test_Controls_Flow_Continue()
         {
-
             const string xml = @"
 <xml>
   <block type=""controls_repeat_ext"">
@@ -164,7 +161,7 @@ namespace IronBlock.Tests
                 .AddDebugPrinter()
                 .Parse(xml)
                 .Evaluate();
-            
+
             Assert.AreEqual("hello,hello,hello", string.Join(",", TestExtensions.GetDebugText()));
         }
 
@@ -172,7 +169,6 @@ namespace IronBlock.Tests
         [TestMethod]
         public void Test_Controls_Flow_Break()
         {
-
             const string xml = @"
 <xml>
   <block type=""controls_repeat_ext"">
@@ -226,11 +222,9 @@ namespace IronBlock.Tests
         }
 
 
-
         [TestMethod]
         public void Test_Controls_For_Each()
         {
-
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <variables>
@@ -282,7 +276,6 @@ namespace IronBlock.Tests
         [TestMethod]
         public void Test_Controls_For()
         {
-
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <variables>
@@ -328,7 +321,5 @@ namespace IronBlock.Tests
 
             Assert.AreEqual("1,2,3", string.Join(",", TestExtensions.GetDebugText()));
         }
-
-
     }
 }

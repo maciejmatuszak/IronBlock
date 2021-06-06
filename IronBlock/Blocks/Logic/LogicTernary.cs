@@ -1,51 +1,46 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Logic
 {
-  public class LogicTernary : IBlock
-  {
-    public override object Evaluate(Context context)
+    public class LogicTernary : IBlock
     {
-      var ifValue = (bool)this.Values.Evaluate("IF", context);
-
-      if (ifValue)
-      {
-        if (this.Values.Any(x => x.Name == "THEN"))
+        public override object Evaluate(Context context)
         {
-          return this.Values.Evaluate("THEN", context);
+            var ifValue = (bool) Values.Evaluate("IF", context);
+
+            if (ifValue)
+            {
+                if (Values.Any(x => x.Name == "THEN")) return Values.Evaluate("THEN", context);
+            }
+            else
+            {
+                if (Values.Any(x => x.Name == "ELSE")) return Values.Generate("ELSE", context);
+            }
+
+            return null;
         }
-      }
-      else
-      {
-        if (this.Values.Any(x => x.Name == "ELSE"))
+
+        public override SyntaxNode Generate(Context context)
         {
-          return this.Values.Generate("ELSE", context);
+            var conditionalExpression = Values.Generate("IF", context) as ExpressionSyntax;
+            if (conditionalExpression == null)
+                throw new ApplicationException("Unknown expression for conditional statement.");
+
+            var trueExpression = Values.Generate("THEN", context) as ExpressionSyntax;
+            if (trueExpression == null) throw new ApplicationException("Unknown expression for true statement.");
+
+            var falseExpression = Values.Generate("ELSE", context) as ExpressionSyntax;
+            if (falseExpression == null) throw new ApplicationException("Unknown expression for false statement.");
+
+            return ConditionalExpression(
+                conditionalExpression,
+                trueExpression,
+                falseExpression
+            );
         }
-      }
-      return null;
     }
-    public override SyntaxNode Generate(Context context)
-    {
-      var conditionalExpression = this.Values.Generate("IF", context) as ExpressionSyntax;
-      if (conditionalExpression == null) throw new ApplicationException($"Unknown expression for conditional statement.");
-
-      var trueExpression = this.Values.Generate("THEN", context) as ExpressionSyntax;
-      if (trueExpression == null) throw new ApplicationException($"Unknown expression for true statement.");
-
-      var falseExpression = this.Values.Generate("ELSE", context) as ExpressionSyntax;
-      if (falseExpression == null) throw new ApplicationException($"Unknown expression for false statement.");
-
-      return ConditionalExpression(
-            conditionalExpression,
-            trueExpression,
-            falseExpression
-          );
-    }
-  }
-
 }

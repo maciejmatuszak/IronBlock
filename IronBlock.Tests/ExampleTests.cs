@@ -1,7 +1,7 @@
-using IronBlock.Blocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Linq;
+using IronBlock.Blocks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronBlock.Tests
 {
@@ -19,7 +19,7 @@ namespace IronBlock.Tests
 
             parser.Parse(xml).Evaluate();
 
-            Assert.AreEqual("2,4,8,16", string.Join(",",TestExtensions.GetDebugText()));
+            Assert.AreEqual("2,4,8,16", string.Join(",", TestExtensions.GetDebugText()));
         }
 
 
@@ -36,12 +36,5 @@ namespace IronBlock.Tests
 
             Assert.AreEqual("Don't panic", TestExtensions.GetDebugText().First());
         }
-
-
-
-
-
     }
-
-
 }

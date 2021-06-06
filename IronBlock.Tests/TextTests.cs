@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using IronBlock.Blocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,14 +23,12 @@ namespace IronBlock.Tests
 ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
 
             Assert.AreEqual(3.0, output);
-
         }
-
 
 
         [TestMethod]
@@ -50,10 +46,10 @@ namespace IronBlock.Tests
 </xml>
 ";
             var output = (bool) new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
+
             Assert.IsTrue(output);
         }
 
@@ -74,11 +70,11 @@ namespace IronBlock.Tests
 </xml>
 ";
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate()
-              .ToString();
-            
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate()
+                .ToString();
+
             Assert.AreEqual("ab c", output);
         }
 
@@ -98,14 +94,13 @@ namespace IronBlock.Tests
 </xml>
 ";
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate()
-              .ToString();
-            
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate()
+                .ToString();
+
             Assert.AreEqual("Hello World", output);
         }
-
 
 
         [TestMethod]
@@ -228,12 +223,11 @@ namespace IronBlock.Tests
 </xml>
 ";
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
 
             Assert.AreEqual(5.0, output);
         }
-
     }
 }

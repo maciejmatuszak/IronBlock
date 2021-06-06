@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using IronBlock.Blocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,12 +18,11 @@ namespace IronBlock.Tests
 ";
 
             var output = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate();
-            
-            Assert.AreEqual("#ff0000", output);
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate();
 
+            Assert.AreEqual("#ff0000", output);
         }
 
         [TestMethod]
@@ -39,11 +35,11 @@ namespace IronBlock.Tests
 ";
 
             var program = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml);
+                .AddStandardBlocks()
+                .Parse(xml);
 
             var output = program.Evaluate() as string;
-            
+
             Assert.AreEqual(7, output.Length);
             Assert.AreEqual('#', output[0]);
 
@@ -79,12 +75,11 @@ namespace IronBlock.Tests
 ";
 
             var colour = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate() as string;
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate() as string;
 
             Assert.AreEqual("#ff0001", colour);
-
         }
 
 
@@ -114,14 +109,11 @@ namespace IronBlock.Tests
 ";
 
             var colour = new Parser()
-              .AddStandardBlocks()
-              .Parse(xml)
-              .Evaluate() as string;
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Evaluate() as string;
 
             Assert.AreEqual("#d60a33", colour);
-
         }
-
-
     }
 }

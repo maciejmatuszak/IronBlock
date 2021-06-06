@@ -6,49 +6,51 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Variables
 {
-  public class VariablesSet : IBlock
-  {
-    public override object Evaluate(Context context)
+    public class VariablesSet : IBlock
     {
-      var variables = context.Variables;
-      var value = Values.Evaluate("VALUE", context);
-      var variableName = Fields.Get("VAR");
+        public override object Evaluate(Context context)
+        {
+            var variables = context.Variables;
+            var value = Values.Evaluate("VALUE", context);
+            var variableName = Fields.Get("VAR");
 
-      // Fast-Solution
-      if (variables.ContainsKey(variableName))
-        variables[variableName] = value;
-      else
-      {
-        var rootContext = context.GetRootContext();
+            // Fast-Solution
+            if (variables.ContainsKey(variableName))
+            {
+                variables[variableName] = value;
+            }
+            else
+            {
+                var rootContext = context.GetRootContext();
 
-        if (rootContext.Variables.ContainsKey(variableName))
-          rootContext.Variables[variableName] = value;
-        else
-          variables.Add(variableName, value);
-      }
+                if (rootContext.Variables.ContainsKey(variableName))
+                    rootContext.Variables[variableName] = value;
+                else
+                    variables.Add(variableName, value);
+            }
 
-      return base.Evaluate(context);
+            return base.Evaluate(context);
+        }
+
+        public override SyntaxNode Generate(Context context)
+        {
+            var variables = context.Variables;
+
+            var variableName = Fields.Get("VAR").CreateValidName();
+
+            var valueExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
+            if (valueExpression == null)
+                throw new ApplicationException("Unknown expression for value.");
+
+            context.GetRootContext().Variables[variableName] = valueExpression;
+
+            var assignment = AssignmentExpression(
+                SyntaxKind.SimpleAssignmentExpression,
+                IdentifierName(variableName),
+                valueExpression
+            );
+
+            return Statement(assignment, base.Generate(context), context);
+        }
     }
-
-    public override SyntaxNode Generate(Context context)
-    {
-      var variables = context.Variables;
-
-      var variableName = Fields.Get("VAR").CreateValidName();
-
-      var valueExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
-      if (valueExpression == null)
-        throw new ApplicationException("Unknown expression for value.");
-
-      context.GetRootContext().Variables[variableName] = valueExpression;
-
-      var assignment = AssignmentExpression(
-          SyntaxKind.SimpleAssignmentExpression,
-          IdentifierName(variableName),
-          valueExpression
-      );
-
-      return Statement(assignment, base.Generate(context), context);
-    }
-  }
 }

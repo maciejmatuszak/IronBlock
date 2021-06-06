@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace IronBlock.Blocks.Text
 {
-  public class ColourPicker : IBlock
-  {
-    public override object Evaluate(Context context)
+    public class ColourPicker : IBlock
     {
-      return this.Fields.Get("COLOUR") ?? "#000000";
+        public override object Evaluate(Context context)
+        {
+            return Fields.Get("COLOUR") ?? "#000000";
+        }
     }
-  }
-
 }

@@ -3,25 +3,8 @@ using System.Linq;
 
 namespace IronBlock.Tests
 {
-
     internal static class TestExtensions
     {
-        internal class DebugPrint : IBlock
-        {
-            public static List<string> Text { get; set; }
-
-            static DebugPrint()
-            {
-                Text = new List<string>();
-            }
-
-            public override object Evaluate(Context context)
-            {
-                Text.Add((this.Values.First(x => x.Name == "TEXT").Evaluate(context) ?? "").ToString());
-                return base.Evaluate(context);
-            }
-        }
-
         internal static IList<string> GetDebugText()
         {
             return DebugPrint.Text;
@@ -35,5 +18,20 @@ namespace IronBlock.Tests
             return parser;
         }
 
+        internal class DebugPrint : IBlock
+        {
+            static DebugPrint()
+            {
+                Text = new List<string>();
+            }
+
+            public static List<string> Text { get; set; }
+
+            public override object Evaluate(Context context)
+            {
+                Text.Add((Values.First(x => x.Name == "TEXT").Evaluate(context) ?? "").ToString());
+                return base.Evaluate(context);
+            }
+        }
     }
 }

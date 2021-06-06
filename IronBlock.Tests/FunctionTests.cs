@@ -62,7 +62,6 @@ namespace IronBlock.Tests
                 .Evaluate();
 
             Assert.AreEqual("hello world,hello world,hello world", string.Join(",", TestExtensions.GetDebugText()));
-
         }
 
 
@@ -92,7 +91,6 @@ namespace IronBlock.Tests
                 .Evaluate();
 
             Assert.AreEqual("hello world", output);
-
         }
 
 
@@ -137,10 +135,6 @@ namespace IronBlock.Tests
                 .Evaluate();
 
             Assert.AreEqual("hello world", output);
-
         }
-
-
     }
 }
-

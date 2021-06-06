@@ -2,14 +2,13 @@ using System;
 
 namespace IronBlock.Blocks.Math
 {
-  public class MathRandomFloat : IBlock
-  {
-    static Random rand = new Random();
-
-    public override object Evaluate(Context context)
+    public class MathRandomFloat : IBlock
     {
-      return rand.NextDouble();
-    }
+        private static readonly Random rand = new Random();
 
-  }
+        public override object Evaluate(Context context)
+        {
+            return rand.NextDouble();
+        }
+    }
 }

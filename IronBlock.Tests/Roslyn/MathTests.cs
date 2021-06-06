@@ -11,7 +11,6 @@ namespace IronBlock.Tests.Roslyn
         [TestMethod]
         public void Test_Math_Root()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_single"">
@@ -24,19 +23,18 @@ namespace IronBlock.Tests.Roslyn
   </block>        
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
-			
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("Math.Sqrt(9);"));
-		}
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
+
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("Math.Sqrt(9);"));
+        }
 
         [TestMethod]
         public void Test_Math_Sin()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_trig"">
@@ -49,19 +47,18 @@ namespace IronBlock.Tests.Roslyn
   </block>        
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
-			
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("Math.Sin(45 / (180 * Math.PI));"));
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
+
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("Math.Sin(45 / (180 * Math.PI));"));
         }
 
         [TestMethod]
         public void Test_Math_PI()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_constant"">
@@ -69,20 +66,19 @@ namespace IronBlock.Tests.Roslyn
   </block>        
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("Math.PI;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("Math.PI;"));
+        }
 
 
         [TestMethod]
         public void Test_Math_Number_Property_Even()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_number_property"">
@@ -96,19 +92,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("4 % 2 == 0;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("4 % 2 == 0;"));
+        }
 
         [TestMethod]
         public void Test_Math_Number_Property_Odd()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_number_property"">
@@ -122,20 +117,19 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("3 % 2 == 1;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("3 % 2 == 1;"));
+        }
 
 
         [TestMethod]
         public void Test_Math_Number_Property_Prime()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_number_property"">
@@ -150,18 +144,17 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
             Assert.ThrowsException<NotImplementedException>(() =>
-			{
-				new Parser()
-					.AddStandardBlocks()
-					.Parse(xml)
-					.Generate();
-			});
+            {
+                new Parser()
+                    .AddStandardBlocks()
+                    .Parse(xml)
+                    .Generate();
+            });
         }
 
         [TestMethod]
         public void Test_Math_Number_Property_Whole_True()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_number_property"">
@@ -175,19 +168,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("7 % 1 == 0;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("7 % 1 == 0;"));
+        }
 
         [TestMethod]
         public void Test_Math_Number_Property_Whole_False()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_number_property"">
@@ -201,19 +193,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("7.1 % 1 == 0;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("7.1 % 1 == 0;"));
+        }
 
         [TestMethod]
         public void Test_Math_Number_Property_Positive()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_number_property"">
@@ -227,19 +218,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("7.1 > 0;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("7.1 > 0;"));
+        }
 
         [TestMethod]
         public void Test_Math_Number_Property_Negative()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_number_property"">
@@ -253,19 +243,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("7.1 < 0;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("7.1 < 0;"));
+        }
 
         [TestMethod]
         public void Test_Math_Number_Property_Divisible_By()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_number_property"">
@@ -284,19 +273,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("9 % 3 == 0;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("9 % 3 == 0;"));
+        }
 
         [TestMethod]
         public void Test_Math_Number_Round()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_round"">
@@ -309,19 +297,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("Math.Round(3.1);"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("Math.Round(3.1);"));
+        }
 
         [TestMethod]
         public void Test_Math_Number_Round_Up()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_round"">
@@ -334,20 +321,19 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("Math.Ceiling(3.1);"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("Math.Ceiling(3.1);"));
+        }
 
 
         [TestMethod]
         public void Test_Math_Number_Round_Down()
         {
-
             const string xml = @"
 <xml>
   <block type=""math_round"">
@@ -360,20 +346,19 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("Math.Floor(3.1);"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("Math.Floor(3.1);"));
+        }
 
 
         [TestMethod]
         public void Test_Math_On_List_Sum()
         {
-
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""math_on_list"">
@@ -396,20 +381,19 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("Enumerable.Repeat(3, 5).ToList().Sum();"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("Enumerable.Repeat(3, 5).ToList().Sum();"));
+        }
 
 
         [TestMethod]
         public void Test_Math_On_List_Random()
         {
-
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""math_on_list"">
@@ -432,20 +416,19 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			Assert.ThrowsException<NotImplementedException>(() =>
-			{
-				new Parser()
-					.AddStandardBlocks()
-					.Parse(xml)
-					.Generate();
-			});
-		}
+            Assert.ThrowsException<NotImplementedException>(() =>
+            {
+                new Parser()
+                    .AddStandardBlocks()
+                    .Parse(xml)
+                    .Generate();
+            });
+        }
 
 
         [TestMethod]
         public void Test_Math_On_List_Mode()
         {
-
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""math_on_list"">
@@ -468,19 +451,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			Assert.ThrowsException<NotImplementedException>(() =>
-			{
-				new Parser()
-					.AddStandardBlocks()
-					.Parse(xml)
-					.Generate();
-			});
-		}
+            Assert.ThrowsException<NotImplementedException>(() =>
+            {
+                new Parser()
+                    .AddStandardBlocks()
+                    .Parse(xml)
+                    .Generate();
+            });
+        }
 
         [TestMethod]
         public void Test_Math_Constrain()
         {
-
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""math_constrain"">
@@ -502,19 +484,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("Math.Min(Math.Max(110, 1), 100);"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("Math.Min(Math.Max(110, 1), 100);"));
+        }
 
         [TestMethod]
         public void Test_Math_Moduluo()
         {
-
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <variables></variables>
@@ -532,19 +513,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("64 % 10;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("64 % 10;"));
+        }
 
 /*
 
 
  */
-
     }
 }

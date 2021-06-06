@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using IronBlock.Blocks;
 using Microsoft.CodeAnalysis;
@@ -8,13 +6,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronBlock.Tests.Roslyn
 {
-  [TestClass]
-  public class TextTests
-  {
-    [TestMethod]
-    public void Test_Text_Length()
+    [TestClass]
+    public class TextTests
     {
-      const string xml = @"
+        [TestMethod]
+        public void Test_Text_Length()
+        {
+            const string xml = @"
 <xml>
   <block type=""text_length"">
     <value name=""VALUE"">
@@ -25,21 +23,20 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-      var output = new Parser()
-        .AddStandardBlocks()
-        .Parse(xml)
-        .Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-      string code = output.NormalizeWhitespace().ToFullString();
-      Assert.IsTrue(code.Contains("\"abc\".Length;"));
-    }
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("\"abc\".Length;"));
+        }
 
 
-
-    [TestMethod]
-    public void Test_Text_IsEmpty()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Test_Text_IsEmpty()
+        {
+            const string xml = @"
 <xml>
   <block type=""text_isEmpty"">
     <value name=""VALUE"">
@@ -50,20 +47,20 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-      var output = new Parser()
-        .AddStandardBlocks()
-        .Parse(xml)
-        .Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-      string code = output.NormalizeWhitespace().ToFullString();
-      Assert.IsTrue(code.Contains("string.IsNullOrEmpty(\"\");"));
-    }
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("string.IsNullOrEmpty(\"\");"));
+        }
 
 
-    [TestMethod]
-    public void Test_Text_Trim()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Test_Text_Trim()
+        {
+            const string xml = @"
 <xml>
   <block type=""text_trim"">
     <field name=""MODE"">BOTH</field>
@@ -75,19 +72,19 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-      var output = new Parser()
-        .AddStandardBlocks()
-        .Parse(xml)
-        .Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-      string code = output.NormalizeWhitespace().ToFullString();
-      Assert.IsTrue(code.Contains("\" ab c \".Trim();"));
-    }
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("\" ab c \".Trim();"));
+        }
 
-    [TestMethod]
-    public void Test_Text_ToCase()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Test_Text_ToCase()
+        {
+            const string xml = @"
 <xml>
   <block type=""text_changeCase"">
     <field name=""CASE"">TITLECASE</field>
@@ -99,21 +96,20 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-      var output = new Parser()
-        .AddStandardBlocks()
-        .Parse(xml)
-        .Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-      string code = output.NormalizeWhitespace().ToFullString();
-      Assert.IsTrue(code.Contains("CultureInfo.InvariantCulture.TextInfo.ToTitleCase(\"hello world\");"));
-    }
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("CultureInfo.InvariantCulture.TextInfo.ToTitleCase(\"hello world\");"));
+        }
 
 
-
-    [TestMethod]
-    public void Test_Text_Append()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Test_Text_Append()
+        {
+            const string xml = @"
 <xml>
  <variables>
     <variable type="""">x</variable>
@@ -150,19 +146,19 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-      var output = new Parser()
-        .AddStandardBlocks()
-        .Parse(xml)
-        .Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-      string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-      Assert.IsTrue(code.Contains("dynamic x; x = \"foo\"; x += \"bar\"; Console.WriteLine(x);"));
-    }
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("dynamic x; x = \"foo\"; x += \"bar\"; Console.WriteLine(x);"));
+        }
 
-    [TestMethod]
-    public void Test_Text_Join()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Test_Text_Join()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <variables>
     <variable>x</variable>
@@ -199,20 +195,20 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-      var output = new Parser()
-        .AddStandardBlocks()
-        .Parse(xml)
-        .Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-      string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-      Assert.IsTrue(code.Contains("dynamic x; x = string.Concat(\"foo\", \"bar\"); Console.WriteLine(x);"));
-    }
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("dynamic x; x = string.Concat(\"foo\", \"bar\"); Console.WriteLine(x);"));
+        }
 
 
-    [TestMethod]
-    public void Test_IndexOf()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Test_IndexOf()
+        {
+            const string xml = @"
 <xml>
   <block type=""text_indexOf"">
     <field name=""END"">FIRST</field>
@@ -229,20 +225,20 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-      var output = new Parser()
-        .AddStandardBlocks()
-        .Parse(xml)
-        .Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-      string code = output.NormalizeWhitespace().ToFullString();
-      Assert.IsTrue(code.Contains("\"foo bar baz\".IndexOf(\"bar\");"));
-    }
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("\"foo bar baz\".IndexOf(\"bar\");"));
+        }
 
 
-    [TestMethod]
-    public void Test_Comment()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Test_Comment()
+        {
+            const string xml = @"
 <xml>
   <block type=""text_print"">
     <comment>A test comment</comment>
@@ -255,19 +251,16 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-      var blocks = new Parser()
-        .AddStandardBlocks()
-        .Parse(xml);
-        
-      Assert.AreEqual(1, blocks.Blocks.First().Comments.Count);
-      Assert.AreEqual("A test comment", blocks.Blocks.First().Comments.First().Value);
-      var code = blocks.Generate().NormalizeWhitespace().ToFullString();
+            var blocks = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml);
 
-      Console.WriteLine(code);
-      Assert.IsTrue(code.Contains("/* A test comment */"));
+            Assert.AreEqual(1, blocks.Blocks.First().Comments.Count);
+            Assert.AreEqual("A test comment", blocks.Blocks.First().Comments.First().Value);
+            var code = blocks.Generate().NormalizeWhitespace().ToFullString();
 
+            Console.WriteLine(code);
+            Assert.IsTrue(code.Contains("/* A test comment */"));
+        }
     }
-
-
-  }
 }

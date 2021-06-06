@@ -1,17 +1,16 @@
 using IronBlock.Blocks;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace IronBlock.Tests.Roslyn
 {
     [TestClass]
     public class FunctionTests
     {
-		[TestMethod]
-		public void Test_Procedure_No_Params()
-		{
-			const string xml = @"
+        [TestMethod]
+        public void Test_Procedure_No_Params()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"" id=""workspaceBlocks"" style=""display:none"">
   <variables>
     <variable id=""px6p$Rn#{{${?B:OIE[v"" type="""">a</variable>
@@ -33,19 +32,19 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("void init() { a = 1; }"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("void init() { a = 1; }"));
+        }
 
-		[TestMethod]
-		public void Test_Procedure_No_Params_Multiple_Statements()
-		{
-			const string xml = @"
+        [TestMethod]
+        public void Test_Procedure_No_Params_Multiple_Statements()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"" id=""workspaceBlocks"" style=""display:none"">
   <variables>
     <variable id=""px6p$Rn#{{${?B:OIE[v"" type="""">a</variable>
@@ -79,17 +78,17 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("void init() { Console.WriteLine(x); x = 1; }"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("void init() { Console.WriteLine(x); x = 1; }"));
+        }
 
 
-		[TestMethod]
+        [TestMethod]
         public void Test_Procedure_Params()
         {
             const string xml = @"
@@ -130,20 +129,20 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("void add(dynamic x, dynamic y) { a = (x + y); }"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("void add(dynamic x, dynamic y) { a = (x + y); }"));
+        }
 
 
         [TestMethod]
         public void Test_Procedure_Return()
         {
-			const string xml = @"
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"" id=""workspaceBlocks"" style=""display:none"">
   <variables>
     <variable id=""K{.(c+Utyu,8[c|3GgNZ"" type="""">x</variable>
@@ -176,19 +175,19 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("dynamic add(dynamic x, dynamic y) { return (x + y); }"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("dynamic add(dynamic x, dynamic y) { return (x + y); }"));
+        }
 
-		[TestMethod]
-		public void Test_Procedure_Return_With_Statements()
-		{
-			const string xml = @"
+        [TestMethod]
+        public void Test_Procedure_Return_With_Statements()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"" id=""workspaceBlocks"" style=""display:none"">
   <variables>
     <variable id=""/nfn$6v1kaV^fYdm2o+X"" type="""">x</variable>
@@ -261,19 +260,20 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("dynamic do_something(dynamic x, dynamic y) { a = (x * y); a = (Math.Pow(a, x)); return (x + 1); }"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains(
+                "dynamic do_something(dynamic x, dynamic y) { a = (x * y); a = (Math.Pow(a, x)); return (x + 1); }"));
+        }
 
-		[TestMethod]
-		public void Test_Procedure_If_Return()
-		{
-			const string xml = @"
+        [TestMethod]
+        public void Test_Procedure_If_Return()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"" id=""workspaceBlocks"" style=""display:none"">
   <variables></variables>
   <block id=""tA[-yuXcF=|C]j8K_wTr"" type=""procedures_defnoreturn"" x=""-187"" y=""-412"">
@@ -293,16 +293,16 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("void returns() { if (true) return; }"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("void returns() { if (true) return; }"));
+        }
 
-		[TestMethod]
+        [TestMethod]
         public void Test_Procedure_If_Return_Value()
         {
             const string xml = @"
@@ -334,19 +334,20 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("dynamic conditionalreturn() { if (true) return \"hello world\"; return \"xxx\"; }"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(
+                code.Contains("dynamic conditionalreturn() { if (true) return \"hello world\"; return \"xxx\"; }"));
+        }
 
-		[TestMethod]
-		public void Test_Procedure_Call_No_Return_No_Params()
-		{
-			const string xml = @"
+        [TestMethod]
+        public void Test_Procedure_Call_No_Return_No_Params()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"" id=""workspaceBlocks"" style=""display:none"">
   <block id=""ZVn,OV`|8tZ}@ufT;E2M"" type=""procedures_callnoreturn"" x=""-187"" y=""-312"">
     <mutation name=""add""></mutation>
@@ -354,20 +355,20 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("add();"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("add();"));
+        }
 
-		    
-		[TestMethod]
-		public void Test_Procedure_Call_No_Return_Params()
-		{
-			const string xml = @"
+
+        [TestMethod]
+        public void Test_Procedure_Call_No_Return_Params()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"" id=""workspaceBlocks"" style=""display:none"">
   <block id=""ZVn,OV`|8tZ}@ufT;E2M"" type=""procedures_callnoreturn"" x=""-237"" y=""-287"">
     <mutation name=""add"">
@@ -388,19 +389,19 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("add(a, 1);"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("add(a, 1);"));
+        }
 
-		[TestMethod]
-		public void Test_Procedure_Call_Return()
-		{
-			const string xml = @"
+        [TestMethod]
+        public void Test_Procedure_Call_Return()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"" id=""workspaceBlocks"" style=""display:none"">
   <block id=""6k9heD6pi%ztj@ft.r3:"" type=""variables_set"" x=""-237"" y=""-12"">
     <field id=""G3L7~94ROOIBnpYy5vpP"" name=""VAR"" variabletype="""">a</field>
@@ -426,19 +427,19 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("a = add(a, 1);"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("a = add(a, 1);"));
+        }
 
-		[TestMethod]
-		public void Test_Procedure_Call_With_Next_Blocks()
-		{
-			const string xml = @"
+        [TestMethod]
+        public void Test_Procedure_Call_With_Next_Blocks()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <variables>
     <variable id=""dMG6oKpWbgrw(IZWtJ,K"" type="""">result</variable>
@@ -463,19 +464,19 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("do_something(); result = 123;"));
-		}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("do_something(); result = 123;"));
+        }
 
-		[TestMethod]
-		public void Test_Procedure_If_Return_With_Next_Blocks()
-		{
-			const string xml = @"
+        [TestMethod]
+        public void Test_Procedure_If_Return_With_Next_Blocks()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <variables>
     <variable id=""dMG6oKpWbgrw(IZWtJ,K"" type="""">result</variable>
@@ -507,14 +508,13 @@ namespace IronBlock.Tests.Roslyn
 </xml>
 ";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
-			Assert.IsTrue(code.Contains("if (true) return; result = 123;"));
-		}
-	}
+            var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
+            Assert.IsTrue(code.Contains("if (true) return; result = 123;"));
+        }
+    }
 }
-

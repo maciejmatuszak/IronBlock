@@ -4,13 +4,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronBlock.Tests
 {
-  [TestClass]
-  public class BugfixTests
-  {
-    [TestMethod]
-    public void Issue_17()
+    [TestClass]
+    public class BugfixTests
     {
-      const string xml = @"
+        [TestMethod]
+        public void Issue_17()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""controls_if"" id=""`Du+(_vc^5di^SX-r)Gy"" x=""-563"" y=""-187"">
     <value name=""IF0"">
@@ -51,22 +51,20 @@ namespace IronBlock.Tests
 </xml>
 ";
 
-      var output = new Parser()
-        .AddStandardBlocks()
-        .AddDebugPrinter()
-        .Parse(xml)
-        .Evaluate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .AddDebugPrinter()
+                .Parse(xml)
+                .Evaluate();
 
-      Assert.AreEqual("it worked", TestExtensions.GetDebugText().First());
-
-    }
-
+            Assert.AreEqual("it worked", TestExtensions.GetDebugText().First());
+        }
 
 
-    [TestMethod]
-    public void Issue_40()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Issue_40()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""controls_if"" id=""`Du+(_vc^5di^SX-r)Gy"" x=""-563"" y=""-187"">
     <value name=""IF0"">
@@ -97,21 +95,19 @@ namespace IronBlock.Tests
 </xml>
 ";
 
-      var output = new Parser()
-        .AddStandardBlocks()
-        .AddDebugPrinter()
-        .Parse(xml)
-        .Evaluate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .AddDebugPrinter()
+                .Parse(xml)
+                .Evaluate();
 
-      Assert.AreEqual("it worked", TestExtensions.GetDebugText().First());
+            Assert.AreEqual("it worked", TestExtensions.GetDebugText().First());
+        }
 
-    }
-
-    [TestMethod]
-    public void Issue_44()
-    {
-
-      const string xml = @"<xml xmlns=""https://developers.google.com/blockly/xml"">
+        [TestMethod]
+        public void Issue_44()
+        {
+            const string xml = @"<xml xmlns=""https://developers.google.com/blockly/xml"">
   <block type=""controls_whileUntil"" id=""?NVqr1Vh{l~tzFs^`s#H"" x=""613"" y=""188"">
     <field name=""MODE"">WHILE</field>
     <value name=""BOOL"">
@@ -136,22 +132,20 @@ namespace IronBlock.Tests
   </block>
 </xml>";
 
-      var output = new Parser()
-        .AddStandardBlocks()
-        .AddDebugPrinter()
-        .Parse(xml)
-        .Evaluate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .AddDebugPrinter()
+                .Parse(xml)
+                .Evaluate();
 
-      Assert.AreEqual("it worked", TestExtensions.GetDebugText().FirstOrDefault());
-
-    }
-
+            Assert.AreEqual("it worked", TestExtensions.GetDebugText().FirstOrDefault());
+        }
 
 
-    [TestMethod]
-    public void Issue_45_1()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Issue_45_1()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""controls_if"" id=""`Du+(_vc^5di^SX-r)Gy"" x=""-563"" y=""-187"">
     <value name=""IF0"">
@@ -182,20 +176,19 @@ namespace IronBlock.Tests
 </xml>
 ";
 
-      var output = new Parser()
-        .AddStandardBlocks()
-        .AddDebugPrinter()
-        .Parse(xml)
-        .Evaluate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .AddDebugPrinter()
+                .Parse(xml)
+                .Evaluate();
 
-      Assert.AreEqual("it worked", TestExtensions.GetDebugText().First());
+            Assert.AreEqual("it worked", TestExtensions.GetDebugText().First());
+        }
 
-    }
-
-    [TestMethod]
-    public void Issue_45_2()
-    {
-      const string xml = @"
+        [TestMethod]
+        public void Issue_45_2()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""controls_if"" id=""`Du+(_vc^5di^SX-r)Gy"" x=""-563"" y=""-187"">
     <value name=""IF0"">
@@ -226,19 +219,13 @@ namespace IronBlock.Tests
 </xml>
 ";
 
-      var output = new Parser()
-        .AddStandardBlocks()
-        .AddDebugPrinter()
-        .Parse(xml)
-        .Evaluate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .AddDebugPrinter()
+                .Parse(xml)
+                .Evaluate();
 
-      Assert.AreEqual("it worked", TestExtensions.GetDebugText().First());
-
+            Assert.AreEqual("it worked", TestExtensions.GetDebugText().First());
+        }
     }
-
-  }
 }
-
-
-
-

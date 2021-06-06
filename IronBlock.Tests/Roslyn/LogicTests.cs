@@ -4,13 +4,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronBlock.Tests.Roslyn
 {
-	[TestClass]
+    [TestClass]
     public class LogicTests
     {
         [TestMethod]
         public void Test_Logic_Boolean()
         {
-
             const string xml = @"
 <xml>
     <block type=""logic_boolean"">
@@ -23,15 +22,14 @@ namespace IronBlock.Tests.Roslyn
                 .Parse(xml)
                 .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("true;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("true;"));
+        }
 
-		[TestMethod]
-		public void Test_Logic_Compare_Equals()
-		{
-
-			const string xml = @"
+        [TestMethod]
+        public void Test_Logic_Compare_Equals()
+        {
+            const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""logic_compare"">
     <field name=""OP"">EQ</field>
@@ -48,20 +46,19 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("(false == true);"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("(false == true);"));
+        }
 
 
-		[TestMethod]
+        [TestMethod]
         public void Test_Logic_Operation_Or()
         {
-            
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""logic_operation"">
@@ -79,19 +76,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("(false || true);"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("(false || true);"));
+        }
 
-            [TestMethod]
+        [TestMethod]
         public void Test_Logic_Operation_And()
         {
-            
             const string xml = @"
 <xml xmlns=""http://www.w3.org/1999/xhtml"">
   <block type=""logic_operation"">
@@ -109,19 +105,18 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("(false && true);"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("(false && true);"));
+        }
 
         [TestMethod]
         public void Test_Logic_Negate()
         {
-            
             const string xml = @"
 <xml>
   <block type=""logic_negate"">
@@ -133,37 +128,35 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("!true;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("!true;"));
+        }
 
         [TestMethod]
         public void Test_Logic_Null()
         {
-            
             const string xml = @"
 <xml>
   <block type=""logic_null""></block>
 </xml>";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("null;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("null;"));
+        }
 
         [TestMethod]
         public void Test_Logic_Ternary()
         {
-            
             const string xml = @"
 <xml>
   <block type=""logic_ternary"">
@@ -185,13 +178,13 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>";
 
-			var output = new Parser()
-				.AddStandardBlocks()
-				.Parse(xml)
-				.Generate();
+            var output = new Parser()
+                .AddStandardBlocks()
+                .Parse(xml)
+                .Generate();
 
-			string code = output.NormalizeWhitespace().ToFullString();
-			Assert.IsTrue(code.Contains("true ? false : true;"));
-		}
+            var code = output.NormalizeWhitespace().ToFullString();
+            Assert.IsTrue(code.Contains("true ? false : true;"));
+        }
     }
 }
