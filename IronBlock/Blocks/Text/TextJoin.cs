@@ -19,7 +19,11 @@ namespace IronBlock.Blocks.Text
             var sb = new StringBuilder();
             for (var i = 0; i < items; i++)
             {
-                if (!Values.Any(x => x.Name == $"ADD{i}")) continue;
+                if (!Values.Any(x => x.Name == $"ADD{i}"))
+                {
+                    continue;
+                }
+
                 sb.Append(Values.Evaluate($"ADD{i}", context));
             }
 
@@ -34,15 +38,24 @@ namespace IronBlock.Blocks.Text
 
             for (var i = 0; i < items; i++)
             {
-                if (!Values.Any(x => x.Name == $"ADD{i}")) continue;
+                if (!Values.Any(x => x.Name == $"ADD{i}"))
+                {
+                    continue;
+                }
+
                 var addExpression = Values.Generate($"ADD{i}", context) as ExpressionSyntax;
-                if (addExpression == null) throw new ApplicationException($"Unknown expression for ADD{i}.");
+                if (addExpression == null)
+                {
+                    throw new ApplicationException($"Unknown expression for ADD{i}.");
+                }
 
                 arguments.Add(addExpression);
             }
 
             if (!arguments.Any())
+            {
                 return base.Generate(context);
+            }
 
             return
                 SyntaxGenerator.MethodInvokeExpression(

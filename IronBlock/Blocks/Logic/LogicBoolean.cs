@@ -15,7 +15,9 @@ namespace IronBlock.Blocks.Logic
         {
             var value = bool.Parse(Fields.Get("BOOL"));
             if (value)
+            {
                 return LiteralExpression(SyntaxKind.TrueLiteralExpression);
+            }
 
             return LiteralExpression(SyntaxKind.FalseLiteralExpression);
         }

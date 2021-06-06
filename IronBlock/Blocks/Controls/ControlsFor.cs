@@ -21,9 +21,13 @@ namespace IronBlock.Blocks.Controls
 
 
             if (context.Variables.ContainsKey(variableName))
+            {
                 context.Variables[variableName] = fromValue;
+            }
             else
+            {
                 context.Variables.Add(variableName, fromValue);
+            }
 
 
             while ((double) context.Variables[variableName] <= toValue)
@@ -40,24 +44,39 @@ namespace IronBlock.Blocks.Controls
             var variableName = Fields.Get("VAR").CreateValidName();
 
             var fromValueExpression = Values.Generate("FROM", context) as ExpressionSyntax;
-            if (fromValueExpression == null) throw new ApplicationException("Unknown expression for from value.");
+            if (fromValueExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for from value.");
+            }
 
             var toValueExpression = Values.Generate("TO", context) as ExpressionSyntax;
-            if (toValueExpression == null) throw new ApplicationException("Unknown expression for to value.");
+            if (toValueExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for to value.");
+            }
 
             var byValueExpression = Values.Generate("BY", context) as ExpressionSyntax;
-            if (byValueExpression == null) throw new ApplicationException("Unknown expression for by value.");
+            if (byValueExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for by value.");
+            }
 
             var statement = Statements.FirstOrDefault();
 
             var rootContext = context.GetRootContext();
-            if (!rootContext.Variables.ContainsKey(variableName)) rootContext.Variables[variableName] = null;
+            if (!rootContext.Variables.ContainsKey(variableName))
+            {
+                rootContext.Variables[variableName] = null;
+            }
 
             var forContext = new Context {Parent = context};
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forContext);
-                if (statementSyntax != null) forContext.Statements.Add(statementSyntax);
+                if (statementSyntax != null)
+                {
+                    forContext.Statements.Add(statementSyntax);
+                }
             }
 
             var forStatement =

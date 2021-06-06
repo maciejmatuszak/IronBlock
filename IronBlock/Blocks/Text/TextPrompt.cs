@@ -15,11 +15,17 @@ namespace IronBlock.Blocks.Text
 
             var text = (Values.Evaluate("TEXT", context) ?? "").ToString();
 
-            if (!string.IsNullOrWhiteSpace(text)) Console.Write($"{text}: ");
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                Console.Write($"{text}: ");
+            }
 
             var value = Console.ReadLine();
 
-            if (inputType == "NUMBER") return int.Parse(value);
+            if (inputType == "NUMBER")
+            {
+                return int.Parse(value);
+            }
 
             return value;
         }
@@ -30,6 +36,7 @@ namespace IronBlock.Blocks.Text
 
             var expression = Values.Generate("TEXT", context) as ExpressionSyntax;
             if (expression != null)
+            {
                 context.Statements.Add(
                     ExpressionStatement(
                         SyntaxGenerator.MethodInvokeExpression(
@@ -39,6 +46,7 @@ namespace IronBlock.Blocks.Text
                         )
                     )
                 );
+            }
 
             context.Statements.Add(
                 LocalDeclarationStatement(
@@ -64,6 +72,7 @@ namespace IronBlock.Blocks.Text
             );
 
             if (inputType == "NUMBER")
+            {
                 return
                     SyntaxGenerator.MethodInvokeExpression(
                         PredefinedType(
@@ -72,6 +81,7 @@ namespace IronBlock.Blocks.Text
                         nameof(int.Parse),
                         IdentifierName("value")
                     );
+            }
 
             return IdentifierName("value");
         }

@@ -19,10 +19,16 @@ namespace IronBlock.Blocks.Math
         public override SyntaxNode Generate(Context context)
         {
             var dividendExpression = Values.Generate("DIVIDEND", context) as ExpressionSyntax;
-            if (dividendExpression == null) throw new ApplicationException("Unknown expression for dividend.");
+            if (dividendExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for dividend.");
+            }
 
             var divisorExpression = Values.Generate("DIVISOR", context) as ExpressionSyntax;
-            if (divisorExpression == null) throw new ApplicationException("Unknown expression for divisor.");
+            if (divisorExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for divisor.");
+            }
 
             return BinaryExpression(
                 SyntaxKind.ModuloExpression,

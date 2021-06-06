@@ -67,10 +67,16 @@ Specify any of the following as a second argument
                     Console.WriteLine("Compile result:");
 
                     if (!diagnostics.Any())
+                    {
                         Console.WriteLine("OK");
+                    }
                     else
+                    {
                         foreach (var diagnostic in diagnostics)
+                        {
                             Console.WriteLine(diagnostic.GetMessage());
+                        }
+                    }
                 }
                 else if (mode?.Equals("-e") ?? false)
                 {
@@ -98,7 +104,9 @@ Specify any of the following as a second argument
         public static IEnumerable<Diagnostic> Compile(Script<object> script)
         {
             if (script == null)
+            {
                 return Enumerable.Empty<Diagnostic>();
+            }
 
             try
             {

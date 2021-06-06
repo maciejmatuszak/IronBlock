@@ -41,10 +41,16 @@ namespace IronBlock.Blocks.Lists
         {
             var mode = Fields.Get("MODE");
             var inputExpression = Values.Generate("INPUT", context) as ExpressionSyntax;
-            if (inputExpression == null) throw new ApplicationException("Unknown expression for input.");
+            if (inputExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for input.");
+            }
 
             var delimExpression = Values.Generate("DELIM", context) as ExpressionSyntax;
-            if (delimExpression == null) throw new ApplicationException("Unknown expression for delim.");
+            if (delimExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for delim.");
+            }
 
             switch (mode)
             {

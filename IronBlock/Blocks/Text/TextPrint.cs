@@ -21,7 +21,10 @@ namespace IronBlock.Blocks.Text
         {
             var syntaxNode = Values.Generate("TEXT", context);
             var expression = syntaxNode as ExpressionSyntax;
-            if (expression == null) throw new ApplicationException("Unknown expression for text.");
+            if (expression == null)
+            {
+                throw new ApplicationException("Unknown expression for text.");
+            }
 
             var invocationExpression =
                 SyntaxGenerator.MethodInvokeExpression(IdentifierName(nameof(Console)), nameof(Console.WriteLine),

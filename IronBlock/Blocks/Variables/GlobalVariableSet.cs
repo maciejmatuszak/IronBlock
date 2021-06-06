@@ -13,9 +13,13 @@ namespace IronBlock.Blocks.Variables
             var rootContext = context.GetRootContext();
 
             if (rootContext.Variables.ContainsKey(variableName))
+            {
                 rootContext.Variables[variableName] = value;
+            }
             else
+            {
                 rootContext.Variables.Add(variableName, value);
+            }
 
             return base.Evaluate(context);
         }

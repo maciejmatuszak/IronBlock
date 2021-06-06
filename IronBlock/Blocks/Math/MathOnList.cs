@@ -20,12 +20,18 @@ namespace IronBlock.Blocks.Math
 
             switch (op)
             {
-                case "SUM": return doubleList.Sum();
-                case "MIN": return doubleList.Min();
-                case "MAX": return doubleList.Max();
-                case "AVERAGE": return doubleList.Average();
-                case "MEDIAN": return Median(doubleList);
-                case "RANDOM": return doubleList.Any() ? doubleList[rnd.Next(doubleList.Count())] as object : null;
+                case "SUM":
+                    return doubleList.Sum();
+                case "MIN":
+                    return doubleList.Min();
+                case "MAX":
+                    return doubleList.Max();
+                case "AVERAGE":
+                    return doubleList.Average();
+                case "MEDIAN":
+                    return Median(doubleList);
+                case "RANDOM":
+                    return doubleList.Any() ? doubleList[rnd.Next(doubleList.Count())] as object : null;
                 case "MODE":
                     return doubleList.Any()
                         ? doubleList.GroupBy(x => x).OrderByDescending(x => x.Count()).First().Key as object
@@ -34,14 +40,18 @@ namespace IronBlock.Blocks.Math
                 case "STD_DEV":
                     throw new NotImplementedException($"OP {op} not implemented");
 
-                default: throw new ApplicationException($"Unknown OP {op}");
+                default:
+                    throw new ApplicationException($"Unknown OP {op}");
             }
         }
 
         public override SyntaxNode Generate(Context context)
         {
             var listExpression = Values.Generate("LIST", context) as ExpressionSyntax;
-            if (listExpression == null) throw new ApplicationException("Unknown expression for list.");
+            if (listExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for list.");
+            }
 
             var op = Fields.Get("OP");
 
@@ -61,13 +71,18 @@ namespace IronBlock.Blocks.Math
                 case "STD_DEV":
                     throw new NotImplementedException($"OP {op} not implemented");
 
-                default: throw new ApplicationException($"Unknown OP {op}");
+                default:
+                    throw new ApplicationException($"Unknown OP {op}");
             }
         }
 
         private object Median(IEnumerable<double> values)
         {
-            if (!values.Any()) return null;
+            if (!values.Any())
+            {
+                return null;
+            }
+
             var sortedValues = values.OrderBy(x => x).ToArray();
             var mid = (sortedValues.Length - 1) / 2.0;
             return (sortedValues[(int) mid] + sortedValues[(int) (mid + 0.5)]) / 2;

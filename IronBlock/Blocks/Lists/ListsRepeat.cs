@@ -16,17 +16,27 @@ namespace IronBlock.Blocks.Lists
             var num = (double) Values.Evaluate("NUM", context);
 
             var list = new List<object>();
-            for (var i = 0; i < num; i++) list.Add(item);
+            for (var i = 0; i < num; i++)
+            {
+                list.Add(item);
+            }
+
             return list;
         }
 
         public override SyntaxNode Generate(Context context)
         {
             var itemExpression = Values.Generate("ITEM", context) as ExpressionSyntax;
-            if (itemExpression == null) throw new ApplicationException("Unknown expression for item.");
+            if (itemExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for item.");
+            }
 
             var numExpression = Values.Generate("NUM", context) as ExpressionSyntax;
-            if (numExpression == null) throw new ApplicationException("Unknown expression for number.");
+            if (numExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for number.");
+            }
 
             return SyntaxGenerator.MethodInvokeExpression(
                 SyntaxGenerator.MethodInvokeExpression(

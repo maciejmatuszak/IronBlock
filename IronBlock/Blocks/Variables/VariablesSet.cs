@@ -24,9 +24,13 @@ namespace IronBlock.Blocks.Variables
                 var rootContext = context.GetRootContext();
 
                 if (rootContext.Variables.ContainsKey(variableName))
+                {
                     rootContext.Variables[variableName] = value;
+                }
                 else
+                {
                     variables.Add(variableName, value);
+                }
             }
 
             return base.Evaluate(context);
@@ -40,7 +44,9 @@ namespace IronBlock.Blocks.Variables
 
             var valueExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
             if (valueExpression == null)
+            {
                 throw new ApplicationException("Unknown expression for value.");
+            }
 
             context.GetRootContext().Variables[variableName] = valueExpression;
 

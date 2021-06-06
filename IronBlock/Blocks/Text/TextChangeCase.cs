@@ -37,13 +37,18 @@ namespace IronBlock.Blocks.Text
         public override SyntaxNode Generate(Context context)
         {
             var textExpression = Values.Generate("TEXT", context) as ExpressionSyntax;
-            if (textExpression == null) throw new ApplicationException("Unknown expression for text.");
+            if (textExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for text.");
+            }
 
             var toCase = Fields.Get("CASE");
             switch (toCase)
             {
-                case "UPPERCASE": return SyntaxGenerator.MethodInvokeExpression(textExpression, nameof(string.ToUpper));
-                case "LOWERCASE": return SyntaxGenerator.MethodInvokeExpression(textExpression, nameof(string.ToLower));
+                case "UPPERCASE":
+                    return SyntaxGenerator.MethodInvokeExpression(textExpression, nameof(string.ToUpper));
+                case "LOWERCASE":
+                    return SyntaxGenerator.MethodInvokeExpression(textExpression, nameof(string.ToLower));
                 case "TITLECASE":
                     return SyntaxGenerator.MethodInvokeExpression(
                         MemberAccessExpression(
@@ -56,7 +61,8 @@ namespace IronBlock.Blocks.Text
                         ),
                         nameof(TextInfo.ToTitleCase),
                         textExpression);
-                default: throw new NotSupportedException("unknown case");
+                default:
+                    throw new NotSupportedException("unknown case");
             }
         }
     }

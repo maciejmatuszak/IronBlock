@@ -17,19 +17,28 @@ namespace IronBlock.Blocks.Logic
 
             switch (op)
             {
-                case "AND": return a && b;
-                case "OR": return a || b;
-                default: throw new ApplicationException($"Unknown OP {op}");
+                case "AND":
+                    return a && b;
+                case "OR":
+                    return a || b;
+                default:
+                    throw new ApplicationException($"Unknown OP {op}");
             }
         }
 
         public override SyntaxNode Generate(Context context)
         {
             var firstExpression = Values.Generate("A", context) as ExpressionSyntax;
-            if (firstExpression == null) throw new ApplicationException("Unknown expression for value A.");
+            if (firstExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for value A.");
+            }
 
             var secondExpression = Values.Generate("B", context) as ExpressionSyntax;
-            if (secondExpression == null) throw new ApplicationException("Unknown expression for value B.");
+            if (secondExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for value B.");
+            }
 
             var opValue = Fields.Get("OP");
 
@@ -43,10 +52,13 @@ namespace IronBlock.Blocks.Logic
         {
             switch (opValue)
             {
-                case "AND": return SyntaxKind.LogicalAndExpression;
-                case "OR": return SyntaxKind.LogicalOrExpression;
+                case "AND":
+                    return SyntaxKind.LogicalAndExpression;
+                case "OR":
+                    return SyntaxKind.LogicalOrExpression;
 
-                default: throw new ApplicationException($"Unknown OP {opValue}");
+                default:
+                    throw new ApplicationException($"Unknown OP {opValue}");
             }
         }
     }

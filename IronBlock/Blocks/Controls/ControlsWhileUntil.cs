@@ -14,11 +14,15 @@ namespace IronBlock.Blocks.Controls
             var mode = Fields.Get("MODE");
             var value = Values.FirstOrDefault(x => x.Name == "BOOL");
 
-            if (!Statements.Any(x => x.Name == "DO") || null == value) return base.Evaluate(context);
+            if (!Statements.Any(x => x.Name == "DO") || null == value)
+            {
+                return base.Evaluate(context);
+            }
 
             var statement = Statements.Get("DO");
 
             if (mode == "WHILE")
+            {
                 while ((bool) value.Evaluate(context))
                 {
                     if (context.EscapeMode == EscapeMode.Break)
@@ -29,9 +33,14 @@ namespace IronBlock.Blocks.Controls
 
                     statement.Evaluate(context);
                 }
+            }
             else
+            {
                 while (!(bool) value.Evaluate(context))
+                {
                     statement.Evaluate(context);
+                }
+            }
 
             return base.Evaluate(context);
         }
@@ -41,22 +50,33 @@ namespace IronBlock.Blocks.Controls
             var mode = Fields.Get("MODE");
             var value = Values.FirstOrDefault(x => x.Name == "BOOL");
 
-            if (!Statements.Any(x => x.Name == "DO") || null == value) return base.Generate(context);
+            if (!Statements.Any(x => x.Name == "DO") || null == value)
+            {
+                return base.Generate(context);
+            }
 
             var statement = Statements.Get("DO");
 
             var conditionExpression = value.Generate(context) as ExpressionSyntax;
-            if (conditionExpression == null) throw new ApplicationException("Unknown expression for condition.");
+            if (conditionExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for condition.");
+            }
 
             var whileContext = new Context {Parent = context};
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(whileContext);
-                if (statementSyntax != null) whileContext.Statements.Add(statementSyntax);
+                if (statementSyntax != null)
+                {
+                    whileContext.Statements.Add(statementSyntax);
+                }
             }
 
             if (mode != "WHILE")
+            {
                 conditionExpression = PrefixUnaryExpression(SyntaxKind.LogicalNotExpression, conditionExpression);
+            }
 
             var whileStatement =
                 WhileStatement(

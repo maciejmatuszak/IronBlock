@@ -15,7 +15,11 @@ namespace IronBlock.Blocks.Text
             var variableName = Fields.Get("VAR");
             var textToAppend = (Values.Evaluate("TEXT", context) ?? "").ToString();
 
-            if (!variables.ContainsKey(variableName)) variables.Add(variableName, "");
+            if (!variables.ContainsKey(variableName))
+            {
+                variables.Add(variableName, "");
+            }
+
             var value = variables[variableName].ToString();
 
             variables[variableName] = value + textToAppend;
@@ -30,7 +34,9 @@ namespace IronBlock.Blocks.Text
 
             var textExpression = Values.Generate("TEXT", context) as ExpressionSyntax;
             if (textExpression == null)
+            {
                 throw new ApplicationException("Unknown expression for text.");
+            }
 
             context.GetRootContext().Variables[variableName] = textExpression;
 

@@ -13,10 +13,14 @@ namespace IronBlock.Blocks.Math
 
             switch (op)
             {
-                case "ROUND": return System.Math.Round(number);
-                case "ROUNDUP": return System.Math.Ceiling(number);
-                case "ROUNDDOWN": return System.Math.Floor(number);
-                default: throw new ApplicationException($"Unknown OP {op}");
+                case "ROUND":
+                    return System.Math.Round(number);
+                case "ROUNDUP":
+                    return System.Math.Ceiling(number);
+                case "ROUNDDOWN":
+                    return System.Math.Floor(number);
+                default:
+                    throw new ApplicationException($"Unknown OP {op}");
             }
         }
 
@@ -24,14 +28,21 @@ namespace IronBlock.Blocks.Math
         {
             var op = Fields.Get("OP");
             var numberExpression = Values.Generate("NUM", context) as ExpressionSyntax;
-            if (numberExpression == null) throw new ApplicationException("Unknown expression for number.");
+            if (numberExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for number.");
+            }
 
             switch (op)
             {
-                case "ROUND": return MathSingle.MathFunction(nameof(System.Math.Round), numberExpression);
-                case "ROUNDUP": return MathSingle.MathFunction(nameof(System.Math.Ceiling), numberExpression);
-                case "ROUNDDOWN": return MathSingle.MathFunction(nameof(System.Math.Floor), numberExpression);
-                default: throw new ApplicationException($"Unknown OP {op}");
+                case "ROUND":
+                    return MathSingle.MathFunction(nameof(System.Math.Round), numberExpression);
+                case "ROUNDUP":
+                    return MathSingle.MathFunction(nameof(System.Math.Ceiling), numberExpression);
+                case "ROUNDDOWN":
+                    return MathSingle.MathFunction(nameof(System.Math.Floor), numberExpression);
+                default:
+                    throw new ApplicationException($"Unknown OP {op}");
             }
         }
     }

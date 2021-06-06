@@ -17,19 +17,27 @@ namespace IronBlock.Blocks.Logic
 
             var tryInt = TryConvertToDoubleValues(a, b); // int => blockly always uses double
             if (tryInt.canConvert)
+            {
                 return Compare(opValue, tryInt.aValue, tryInt.bValue);
+            }
 
             var tryDouble = TryConvertValues<double>(a, b);
             if (tryDouble.canConvert)
+            {
                 return Compare(opValue, tryDouble.aValue, tryDouble.bValue);
+            }
 
             var tryString = TryConvertValues<string>(a, b);
             if (tryString.canConvert)
+            {
                 return Compare(opValue, tryString.aValue, tryString.bValue);
+            }
 
             var tryBool = TryConvertValues<bool>(a, b);
             if (tryBool.canConvert)
+            {
                 return Compare(opValue, tryBool.aValue, tryBool.bValue);
+            }
 
             throw new ApplicationException("unexpected value type");
         }
@@ -38,11 +46,15 @@ namespace IronBlock.Blocks.Logic
         {
             var firstExpression = Values.Generate("A", context) as ExpressionSyntax;
             if (firstExpression == null)
+            {
                 throw new ApplicationException("Unknown expression for value A.");
+            }
 
             var secondExpression = Values.Generate("B", context) as ExpressionSyntax;
             if (secondExpression == null)
+            {
                 throw new ApplicationException("Unknown expression for value B.");
+            }
 
             var opValue = Fields.Get("OP");
 
@@ -140,15 +152,23 @@ namespace IronBlock.Blocks.Logic
         {
             T aResult;
             if (a?.GetType() == typeof(T))
+            {
                 aResult = (T) Convert.ChangeType(a, typeof(T));
+            }
             else
+            {
                 return (false, default, default);
+            }
 
             T bResult;
             if (b?.GetType() == typeof(T))
+            {
                 bResult = (T) Convert.ChangeType(b, typeof(T));
+            }
             else
+            {
                 return (false, default, default);
+            }
 
             return (true, aResult, bResult);
         }
@@ -157,15 +177,23 @@ namespace IronBlock.Blocks.Logic
         {
             double aResult;
             if (a?.GetType() == typeof(double) || a?.GetType() == typeof(int))
+            {
                 aResult = (double) Convert.ChangeType(a, typeof(double));
+            }
             else
+            {
                 return (false, default, default);
+            }
 
             double bResult;
             if (b?.GetType() == typeof(double) || b?.GetType() == typeof(int))
+            {
                 bResult = (double) Convert.ChangeType(b, typeof(double));
+            }
             else
+            {
                 return (false, default, default);
+            }
 
             return (true, aResult, bResult);
         }

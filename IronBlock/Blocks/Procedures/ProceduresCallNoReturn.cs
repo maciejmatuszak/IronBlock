@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace IronBlock.Blocks.Text
+namespace IronBlock.Blocks.Procedures
 {
     public class ProceduresCallNoReturn : IBlock
     {
@@ -15,7 +15,10 @@ namespace IronBlock.Blocks.Text
 
             var name = Mutations.GetValue("name");
 
-            if (!context.Functions.ContainsKey(name)) throw new MissingMethodException($"Method ${name} not defined");
+            if (!context.Functions.ContainsKey(name))
+            {
+                throw new MissingMethodException($"Method ${name} not defined");
+            }
 
             var statement = (IFragment) context.Functions[name];
 
@@ -46,7 +49,9 @@ namespace IronBlock.Blocks.Text
             {
                 var argumentExpression = Values.Generate($"ARG{counter}", context) as ExpressionSyntax;
                 if (argumentExpression == null)
+                {
                     throw new ApplicationException($"Unknown argument expression for ARG{counter}.");
+                }
 
                 arguments.Add(Argument(argumentExpression));
                 counter++;

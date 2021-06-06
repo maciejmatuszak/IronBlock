@@ -68,10 +68,16 @@ namespace IronBlock.Blocks.Lists
         public override SyntaxNode Generate(Context context)
         {
             var valueExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
-            if (valueExpression == null) throw new ApplicationException("Unknown expression for value.");
+            if (valueExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for value.");
+            }
 
             ExpressionSyntax atExpression = null;
-            if (Values.Any(x => x.Name == "AT")) atExpression = Values.Generate("AT", context) as ExpressionSyntax;
+            if (Values.Any(x => x.Name == "AT"))
+            {
+                atExpression = Values.Generate("AT", context) as ExpressionSyntax;
+            }
 
             var mode = Fields.Get("MODE");
             switch (mode)
@@ -80,14 +86,18 @@ namespace IronBlock.Blocks.Lists
                     break;
                 case "GET_REMOVE":
                 case "REMOVE":
-                default: throw new NotSupportedException($"unknown mode {mode}");
+                default:
+                    throw new NotSupportedException($"unknown mode {mode}");
             }
 
             var where = Fields.Get("WHERE");
             switch (where)
             {
                 case "FROM_START":
-                    if (atExpression == null) throw new ApplicationException("Unknown expression for at.");
+                    if (atExpression == null)
+                    {
+                        throw new ApplicationException("Unknown expression for at.");
+                    }
 
                     return
                         ElementAccessExpression(
@@ -110,7 +120,10 @@ namespace IronBlock.Blocks.Lists
                                 )
                             );
                 case "FROM_END":
-                    if (atExpression == null) throw new ApplicationException("Unknown expression for at.");
+                    if (atExpression == null)
+                    {
+                        throw new ApplicationException("Unknown expression for at.");
+                    }
 
                     return
                         SyntaxGenerator.MethodInvokeExpression(

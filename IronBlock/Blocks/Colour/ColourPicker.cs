@@ -1,4 +1,4 @@
-namespace IronBlock.Blocks.Text
+namespace IronBlock.Blocks.Colour
 {
     public class ColourPicker : IBlock
     {

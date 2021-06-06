@@ -27,9 +27,15 @@ namespace IronBlock.Blocks.Controls
         public override SyntaxNode Generate(Context context)
         {
             var flow = Fields.Get("FLOW");
-            if (flow == "CONTINUE") return ContinueStatement();
+            if (flow == "CONTINUE")
+            {
+                return ContinueStatement();
+            }
 
-            if (flow == "BREAK") return BreakStatement();
+            if (flow == "BREAK")
+            {
+                return BreakStatement();
+            }
 
             throw new NotSupportedException($"{flow} flow is not supported");
         }

@@ -16,19 +16,28 @@ namespace IronBlock.Blocks.Text
 
             switch (mode)
             {
-                case "FIRST": return (double) text.IndexOf(term) + 1;
-                case "LAST": return (double) text.LastIndexOf(term) + 1;
-                default: throw new ApplicationException("unknown mode");
+                case "FIRST":
+                    return (double) text.IndexOf(term) + 1;
+                case "LAST":
+                    return (double) text.LastIndexOf(term) + 1;
+                default:
+                    throw new ApplicationException("unknown mode");
             }
         }
 
         public override SyntaxNode Generate(Context context)
         {
             var textExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
-            if (textExpression == null) throw new ApplicationException("Unknown expression for value.");
+            if (textExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for value.");
+            }
 
             var findExpression = Values.Generate("FIND", context) as ExpressionSyntax;
-            if (findExpression == null) throw new ApplicationException("Unknown expression for find.");
+            if (findExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for find.");
+            }
 
             var mode = Fields.Get("END");
             switch (mode)
@@ -39,7 +48,8 @@ namespace IronBlock.Blocks.Text
                 case "LAST":
                     return SyntaxGenerator.MethodInvokeExpression(textExpression, nameof(string.LastIndexOf),
                         findExpression);
-                default: throw new NotSupportedException("unknown mode");
+                default:
+                    throw new NotSupportedException("unknown mode");
             }
         }
     }

@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace IronBlock.Blocks.Text
+namespace IronBlock.Blocks.Procedures
 {
     public class ProceduresDef : IBlock
     {
@@ -15,30 +15,43 @@ namespace IronBlock.Blocks.Text
             var name = Fields.Get("NAME");
             var statement = Statements.FirstOrDefault(x => x.Name == "STACK");
 
-            if (string.IsNullOrWhiteSpace(name)) return null;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
 
             // if the statement is missing, create a stub one
             if (null == statement)
+            {
                 statement = new Statement
                 {
                     Block = null,
                     Name = "STACK"
                 };
+            }
 
             // tack the return value on as a block at the end of the statement
             if (Values.Any(x => x.Name == "RETURN"))
             {
                 var valueBlock = new ValueBlock(Values.First(x => x.Name == "RETURN"));
                 if (statement.Block == null)
+                {
                     statement.Block = valueBlock;
+                }
                 else
+                {
                     FindEndOfChain(statement.Block).Next = valueBlock;
+                }
             }
 
             if (context.Functions.ContainsKey(name))
+            {
                 context.Functions[name] = statement;
+            }
             else
+            {
                 context.Functions.Add(name, statement);
+            }
 
             return null;
         }
@@ -48,15 +61,20 @@ namespace IronBlock.Blocks.Text
             var name = Fields.Get("NAME").CreateValidName();
             var statement = Statements.FirstOrDefault(x => x.Name == "STACK");
 
-            if (string.IsNullOrWhiteSpace(name)) return null;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
 
             // if the statement is missing, create a stub one
             if (null == statement)
+            {
                 statement = new Statement
                 {
                     Block = null,
                     Name = "STACK"
                 };
+            }
 
             ReturnStatementSyntax returnStatement = null;
 
@@ -66,7 +84,9 @@ namespace IronBlock.Blocks.Text
                 var returnValue = Values.First(x => x.Name == "RETURN");
                 var returnExpression = returnValue.Generate(context) as ExpressionSyntax;
                 if (returnExpression == null)
+                {
                     throw new ApplicationException("Unknown expression for return statement.");
+                }
 
                 returnStatement = ReturnStatement(returnExpression);
             }
@@ -93,10 +113,16 @@ namespace IronBlock.Blocks.Text
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(procedureContext);
-                if (statementSyntax != null) procedureContext.Statements.Add(statementSyntax);
+                if (statementSyntax != null)
+                {
+                    procedureContext.Statements.Add(statementSyntax);
+                }
             }
 
-            if (returnStatement != null) procedureContext.Statements.Add(returnStatement);
+            if (returnStatement != null)
+            {
+                procedureContext.Statements.Add(returnStatement);
+            }
 
             LocalFunctionStatementSyntax methodDeclaration = null;
 
@@ -131,7 +157,11 @@ namespace IronBlock.Blocks.Text
 
         private static IBlock FindEndOfChain(IBlock block)
         {
-            if (null == block.Next) return block;
+            if (null == block.Next)
+            {
+                return block;
+            }
+
             return FindEndOfChain(block.Next);
         }
 

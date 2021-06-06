@@ -39,6 +39,7 @@ namespace IronBlock.Utils
 
             var arguments = argumentExpressions?.Select(x => Argument(x));
             if (arguments?.Any() ?? false)
+            {
                 invocationExpression =
                     invocationExpression
                         .WithArgumentList(
@@ -46,6 +47,7 @@ namespace IronBlock.Utils
                                 SeparatedList(arguments)
                             )
                         );
+            }
 
             return invocationExpression;
         }

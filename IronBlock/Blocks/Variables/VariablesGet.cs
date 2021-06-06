@@ -13,7 +13,9 @@ namespace IronBlock.Blocks.Variables
             if (!context.Variables.ContainsKey(variableName))
             {
                 if (!context.GetRootContext().Variables.ContainsKey(variableName))
+                {
                     return null;
+                }
 
                 return context.GetRootContext().Variables[variableName];
             }

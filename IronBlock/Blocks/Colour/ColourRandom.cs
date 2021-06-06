@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace IronBlock.Blocks.Text
+namespace IronBlock.Blocks.Colour
 {
     public class ColourRandom : IBlock
     {

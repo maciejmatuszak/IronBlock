@@ -16,14 +16,22 @@ namespace IronBlock.Blocks.Controls
 
             var statement = Statements.Where(x => x.Name == "DO").FirstOrDefault();
 
-            if (null == statement) return base.Evaluate(context);
+            if (null == statement)
+            {
+                return base.Evaluate(context);
+            }
 
             foreach (var item in list)
             {
                 if (context.Variables.ContainsKey(variableName))
+                {
                     context.Variables[variableName] = item;
+                }
                 else
+                {
                     context.Variables.Add(variableName, item);
+                }
+
                 statement.Evaluate(context);
             }
 
@@ -34,17 +42,26 @@ namespace IronBlock.Blocks.Controls
         {
             var variableName = Fields.Get("VAR").CreateValidName();
             var listExpression = Values.Generate("LIST", context) as ExpressionSyntax;
-            if (listExpression == null) throw new ApplicationException("Unknown expression for list.");
+            if (listExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for list.");
+            }
 
             var statement = Statements.Where(x => x.Name == "DO").FirstOrDefault();
 
-            if (null == statement) return base.Generate(context);
+            if (null == statement)
+            {
+                return base.Generate(context);
+            }
 
             var forEachContext = new Context {Parent = context};
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forEachContext);
-                if (statementSyntax != null) forEachContext.Statements.Add(statementSyntax);
+                if (statementSyntax != null)
+                {
+                    forEachContext.Statements.Add(statementSyntax);
+                }
             }
 
             var forEachStatement =

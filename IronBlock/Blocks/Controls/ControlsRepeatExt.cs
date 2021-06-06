@@ -13,7 +13,10 @@ namespace IronBlock.Blocks.Controls
         {
             var timesValue = (double) Values.Evaluate("TIMES", context);
 
-            if (!Statements.Any(x => x.Name == "DO")) return base.Evaluate(context);
+            if (!Statements.Any(x => x.Name == "DO"))
+            {
+                return base.Evaluate(context);
+            }
 
             var statement = Statements.Get("DO");
 
@@ -38,9 +41,15 @@ namespace IronBlock.Blocks.Controls
         public override SyntaxNode Generate(Context context)
         {
             var timesExpression = Values.Generate("TIMES", context) as ExpressionSyntax;
-            if (timesExpression == null) throw new ApplicationException("Unknown expression for times.");
+            if (timesExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for times.");
+            }
 
-            if (!Statements.Any(x => x.Name == "DO")) return base.Generate(context);
+            if (!Statements.Any(x => x.Name == "DO"))
+            {
+                return base.Generate(context);
+            }
 
             var statement = Statements.Get("DO");
 
@@ -48,7 +57,10 @@ namespace IronBlock.Blocks.Controls
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forContext);
-                if (statementSyntax != null) forContext.Statements.Add(statementSyntax);
+                if (statementSyntax != null)
+                {
+                    forContext.Statements.Add(statementSyntax);
+                }
             }
 
             var forStatement =

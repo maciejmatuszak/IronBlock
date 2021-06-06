@@ -20,6 +20,7 @@ namespace IronBlock.Blocks.Controls
 
             var done = false;
             for (var i = 0; i < ifCount; i++)
+            {
                 if ((bool) Values.Evaluate($"IF{i}", context))
                 {
                     var statement = Statements.Get($"DO{i}");
@@ -27,8 +28,10 @@ namespace IronBlock.Blocks.Controls
                     done = true;
                     break;
                 }
+            }
 
             if (!done)
+            {
                 if (null != Mutations.GetValue("else"))
                 {
                     var elseExists = Mutations.GetValue("else");
@@ -38,6 +41,7 @@ namespace IronBlock.Blocks.Controls
                         statement.Evaluate(context);
                     }
                 }
+            }
 
             return base.Evaluate(context);
         }
@@ -57,7 +61,10 @@ namespace IronBlock.Blocks.Controls
             for (var i = 0; i < ifCount; i++)
             {
                 var conditional = Values.Generate($"IF{i}", context) as ExpressionSyntax;
-                if (conditional == null) throw new ApplicationException("Unknown expression for condition.");
+                if (conditional == null)
+                {
+                    throw new ApplicationException("Unknown expression for condition.");
+                }
 
                 var statement = Statements.Get($"DO{i}");
 
@@ -65,7 +72,10 @@ namespace IronBlock.Blocks.Controls
                 if (statement?.Block != null)
                 {
                     var statementSyntax = statement.Block.GenerateStatement(ifContext);
-                    if (statementSyntax != null) ifContext.Statements.Add(statementSyntax);
+                    if (statementSyntax != null)
+                    {
+                        ifContext.Statements.Add(statementSyntax);
+                    }
                 }
 
                 var newIfStatement = IfStatement(conditional, Block(ifContext.Statements));
@@ -81,7 +91,10 @@ namespace IronBlock.Blocks.Controls
                 if (statement?.Block != null)
                 {
                     var statementSyntax = statement.Block.GenerateStatement(elseContext);
-                    if (statementSyntax != null) elseContext.Statements.Add(statementSyntax);
+                    if (statementSyntax != null)
+                    {
+                        elseContext.Statements.Add(statementSyntax);
+                    }
                 }
 
                 var lastIndex = ifStatements.Count - 1;

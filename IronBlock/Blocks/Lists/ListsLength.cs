@@ -12,7 +12,10 @@ namespace IronBlock.Blocks.Lists
         public override object Evaluate(Context context)
         {
             var value = Values.Evaluate("VALUE", context) as IEnumerable<object>;
-            if (null == value) return 0.0;
+            if (null == value)
+            {
+                return 0.0;
+            }
 
             return (double) value.Count();
         }
@@ -20,7 +23,10 @@ namespace IronBlock.Blocks.Lists
         public override SyntaxNode Generate(Context context)
         {
             var valueExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
-            if (valueExpression == null) throw new ApplicationException("Unknown expression for value.");
+            if (valueExpression == null)
+            {
+                throw new ApplicationException("Unknown expression for value.");
+            }
 
             return SyntaxGenerator.PropertyAccessExpression(valueExpression, nameof(Array.Length));
         }
