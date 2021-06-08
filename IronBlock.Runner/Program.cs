@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using IronBlock.Blocks;
 using Microsoft.CodeAnalysis;
@@ -14,6 +15,8 @@ namespace IronBlock.Runner
 {
     internal class Program
     {
+        
+        
         private static void Main(string[] args)
         {
             try
@@ -80,7 +83,18 @@ Specify any of the following as a second argument
                 }
                 else if (mode?.Equals("-e") ?? false)
                 {
-                    parser.Evaluate();
+
+                    var ctx = new RunnerContext(RunMode.Timed, 1000.0);
+                    ctx.BeforeEvent += OnCtxOnBeforeEvent;
+                    ctx.AfterEvent += OnCtxOnAfterEvent;
+              
+                    parser.Evaluate(ctx);
+                    
+
+                    
+                    ctx.BeforeEvent -= OnCtxOnBeforeEvent;
+                    ctx.AfterEvent -= OnCtxOnAfterEvent;
+                    ctx.Dispose();
                 }
                 else // -ex
                 {
@@ -99,6 +113,17 @@ Specify any of the following as a second argument
                 Console.WriteLine($"ERROR: {ex}");
                 Environment.ExitCode = 1;
             }
+        }
+
+        private static void OnCtxOnAfterEvent(object sender, IBlock block)
+        {
+            
+            Console.WriteLine($"Evaluating Block: {block}...DONE");
+        }
+
+        private static void OnCtxOnBeforeEvent(object sender, IBlock block)
+        {
+            Console.WriteLine($"Evaluating Block: {block}...");
         }
 
         public static IEnumerable<Diagnostic> Compile(Script<object> script)

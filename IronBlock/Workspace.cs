@@ -16,6 +16,17 @@ namespace IronBlock
 
         public IList<ABlock> Blocks { get; set; }
 
+        public virtual object Evaluate(IDictionary<string, object> arguments = null)
+        {
+            var ctx = new Context();
+            if (null != arguments)
+            {
+                ctx.Variables = arguments;
+            }
+
+            return Evaluate(ctx);
+        }
+
         public virtual object Evaluate(Context context)
 
         {

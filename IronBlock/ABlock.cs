@@ -30,12 +30,12 @@ namespace IronBlock
 
         public virtual void BeforeEvaluate(Context context)
         {
-            Console.WriteLine($"Evaluating block: {this}...");
+            context.InvokeBeforeEvent(this);
         }
 
         public virtual void AfterEvaluate(Context context)
         {
-            Console.WriteLine($"Evaluating block: {this}...DONE");
+            context.InvokeAfterEvent(this);
         }
 
         public virtual object EvaluateInternal(Context context)

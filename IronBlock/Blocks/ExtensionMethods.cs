@@ -72,16 +72,7 @@ namespace IronBlock.Blocks
             return mut.Value;
         }
 
-        public static object Evaluate(this Workspace workspace, IDictionary<string, object> arguments = null)
-        {
-            var ctx = new Context();
-            if (null != arguments)
-            {
-                ctx.Variables = arguments;
-            }
-
-            return workspace.Evaluate(ctx);
-        }
+        
 
         public static SyntaxNode Generate(this Workspace workspace)
         {
@@ -108,24 +99,7 @@ namespace IronBlock.Blocks
             return null;
         }
 
-        public static Context GetRootContext(this Context context)
-        {
-            var parentContext = context?.Parent;
-
-            while (parentContext != null)
-            {
-                if (parentContext.Parent == null)
-                {
-                    return parentContext;
-                }
-
-                parentContext = parentContext.Parent;
-            }
-
-            ;
-
-            return context;
-        }
+    
 
         internal static string CreateValidName(this string name)
         {
