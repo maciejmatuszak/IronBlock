@@ -7,21 +7,21 @@ namespace IronBlock
 {
     public class Parser
     {
-        private readonly IDictionary<string, Func<ABlock>> blocks = new Dictionary<string, Func<ABlock>>();
+        private readonly IDictionary<string, Func<IBlock>> blocks = new Dictionary<string, Func<IBlock>>();
 
-        public Parser AddBlock<T>(string type) where T : ABlock, new()
+        public Parser AddBlock<T>(string type) where T : IBlock, new()
         {
             AddBlock(type, () => new T());
             return this;
         }
 
-        public Parser AddBlock<T>(string type, T block) where T : ABlock
+        public Parser AddBlock<T>(string type, T block) where T : IBlock
         {
             AddBlock(type, () => block);
             return this;
         }
 
-        public Parser AddBlock(string type, Func<ABlock> blockFactory)
+        public Parser AddBlock(string type, Func<IBlock> blockFactory)
         {
             if (blocks.ContainsKey(type))
             {
@@ -95,7 +95,7 @@ namespace IronBlock
             return workspace;
         }
 
-        private ABlock ParseBlock(XmlNode node)
+        private IBlock ParseBlock(XmlNode node)
         {
             if (bool.Parse(node.GetAttribute("disabled") ?? "false"))
             {
@@ -148,7 +148,7 @@ namespace IronBlock
             return block;
         }
 
-        private void ParseField(XmlNode fieldNode, ABlock aBlock)
+        private void ParseField(XmlNode fieldNode, IBlock aBlock)
         {
             var field = new Field
             {
@@ -158,7 +158,7 @@ namespace IronBlock
             aBlock.Fields.Add(field);
         }
 
-        private void ParseValue(XmlNode valueNode, ABlock aBlock)
+        private void ParseValue(XmlNode valueNode, IBlock aBlock)
         {
             var childNode = valueNode.GetChild("block") ?? valueNode.GetChild("shadow");
             if (childNode == null)
@@ -171,17 +171,17 @@ namespace IronBlock
             var value = new Value
             {
                 Name = valueNode.GetAttribute("name"),
-                ABlock = childBlock
+                Block = childBlock
             };
             aBlock.Values.Add(value);
         }
 
-        private void ParseComment(XmlNode commentNode, ABlock aBlock)
+        private void ParseComment(XmlNode commentNode, IBlock aBlock)
         {
             aBlock.Comments.Add(new Comment(commentNode.InnerText));
         }
 
-        private void ParseStatement(XmlNode statementNode, ABlock aBlock)
+        private void ParseStatement(XmlNode statementNode,IBlock aBlock)
         {
             var childNode = statementNode.GetChild("block") ?? statementNode.GetChild("shadow");
             if (childNode == null)
@@ -194,12 +194,12 @@ namespace IronBlock
             var statement = new Statement
             {
                 Name = statementNode.GetAttribute("name"),
-                ABlock = childBlock
+                Block = childBlock
             };
             aBlock.Statements.Add(statement);
         }
 
-        private void ParseMutation(XmlNode mutationNode, ABlock aBlock)
+        private void ParseMutation(XmlNode mutationNode, IBlock aBlock)
         {
             foreach (XmlAttribute attribute in mutationNode.Attributes)
             {

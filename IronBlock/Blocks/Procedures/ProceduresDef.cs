@@ -25,7 +25,7 @@ namespace IronBlock.Blocks.Procedures
             {
                 statement = new Statement
                 {
-                    ABlock = null,
+                    Block = null,
                     Name = "STACK"
                 };
             }
@@ -34,13 +34,13 @@ namespace IronBlock.Blocks.Procedures
             if (Values.Any(x => x.Name == "RETURN"))
             {
                 var valueBlock = new ValueABlock(Values.First(x => x.Name == "RETURN"));
-                if (statement.ABlock == null)
+                if (statement.Block == null)
                 {
-                    statement.ABlock = valueBlock;
+                    statement.Block = valueBlock;
                 }
                 else
                 {
-                    FindEndOfChain(statement.ABlock).Next = valueBlock;
+                    FindEndOfChain(statement.Block).Next = valueBlock;
                 }
             }
 
@@ -71,7 +71,7 @@ namespace IronBlock.Blocks.Procedures
             {
                 statement = new Statement
                 {
-                    ABlock = null,
+                    Block = null,
                     Name = "STACK"
                 };
             }
@@ -110,9 +110,9 @@ namespace IronBlock.Blocks.Procedures
                 procedureContext.Parameters[parameterName] = parameter;
             }
 
-            if (statement?.ABlock != null)
+            if (statement?.Block != null)
             {
-                var statementSyntax = statement.ABlock.GenerateStatement(procedureContext);
+                var statementSyntax = statement.Block.GenerateStatement(procedureContext);
                 if (statementSyntax != null)
                 {
                     procedureContext.Statements.Add(statementSyntax);
@@ -155,7 +155,7 @@ namespace IronBlock.Blocks.Procedures
             return base.Generate(context);
         }
 
-        private static ABlock FindEndOfChain(ABlock aBlock)
+        private static IBlock FindEndOfChain(IBlock aBlock)
         {
             if (null == aBlock.Next)
             {

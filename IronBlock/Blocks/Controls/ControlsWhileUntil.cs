@@ -66,7 +66,7 @@ namespace IronBlock.Blocks.Controls
             var whileContext = new Context { Parent = context };
             if (statement?.Block != null)
             {
-                var statementSyntax = statement.ABlock.GenerateStatement(whileContext);
+                var statementSyntax = statement.Block.GenerateStatement(whileContext);
                 if (statementSyntax != null)
                 {
                     whileContext.Statements.Add(statementSyntax);

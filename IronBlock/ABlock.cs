@@ -24,7 +24,7 @@ namespace IronBlock
         public IList<Statement> Statements { get; set; }
         public string Type { get; set; }
         public bool Inline { get; set; }
-        public ABlock Next { get; set; }
+        public IBlock Next { get; set; }
         public IList<Mutation> Mutations { get; set; }
         public IList<Comment> Comments { get; set; }
 
@@ -51,7 +51,7 @@ namespace IronBlock
         public virtual object Evaluate(Context context)
         {
             BeforeEvaluate(context);
-            object result = EvaluateInternal(context);
+            var result = EvaluateInternal(context);
             AfterEvaluate(context);
             return result;
         }

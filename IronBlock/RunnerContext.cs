@@ -16,10 +16,7 @@ namespace IronBlock
 
     public class RunnerContext : Context, IDisposable
     {
-        public RunMode RunMode
-        {
-            get { return _runMode; }
-        }
+        public RunMode RunMode => _runMode;
 
         private Timer _timer;
         private SemaphoreSlim _semaphore;
@@ -52,6 +49,8 @@ namespace IronBlock
                     _timer.Start();
                     break;
             }
+
+            _runMode = mode;
         }
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)

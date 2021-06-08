@@ -11,10 +11,10 @@ namespace IronBlock
     {
         public Workspace()
         {
-            Blocks = new List<ABlock>();
+            Blocks = new List<IBlock>();
         }
 
-        public IList<ABlock> Blocks { get; set; }
+        public IList<IBlock> Blocks { get; set; }
 
         public virtual object Evaluate(IDictionary<string, object> arguments = null)
         {
@@ -34,7 +34,7 @@ namespace IronBlock
             object returnValue = null;
 
             // first process procedure def blocks
-            var processedProcedureDefBlocks = new List<ABlock>();
+            var processedProcedureDefBlocks = new List<IBlock>();
             foreach (var block in Blocks)
             {
                 if (block is ProceduresDef)

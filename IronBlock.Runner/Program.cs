@@ -15,8 +15,6 @@ namespace IronBlock.Runner
 {
     internal class Program
     {
-        
-        
         private static void Main(string[] args)
         {
             try
@@ -83,15 +81,13 @@ Specify any of the following as a second argument
                 }
                 else if (mode?.Equals("-e") ?? false)
                 {
-
-                    var ctx = new RunnerContext(RunMode.Timed, 1000.0);
+                    var ctx = new RunnerContext(RunMode.Timed, 200.0);
                     ctx.BeforeEvent += OnCtxOnBeforeEvent;
                     ctx.AfterEvent += OnCtxOnAfterEvent;
-              
-                    parser.Evaluate(ctx);
-                    
 
-                    
+                    parser.Evaluate(ctx);
+
+
                     ctx.BeforeEvent -= OnCtxOnBeforeEvent;
                     ctx.AfterEvent -= OnCtxOnAfterEvent;
                     ctx.Dispose();
@@ -115,15 +111,14 @@ Specify any of the following as a second argument
             }
         }
 
-        private static void OnCtxOnAfterEvent(object sender, IBlock block)
-        {
-            
-            Console.WriteLine($"Evaluating Block: {block}...DONE");
-        }
-
         private static void OnCtxOnBeforeEvent(object sender, IBlock block)
         {
             Console.WriteLine($"Evaluating Block: {block}...");
+        }
+
+        private static void OnCtxOnAfterEvent(object sender, IBlock block)
+        {
+            Console.WriteLine($"Evaluating Block: {block}...DONE");
         }
 
         public static IEnumerable<Diagnostic> Compile(Script<object> script)

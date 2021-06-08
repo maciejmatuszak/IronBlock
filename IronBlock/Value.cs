@@ -5,26 +5,26 @@ namespace IronBlock
     public class Value : IFragment
     {
         public string Name { get; set; }
-        public ABlock ABlock { get; set; }
+        public IBlock Block { get; set; }
 
         public object Evaluate(Context context)
         {
-            if (null == ABlock)
+            if (null == Block)
             {
                 return null;
             }
 
-            return ABlock.Evaluate(context);
+            return Block.Evaluate(context);
         }
 
         public SyntaxNode Generate(Context context)
         {
-            if (null == ABlock)
+            if (null == Block)
             {
                 return null;
             }
 
-            return ABlock.Generate(context);
+            return Block.Generate(context);
         }
     }
 }

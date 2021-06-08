@@ -11,7 +11,7 @@ namespace IronBlock
         IList<Statement> Statements { get; set; }
         string Type { get; set; }
         bool Inline { get; set; }
-        ABlock Next { get; set; }
+        IBlock Next { get; set; }
         IList<Mutation> Mutations { get; set; }
         IList<Comment> Comments { get; set; }
         void BeforeEvaluate(Context context);
