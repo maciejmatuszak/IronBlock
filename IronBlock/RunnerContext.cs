@@ -9,8 +9,14 @@ namespace IronBlock
 {
     public enum RunMode
     {
+        // The Evaluate method runs without interruptions
         Continuous,
+        
+        // The Evaluate Method is stopped at the beginning of each block and waits for Step() call
         Stepped,
+        
+        // The Evaluate Method is stopped at the beginning of the block and waits for Step();
+        // The Step() is triggered automatically at specified interval
         Timed
     }
 
