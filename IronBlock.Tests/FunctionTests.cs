@@ -1,4 +1,4 @@
-using IronBlock.Blocks;
+﻿using IronBlock.Blocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronBlock.Tests

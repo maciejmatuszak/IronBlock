@@ -22,7 +22,7 @@ namespace IronBlock.Utils
         public static InvocationExpressionSyntax MethodInvokeExpression(ExpressionSyntax targetExpression,
             string methodName, ExpressionSyntax argumentExpression)
         {
-            return MethodInvokeExpression(targetExpression, methodName, new[] {argumentExpression});
+            return MethodInvokeExpression(targetExpression, methodName, new[] { argumentExpression });
         }
 
         public static InvocationExpressionSyntax MethodInvokeExpression(ExpressionSyntax targetExpression,

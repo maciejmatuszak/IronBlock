@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using IronBlock.Utils;
@@ -42,7 +42,7 @@ namespace IronBlock.Blocks.Lists
                 SyntaxGenerator.MethodInvokeExpression(
                     IdentifierName(nameof(Enumerable)),
                     nameof(Enumerable.Repeat),
-                    new[] {itemExpression, numExpression}
+                    new[] { itemExpression, numExpression }
                 ),
                 nameof(Enumerable.ToList)
             );

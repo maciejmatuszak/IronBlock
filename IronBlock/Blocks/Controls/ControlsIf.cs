@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -68,7 +68,7 @@ namespace IronBlock.Blocks.Controls
 
                 var statement = Statements.Get($"DO{i}");
 
-                var ifContext = new Context {Parent = context};
+                var ifContext = new Context { Parent = context };
                 if (statement?.Block != null)
                 {
                     var statementSyntax = statement.Block.GenerateStatement(ifContext);
@@ -87,7 +87,7 @@ namespace IronBlock.Blocks.Controls
             {
                 var statement = Statements.Get("ELSE");
 
-                var elseContext = new Context {Parent = context};
+                var elseContext = new Context { Parent = context };
                 if (statement?.Block != null)
                 {
                     var statementSyntax = statement.Block.GenerateStatement(elseContext);

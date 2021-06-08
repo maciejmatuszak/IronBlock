@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using IronBlock.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -60,12 +60,12 @@ namespace IronBlock.Blocks.Math
                             nameof(double.PositiveInfinity)
                         );
                 default:
-                {
-                    var value = GetValue(constant);
-                    return LiteralExpression(
-                        SyntaxKind.NumericLiteralExpression,
-                        Literal(value));
-                }
+                    {
+                        var value = GetValue(constant);
+                        return LiteralExpression(
+                            SyntaxKind.NumericLiteralExpression,
+                            Literal(value));
+                    }
             }
         }
 

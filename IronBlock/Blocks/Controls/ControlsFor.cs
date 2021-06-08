@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -69,7 +69,7 @@ namespace IronBlock.Blocks.Controls
                 rootContext.Variables[variableName] = null;
             }
 
-            var forContext = new Context {Parent = context};
+            var forContext = new Context { Parent = context };
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forContext);

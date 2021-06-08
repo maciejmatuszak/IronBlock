@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -63,7 +63,7 @@ namespace IronBlock.Blocks.Controls
                 throw new ApplicationException("Unknown expression for condition.");
             }
 
-            var whileContext = new Context {Parent = context};
+            var whileContext = new Context { Parent = context };
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(whileContext);

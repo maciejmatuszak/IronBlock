@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using IronBlock.Blocks;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -522,9 +522,9 @@ namespace IronBlock.Tests.Roslyn
             Assert.IsTrue(code.Contains("64 % 10;"));
         }
 
-/*
+        /*
 
 
- */
+         */
     }
 }

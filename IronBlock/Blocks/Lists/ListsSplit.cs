@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace IronBlock.Blocks.Lists
                 case "SPLIT":
                     return input
                         .ToString()
-                        .Split(new[] {delim.ToString()}, StringSplitOptions.None)
+                        .Split(new[] { delim.ToString() }, StringSplitOptions.None)
                         .Select(x => x as object)
                         .ToList();
 
@@ -76,7 +76,7 @@ namespace IronBlock.Blocks.Lists
                                 Token(SyntaxKind.StringKeyword)
                             ),
                             nameof(string.Join),
-                            new[] {delimExpression, inputExpression}
+                            new[] { delimExpression, inputExpression }
                         );
 
                 default:

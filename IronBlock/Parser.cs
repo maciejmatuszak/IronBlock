@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Xml;
 using IronBlock.Blocks.Variables;
@@ -35,7 +35,7 @@ namespace IronBlock
 
         public Workspace Parse(string xml, bool preserveWhitespace = false)
         {
-            var xdoc = new XmlDocument {PreserveWhitespace = preserveWhitespace};
+            var xdoc = new XmlDocument { PreserveWhitespace = preserveWhitespace };
             xdoc.LoadXml(xml);
 
             var workspace = new Workspace();
@@ -207,10 +207,10 @@ namespace IronBlock
             }
 
             foreach (XmlNode node in mutationNode.ChildNodes)
-            foreach (XmlAttribute attribute in node.Attributes)
-            {
-                block.Mutations.Add(new Mutation(node.Name, attribute.Name, attribute.Value));
-            }
+                foreach (XmlAttribute attribute in node.Attributes)
+                {
+                    block.Mutations.Add(new Mutation(node.Name, attribute.Name, attribute.Value));
+                }
         }
     }
 

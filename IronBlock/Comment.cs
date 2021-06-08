@@ -1,4 +1,4 @@
-namespace IronBlock
+﻿namespace IronBlock
 {
     public class Comment
     {

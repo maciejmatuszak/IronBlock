@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -22,7 +22,7 @@ namespace IronBlock.Blocks.Procedures
 
             var statement = (IFragment) context.Functions[name];
 
-            var funcContext = new Context {Parent = context};
+            var funcContext = new Context { Parent = context };
             funcContext.Functions = context.Functions;
 
             var counter = 0;

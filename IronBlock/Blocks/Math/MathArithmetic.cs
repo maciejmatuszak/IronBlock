@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using IronBlock.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -57,7 +57,7 @@ namespace IronBlock.Blocks.Math
                     SyntaxGenerator.MethodInvokeExpression(
                         IdentifierName(nameof(System.Math)),
                         nameof(System.Math.Pow),
-                        new[] {firstExpression, secondExpression}
+                        new[] { firstExpression, secondExpression }
                     );
             }
             else

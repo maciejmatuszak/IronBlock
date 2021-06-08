@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using IronBlock.Blocks;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using IronBlock.Utils;
 using Microsoft.CodeAnalysis;
@@ -24,10 +24,10 @@ namespace IronBlock.Blocks.Text
                     return text.ToLower();
 
                 case "TITLECASE":
-                {
-                    var textInfo = new CultureInfo("en-US", false).TextInfo;
-                    return textInfo.ToTitleCase(text);
-                }
+                    {
+                        var textInfo = new CultureInfo("en-US", false).TextInfo;
+                        return textInfo.ToTitleCase(text);
+                    }
 
                 default:
                     throw new NotSupportedException("unknown case");

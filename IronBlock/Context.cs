@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IronBlock

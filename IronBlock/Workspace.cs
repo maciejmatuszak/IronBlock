@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using IronBlock.Blocks.Procedures;
 using Microsoft.CodeAnalysis;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -93,7 +93,7 @@ namespace IronBlock.Blocks.Procedures
 
             var parameters = new List<ParameterSyntax>();
 
-            var procedureContext = new ProcedureContext {Parent = context};
+            var procedureContext = new ProcedureContext { Parent = context };
 
             foreach (var mutation in Mutations.Where(x => x.Domain == "arg" && x.Name == "name"))
             {
