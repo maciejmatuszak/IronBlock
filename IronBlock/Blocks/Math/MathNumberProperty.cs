@@ -6,9 +6,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Math
 {
-    public class MathNumberProperty : IBlock
+    public class MathNumberProperty : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var op = Fields.Get("PROPERTY");
             var number = (double) Values.Evaluate("NUMBER_TO_CHECK", context);

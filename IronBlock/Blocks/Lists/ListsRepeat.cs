@@ -8,9 +8,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Lists
 {
-    public class ListsRepeat : IBlock
+    public class ListsRepeat : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var item = Values.Evaluate("ITEM", context);
             var num = (double) Values.Evaluate("NUM", context);

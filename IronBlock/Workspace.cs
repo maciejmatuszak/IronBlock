@@ -11,10 +11,10 @@ namespace IronBlock
     {
         public Workspace()
         {
-            Blocks = new List<IBlock>();
+            Blocks = new List<ABlock>();
         }
 
-        public IList<IBlock> Blocks { get; set; }
+        public IList<ABlock> Blocks { get; set; }
 
         public virtual object Evaluate(Context context)
 
@@ -23,7 +23,7 @@ namespace IronBlock
             object returnValue = null;
 
             // first process procedure def blocks
-            var processedProcedureDefBlocks = new List<IBlock>();
+            var processedProcedureDefBlocks = new List<ABlock>();
             foreach (var block in Blocks)
             {
                 if (block is ProceduresDef)

@@ -5,9 +5,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IronBlock.Blocks.Text
 {
-    public class TextTrim : IBlock
+    public class TextTrim : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var mode = Fields.Get("MODE");
 

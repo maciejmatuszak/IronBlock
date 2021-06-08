@@ -4,9 +4,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Controls
 {
-    public class ControlsFlowStatement : IBlock
+    public class ControlsFlowStatement : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var flow = Fields.Get("FLOW");
             if (flow == "CONTINUE")

@@ -5,14 +5,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IronBlock.Tests
 {
-    internal class CustomPrintBlock : IBlock
+    internal class CustomPrintABlock : ABlock
     {
         public List<string> Text { get; set; } = new List<string>();
 
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             Text.Add((Values.FirstOrDefault(x => x.Name == "VALUE")?.Evaluate(context) ?? "").ToString());
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
     }
 
@@ -34,7 +34,7 @@ namespace IronBlock.Tests
 </xml>
 ";
 
-            var printBlock = new CustomPrintBlock();
+            var printBlock = new CustomPrintABlock();
             var output = new Parser()
                 .AddStandardBlocks()
                 .AddBlock("text_print", printBlock)

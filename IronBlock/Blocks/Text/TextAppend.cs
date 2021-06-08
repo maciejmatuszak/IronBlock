@@ -6,9 +6,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Text
 {
-    public class TextAppend : IBlock
+    public class TextAppend : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var variables = context.Variables;
 
@@ -24,7 +24,7 @@ namespace IronBlock.Blocks.Text
 
             variables[variableName] = value + textToAppend;
 
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)

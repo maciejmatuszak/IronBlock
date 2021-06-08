@@ -6,9 +6,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Logic
 {
-    public class LogicCompare : IBlock
+    public class LogicCompare : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var opValue = Fields.Get("OP");
 

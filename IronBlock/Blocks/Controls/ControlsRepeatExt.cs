@@ -7,15 +7,15 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Controls
 {
-    public class ControlsRepeatExt : IBlock
+    public class ControlsRepeatExt : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var timesValue = (double) Values.Evaluate("TIMES", context);
 
             if (!Statements.Any(x => x.Name == "DO"))
             {
-                return base.Evaluate(context);
+                return base.EvaluateInternal(context);
             }
 
             var statement = Statements.Get("DO");
@@ -35,7 +35,7 @@ namespace IronBlock.Blocks.Controls
 
             context.EscapeMode = EscapeMode.None;
 
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)
@@ -56,7 +56,7 @@ namespace IronBlock.Blocks.Controls
             var forContext = new Context { Parent = context };
             if (statement?.Block != null)
             {
-                var statementSyntax = statement.Block.GenerateStatement(forContext);
+                var statementSyntax = statement.ABlock.GenerateStatement(forContext);
                 if (statementSyntax != null)
                 {
                     forContext.Statements.Add(statementSyntax);

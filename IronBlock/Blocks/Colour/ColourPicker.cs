@@ -1,8 +1,8 @@
 ﻿namespace IronBlock.Blocks.Colour
 {
-    public class ColourPicker : IBlock
+    public class ColourPicker : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             return Fields.Get("COLOUR") ?? "#000000";
         }

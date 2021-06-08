@@ -7,9 +7,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Controls
 {
-    public class ControlsIf : IBlock
+    public class ControlsIf : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var ifCount = 1;
             if (null != Mutations.GetValue("elseif"))
@@ -43,7 +43,7 @@ namespace IronBlock.Blocks.Controls
                 }
             }
 
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)
@@ -71,7 +71,7 @@ namespace IronBlock.Blocks.Controls
                 var ifContext = new Context { Parent = context };
                 if (statement?.Block != null)
                 {
-                    var statementSyntax = statement.Block.GenerateStatement(ifContext);
+                    var statementSyntax = statement.ABlock.GenerateStatement(ifContext);
                     if (statementSyntax != null)
                     {
                         ifContext.Statements.Add(statementSyntax);
@@ -90,7 +90,7 @@ namespace IronBlock.Blocks.Controls
                 var elseContext = new Context { Parent = context };
                 if (statement?.Block != null)
                 {
-                    var statementSyntax = statement.Block.GenerateStatement(elseContext);
+                    var statementSyntax = statement.ABlock.GenerateStatement(elseContext);
                     if (statementSyntax != null)
                     {
                         elseContext.Statements.Add(statementSyntax);

@@ -7,11 +7,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IronBlock.Blocks.Math
 {
-    public class MathOnList : IBlock
+    public class MathOnList : ABlock
     {
         private static readonly Random rnd = new Random();
 
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var op = Fields.Get("OP");
             var list = Values.Evaluate("LIST", context) as IEnumerable<object>;

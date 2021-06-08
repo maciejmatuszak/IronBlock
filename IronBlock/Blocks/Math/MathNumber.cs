@@ -5,9 +5,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Math
 {
-    public class MathNumber : IBlock
+    public class MathNumber : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             return double.Parse(Fields.Get("NUM"), CultureInfo.InvariantCulture);
         }

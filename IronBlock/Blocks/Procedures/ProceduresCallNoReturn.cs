@@ -7,9 +7,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Procedures
 {
-    public class ProceduresCallNoReturn : IBlock
+    public class ProceduresCallNoReturn : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             // todo: add guard for missing name
 
@@ -35,7 +35,7 @@ namespace IronBlock.Blocks.Procedures
 
             statement.Evaluate(funcContext);
 
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)

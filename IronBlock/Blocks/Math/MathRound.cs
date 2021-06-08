@@ -4,9 +4,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IronBlock.Blocks.Math
 {
-    public class MathRound : IBlock
+    public class MathRound : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var op = Fields.Get("OP");
             var number = (double) Values.Evaluate("NUM", context);

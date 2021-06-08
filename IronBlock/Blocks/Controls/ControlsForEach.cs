@@ -7,9 +7,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Controls
 {
-    public class ControlsForEach : IBlock
+    public class ControlsForEach : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var variableName = Fields.Get("VAR");
             var list = Values.Evaluate("LIST", context) as IEnumerable<object>;
@@ -18,7 +18,7 @@ namespace IronBlock.Blocks.Controls
 
             if (null == statement)
             {
-                return base.Evaluate(context);
+                return base.EvaluateInternal(context);
             }
 
             foreach (var item in list)
@@ -35,7 +35,7 @@ namespace IronBlock.Blocks.Controls
                 statement.Evaluate(context);
             }
 
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)
@@ -57,7 +57,7 @@ namespace IronBlock.Blocks.Controls
             var forEachContext = new Context { Parent = context };
             if (statement?.Block != null)
             {
-                var statementSyntax = statement.Block.GenerateStatement(forEachContext);
+                var statementSyntax = statement.ABlock.GenerateStatement(forEachContext);
                 if (statementSyntax != null)
                 {
                     forEachContext.Statements.Add(statementSyntax);

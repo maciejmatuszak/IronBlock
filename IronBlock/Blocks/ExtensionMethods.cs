@@ -161,7 +161,7 @@ namespace IronBlock.Blocks
             parser.AddBlock<MathRandomFloat>("math_random_float");
             parser.AddBlock<MathRandomInt>("math_random_int");
 
-            parser.AddBlock<TextBlock>("text");
+            parser.AddBlock<TextABlock>("text");
             parser.AddBlock<TextPrint>("text_print");
             parser.AddBlock<TextPrompt>("text_prompt_ext");
             parser.AddBlock<TextLength>("text_length");

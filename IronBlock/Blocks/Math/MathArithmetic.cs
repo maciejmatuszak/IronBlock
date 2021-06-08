@@ -7,9 +7,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Math
 {
-    public class MathArithmetic : IBlock
+    public class MathArithmetic : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var a = (double) Values.Evaluate("A", context);
             var b = (double) Values.Evaluate("B", context);

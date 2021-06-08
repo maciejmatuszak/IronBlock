@@ -7,16 +7,16 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Controls
 {
-    public class ControlsWhileUntil : IBlock
+    public class ControlsWhileUntil : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var mode = Fields.Get("MODE");
             var value = Values.FirstOrDefault(x => x.Name == "BOOL");
 
             if (!Statements.Any(x => x.Name == "DO") || null == value)
             {
-                return base.Evaluate(context);
+                return base.EvaluateInternal(context);
             }
 
             var statement = Statements.Get("DO");
@@ -42,7 +42,7 @@ namespace IronBlock.Blocks.Controls
                 }
             }
 
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)
@@ -66,7 +66,7 @@ namespace IronBlock.Blocks.Controls
             var whileContext = new Context { Parent = context };
             if (statement?.Block != null)
             {
-                var statementSyntax = statement.Block.GenerateStatement(whileContext);
+                var statementSyntax = statement.ABlock.GenerateStatement(whileContext);
                 if (statementSyntax != null)
                 {
                     whileContext.Statements.Add(statementSyntax);

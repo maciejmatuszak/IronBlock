@@ -2,11 +2,11 @@
 
 namespace IronBlock.Blocks.Math
 {
-    public class MathRandomInt : IBlock
+    public class MathRandomInt : ABlock
     {
         private static readonly Random rand = new Random();
 
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var from = (double) Values.Evaluate("FROM", context);
             var to = (double) Values.Evaluate("TO", context);

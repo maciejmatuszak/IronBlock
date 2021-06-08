@@ -6,9 +6,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Math
 {
-    public class MathModulo : IBlock
+    public class MathModulo : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var dividend = (double) Values.Evaluate("DIVIDEND", context);
             var divisor = (double) Values.Evaluate("DIVISOR", context);

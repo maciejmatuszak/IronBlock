@@ -8,9 +8,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Procedures
 {
-    public class ProceduresDef : IBlock
+    public class ProceduresDef : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var name = Fields.Get("NAME");
             var statement = Statements.FirstOrDefault(x => x.Name == "STACK");
@@ -25,7 +25,7 @@ namespace IronBlock.Blocks.Procedures
             {
                 statement = new Statement
                 {
-                    Block = null,
+                    ABlock = null,
                     Name = "STACK"
                 };
             }
@@ -33,14 +33,14 @@ namespace IronBlock.Blocks.Procedures
             // tack the return value on as a block at the end of the statement
             if (Values.Any(x => x.Name == "RETURN"))
             {
-                var valueBlock = new ValueBlock(Values.First(x => x.Name == "RETURN"));
-                if (statement.Block == null)
+                var valueBlock = new ValueABlock(Values.First(x => x.Name == "RETURN"));
+                if (statement.ABlock == null)
                 {
-                    statement.Block = valueBlock;
+                    statement.ABlock = valueBlock;
                 }
                 else
                 {
-                    FindEndOfChain(statement.Block).Next = valueBlock;
+                    FindEndOfChain(statement.ABlock).Next = valueBlock;
                 }
             }
 
@@ -71,7 +71,7 @@ namespace IronBlock.Blocks.Procedures
             {
                 statement = new Statement
                 {
-                    Block = null,
+                    ABlock = null,
                     Name = "STACK"
                 };
             }
@@ -110,9 +110,9 @@ namespace IronBlock.Blocks.Procedures
                 procedureContext.Parameters[parameterName] = parameter;
             }
 
-            if (statement?.Block != null)
+            if (statement?.ABlock != null)
             {
-                var statementSyntax = statement.Block.GenerateStatement(procedureContext);
+                var statementSyntax = statement.ABlock.GenerateStatement(procedureContext);
                 if (statementSyntax != null)
                 {
                     procedureContext.Statements.Add(statementSyntax);
@@ -155,27 +155,27 @@ namespace IronBlock.Blocks.Procedures
             return base.Generate(context);
         }
 
-        private static IBlock FindEndOfChain(IBlock block)
+        private static ABlock FindEndOfChain(ABlock aBlock)
         {
-            if (null == block.Next)
+            if (null == aBlock.Next)
             {
-                return block;
+                return aBlock;
             }
 
-            return FindEndOfChain(block.Next);
+            return FindEndOfChain(aBlock.Next);
         }
 
 
-        private class ValueBlock : IBlock
+        private class ValueABlock : ABlock
         {
             private readonly Value value;
 
-            public ValueBlock(Value value)
+            public ValueABlock(Value value)
             {
                 this.value = value;
             }
 
-            public override object Evaluate(Context context)
+            public override object EvaluateInternal(Context context)
             {
                 return value.Evaluate(context);
             }

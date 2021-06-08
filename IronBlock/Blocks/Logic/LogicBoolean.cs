@@ -4,9 +4,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Logic
 {
-    public class LogicBoolean : IBlock
+    public class LogicBoolean : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             return bool.Parse(Fields.Get("BOOL"));
         }

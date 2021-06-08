@@ -7,9 +7,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Text
 {
-    public class TextPrompt : IBlock
+    public class TextPrompt : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var inputType = Mutations.GetValue("type") ?? "TEXT";
 

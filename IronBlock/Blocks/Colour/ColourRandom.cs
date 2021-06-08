@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace IronBlock.Blocks.Colour
 {
-    public class ColourRandom : IBlock
+    public class ColourRandom : ABlock
     {
         private readonly Random random = new Random();
 
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var bytes = new byte[3];
             random.NextBytes(bytes);

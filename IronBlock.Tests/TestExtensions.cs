@@ -18,7 +18,7 @@ namespace IronBlock.Tests
             return parser;
         }
 
-        internal class DebugPrint : IBlock
+        internal class DebugPrint : ABlock
         {
             static DebugPrint()
             {
@@ -27,10 +27,10 @@ namespace IronBlock.Tests
 
             public static List<string> Text { get; set; }
 
-            public override object Evaluate(Context context)
+            public override object EvaluateInternal(Context context)
             {
                 Text.Add((Values.First(x => x.Name == "TEXT").Evaluate(context) ?? "").ToString());
-                return base.Evaluate(context);
+                return base.EvaluateInternal(context);
             }
         }
     }

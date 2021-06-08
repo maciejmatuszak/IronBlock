@@ -8,9 +8,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Text
 {
-    public class TextCaseChange : IBlock
+    public class TextCaseChange : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var toCase = Fields.Get("CASE");
             var text = (Values.Evaluate("TEXT", context) ?? "").ToString();

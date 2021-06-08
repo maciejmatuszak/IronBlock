@@ -5,9 +5,9 @@ using Microsoft.CodeAnalysis;
 
 namespace IronBlock.Blocks.Lists
 {
-    public class ListsIndexOf : IBlock
+    public class ListsIndexOf : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var direction = Fields.Get("END");
             var value = Values.Evaluate("VALUE", context) as IEnumerable<object>;

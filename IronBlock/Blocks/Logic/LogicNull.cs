@@ -4,9 +4,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Logic
 {
-    public class LogicNull : IBlock
+    public class LogicNull : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             return null;
         }

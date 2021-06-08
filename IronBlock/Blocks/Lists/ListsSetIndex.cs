@@ -7,7 +7,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Lists
 {
-    public class ListsSetIndex : IBlock
+    public class ListsSetIndex : ABlock
     {
         public override SyntaxNode Generate(Context context)
         {

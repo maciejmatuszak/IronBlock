@@ -2,11 +2,11 @@
 
 namespace IronBlock.Blocks.Colour
 {
-    public class ColourRgb : IBlock
+    public class ColourRgb : ABlock
     {
         private Random random = new Random();
 
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var red = Convert.ToByte(Values.Evaluate("RED", context));
             var green = Convert.ToByte(Values.Evaluate("GREEN", context));

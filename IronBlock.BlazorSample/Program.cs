@@ -7,14 +7,14 @@ using Microsoft.JSInterop;
 
 namespace IronBlock.BlazorSample
 {
-    internal class CustomPrintBlock : IBlock
+    internal class CustomPrintABlock : ABlock
     {
         public List<string> Text { get; set; } = new List<string>();
 
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             Text.Add((Values.FirstOrDefault(x => x.Name == "TEXT")?.Evaluate(context) ?? "").ToString());
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
     }
 
@@ -29,7 +29,7 @@ namespace IronBlock.BlazorSample
         [JSInvokable]
         public static string Evaluate(string xml)
         {
-            var printBlock = new CustomPrintBlock();
+            var printBlock = new CustomPrintABlock();
 
             new Parser()
                 .AddStandardBlocks()

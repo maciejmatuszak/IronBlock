@@ -7,9 +7,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IronBlock.Blocks.Lists
 {
-    public class ListsIsEmpty : IBlock
+    public class ListsIsEmpty : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var value = Values.Evaluate("VALUE", context) as IEnumerable<object>;
             if (null == value)

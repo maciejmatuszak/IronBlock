@@ -10,9 +10,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Text
 {
-    public class TextJoin : IBlock
+    public class TextJoin : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var items = int.Parse(Mutations.GetValue("items"));
 

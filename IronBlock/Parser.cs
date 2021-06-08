@@ -7,21 +7,21 @@ namespace IronBlock
 {
     public class Parser
     {
-        private readonly IDictionary<string, Func<IBlock>> blocks = new Dictionary<string, Func<IBlock>>();
+        private readonly IDictionary<string, Func<ABlock>> blocks = new Dictionary<string, Func<ABlock>>();
 
-        public Parser AddBlock<T>(string type) where T : IBlock, new()
+        public Parser AddBlock<T>(string type) where T : ABlock, new()
         {
             AddBlock(type, () => new T());
             return this;
         }
 
-        public Parser AddBlock<T>(string type, T block) where T : IBlock
+        public Parser AddBlock<T>(string type, T block) where T : ABlock
         {
             AddBlock(type, () => block);
             return this;
         }
 
-        public Parser AddBlock(string type, Func<IBlock> blockFactory)
+        public Parser AddBlock(string type, Func<ABlock> blockFactory)
         {
             if (blocks.ContainsKey(type))
             {
@@ -95,7 +95,7 @@ namespace IronBlock
             return workspace;
         }
 
-        private IBlock ParseBlock(XmlNode node)
+        private ABlock ParseBlock(XmlNode node)
         {
             if (bool.Parse(node.GetAttribute("disabled") ?? "false"))
             {
@@ -148,17 +148,17 @@ namespace IronBlock
             return block;
         }
 
-        private void ParseField(XmlNode fieldNode, IBlock block)
+        private void ParseField(XmlNode fieldNode, ABlock aBlock)
         {
             var field = new Field
             {
                 Name = fieldNode.GetAttribute("name"),
                 Value = fieldNode.InnerText
             };
-            block.Fields.Add(field);
+            aBlock.Fields.Add(field);
         }
 
-        private void ParseValue(XmlNode valueNode, IBlock block)
+        private void ParseValue(XmlNode valueNode, ABlock aBlock)
         {
             var childNode = valueNode.GetChild("block") ?? valueNode.GetChild("shadow");
             if (childNode == null)
@@ -171,17 +171,17 @@ namespace IronBlock
             var value = new Value
             {
                 Name = valueNode.GetAttribute("name"),
-                Block = childBlock
+                ABlock = childBlock
             };
-            block.Values.Add(value);
+            aBlock.Values.Add(value);
         }
 
-        private void ParseComment(XmlNode commentNode, IBlock block)
+        private void ParseComment(XmlNode commentNode, ABlock aBlock)
         {
-            block.Comments.Add(new Comment(commentNode.InnerText));
+            aBlock.Comments.Add(new Comment(commentNode.InnerText));
         }
 
-        private void ParseStatement(XmlNode statementNode, IBlock block)
+        private void ParseStatement(XmlNode statementNode, ABlock aBlock)
         {
             var childNode = statementNode.GetChild("block") ?? statementNode.GetChild("shadow");
             if (childNode == null)
@@ -194,23 +194,23 @@ namespace IronBlock
             var statement = new Statement
             {
                 Name = statementNode.GetAttribute("name"),
-                Block = childBlock
+                ABlock = childBlock
             };
-            block.Statements.Add(statement);
+            aBlock.Statements.Add(statement);
         }
 
-        private void ParseMutation(XmlNode mutationNode, IBlock block)
+        private void ParseMutation(XmlNode mutationNode, ABlock aBlock)
         {
             foreach (XmlAttribute attribute in mutationNode.Attributes)
             {
-                block.Mutations.Add(new Mutation("mutation", attribute.Name, attribute.Value));
+                aBlock.Mutations.Add(new Mutation("mutation", attribute.Name, attribute.Value));
             }
 
             foreach (XmlNode node in mutationNode.ChildNodes)
-                foreach (XmlAttribute attribute in node.Attributes)
-                {
-                    block.Mutations.Add(new Mutation(node.Name, attribute.Name, attribute.Value));
-                }
+            foreach (XmlAttribute attribute in node.Attributes)
+            {
+                aBlock.Mutations.Add(new Mutation(node.Name, attribute.Name, attribute.Value));
+            }
         }
     }
 

@@ -6,9 +6,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Procedures
 {
-    public class ProceduresIfReturn : IBlock
+    public class ProceduresIfReturn : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var condition = Values.Evaluate("CONDITION", context);
             if ((bool) condition)
@@ -16,7 +16,7 @@ namespace IronBlock.Blocks.Procedures
                 return Values.Evaluate("VALUE", context);
             }
 
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)

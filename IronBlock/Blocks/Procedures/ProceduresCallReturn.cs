@@ -5,7 +5,7 @@ namespace IronBlock.Blocks.Procedures
 {
     public class ProceduresCallReturn : ProceduresCallNoReturn
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             // todo: add guard for missing name
 

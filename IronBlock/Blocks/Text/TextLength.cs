@@ -5,9 +5,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IronBlock.Blocks.Text
 {
-    public class TextLength : IBlock
+    public class TextLength : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var text = (Values.Evaluate("VALUE", context) ?? "").ToString();
 

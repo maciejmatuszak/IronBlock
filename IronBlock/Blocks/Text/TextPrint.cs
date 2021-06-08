@@ -6,15 +6,15 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Text
 {
-    public class TextPrint : IBlock
+    public class TextPrint : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var text = Values.Evaluate("TEXT", context);
 
             Console.WriteLine(text);
 
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)

@@ -3,9 +3,9 @@
 namespace IronBlock.Blocks.Variables
 {
     // Fast-Solution
-    public class GlobalVariablesSet : IBlock
+    public class GlobalVariablesSet : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var value = Values.Evaluate("VALUE", context);
             var variableName = Fields.Get("VAR");
@@ -21,7 +21,7 @@ namespace IronBlock.Blocks.Variables
                 rootContext.Variables.Add(variableName, value);
             }
 
-            return base.Evaluate(context);
+            return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)

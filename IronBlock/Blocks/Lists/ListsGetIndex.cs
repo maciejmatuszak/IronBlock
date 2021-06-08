@@ -9,11 +9,11 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Lists
 {
-    public class ListsGetIndex : IBlock
+    public class ListsGetIndex : ABlock
     {
         private static readonly Random rnd = new Random();
 
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var values = Values.Evaluate("VALUE", context) as List<object>;
             var mode = Fields.Get("MODE");

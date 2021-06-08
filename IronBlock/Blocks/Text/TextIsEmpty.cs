@@ -7,9 +7,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Text
 {
-    public class TextIsEmpty : IBlock
+    public class TextIsEmpty : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var text = (Values.Evaluate("VALUE", context) ?? "").ToString();
 

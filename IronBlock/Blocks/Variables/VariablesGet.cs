@@ -3,9 +3,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Variables
 {
-    public class VariablesGet : IBlock
+    public class VariablesGet : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var variableName = Fields.Get("VAR");
 

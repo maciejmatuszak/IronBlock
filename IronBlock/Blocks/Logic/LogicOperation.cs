@@ -6,9 +6,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace IronBlock.Blocks.Logic
 {
-    public class LogicOperation : IBlock
+    public class LogicOperation : ABlock
     {
-        public override object Evaluate(Context context)
+        public override object EvaluateInternal(Context context)
         {
             var a = (bool) (Values.Evaluate("A", context) ?? false);
             var b = (bool) (Values.Evaluate("B", context) ?? false);
