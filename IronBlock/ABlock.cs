@@ -50,9 +50,21 @@ namespace IronBlock
 
         public virtual object Evaluate(Context context)
         {
+            if (context.InterruptToken.IsCancellationRequested)
+            {
+                throw new EvaluateInterruptedException(this, false, null);
+            }
+
             BeforeEvaluate(context);
+            
             var result = EvaluateInternal(context);
+            
             AfterEvaluate(context);
+            
+            if (context.InterruptToken.IsCancellationRequested)
+            {
+                throw new EvaluateInterruptedException(this, true, result);
+            }
             return result;
         }
 

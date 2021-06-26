@@ -11,10 +11,10 @@ namespace IronBlock
     {
         // The Evaluate method runs without interruptions
         Continuous,
-        
+
         // The Evaluate Method is stopped at the beginning of each block and waits for Step() call
         Stepped,
-        
+
         // The Evaluate Method is stopped at the beginning of the block and waits for Step();
         // The Step() is triggered automatically at specified interval
         Timed
@@ -28,7 +28,10 @@ namespace IronBlock
         private SemaphoreSlim _semaphore;
         private RunMode _runMode;
 
-        public RunnerContext(RunMode stepMode, double stepIntervalMilliSeconds = 1000.0) : base()
+
+        public RunnerContext(RunMode stepMode,
+            double stepIntervalMilliSeconds = 1000.0,
+            CancellationToken interruptToken = default(CancellationToken)) : base(interruptToken)
         {
             _timer = new Timer(stepIntervalMilliSeconds);
             _timer.AutoReset = true;

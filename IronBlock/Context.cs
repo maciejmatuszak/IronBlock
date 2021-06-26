@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IronBlock
@@ -7,8 +8,9 @@ namespace IronBlock
 
     public class Context
     {
-        public Context()
+        public Context(CancellationToken interruptToken = default(CancellationToken))
         {
+            InterruptToken = interruptToken;
             Variables = new Dictionary<string, object>();
             Functions = new Dictionary<string, object>();
 
@@ -39,7 +41,6 @@ namespace IronBlock
             {
                 Parent.InvokeBeforeEvent(block);
             }
-            
         }
 
         public void InvokeAfterEvent(IBlock block)
@@ -48,6 +49,7 @@ namespace IronBlock
             Parent?.InvokeAfterEvent(block);
         }
 
+        public CancellationToken InterruptToken { get; }
         public event BeforeAfterBlockDelegate BeforeEvent;
         public event BeforeAfterBlockDelegate AfterEvent;
 
