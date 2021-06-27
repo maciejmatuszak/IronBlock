@@ -16,6 +16,8 @@ namespace IronBlock
             Statements = new List<Statement>();
             Mutations = new List<Mutation>();
             Comments = new List<Comment>();
+            BlockEvaluationErrorType = null;
+            BlockEvaluationErrorArg = null;
         }
 
         public string Id { get; set; }
@@ -27,6 +29,10 @@ namespace IronBlock
         public IBlock Next { get; set; }
         public IList<Mutation> Mutations { get; set; }
         public IList<Comment> Comments { get; set; }
+
+        public string BlockEvaluationErrorType { get; set; }
+
+        public object BlockEvaluationErrorArg { get; set; }
 
         public virtual void BeforeEvaluate(Context context)
         {
@@ -50,21 +56,49 @@ namespace IronBlock
 
         public virtual object Evaluate(Context context)
         {
-            if (context.InterruptToken.IsCancellationRequested)
+            object result = null;
+
+            // make sure BeforeEvaluate/AfterEvaluate always come in pair
+            try
             {
-                throw new EvaluateInterruptedException(this, false, null);
+                if (context.InterruptToken.IsCancellationRequested)
+                {
+                    throw new EvaluateInterruptedException(this, false, null);
+                }
+
+                try
+                {
+                    BeforeEvaluate(context);
+                    result = EvaluateInternal(context);
+                }
+                catch (Exception e)
+                {
+                    context.HandleBlockError(this, "exception", e);
+                }
+
+                if (BlockEvaluationErrorType != null)
+                {
+                    context.HandleBlockError(this, BlockEvaluationErrorType, BlockEvaluationErrorArg);
+                }
+
+                if (context.InterruptToken.IsCancellationRequested)
+                {
+                    throw new EvaluateInterruptedException(this, true, result);
+                }
+            }
+            finally
+            {
+                try
+                {
+                    AfterEvaluate(context);
+                }
+                catch (Exception e)
+                {
+                    context.HandleBlockError(this, "exception", e);
+                }
             }
 
-            BeforeEvaluate(context);
-            
-            var result = EvaluateInternal(context);
-            
-            AfterEvaluate(context);
-            
-            if (context.InterruptToken.IsCancellationRequested)
-            {
-                throw new EvaluateInterruptedException(this, true, result);
-            }
+
             return result;
         }
 

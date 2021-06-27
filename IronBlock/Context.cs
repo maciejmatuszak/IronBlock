@@ -34,7 +34,7 @@ namespace IronBlock
             return this;
         }
 
-        public void InvokeBeforeEvent(IBlock block)
+        public virtual void InvokeBeforeEvent(IBlock block)
         {
             BeforeEvent?.Invoke(this, block);
             if (Parent != null)
@@ -43,10 +43,15 @@ namespace IronBlock
             }
         }
 
-        public void InvokeAfterEvent(IBlock block)
+        public virtual void InvokeAfterEvent(IBlock block)
         {
             AfterEvent?.Invoke(this, block);
             Parent?.InvokeAfterEvent(block);
+        }
+        
+        public virtual void HandleBlockError(IBlock sourceBlock, string errorType, object errorArg)
+        {
+            throw new BlockEvaluationException(sourceBlock, errorType, errorArg);
         }
 
         public CancellationToken InterruptToken { get; }
