@@ -53,7 +53,7 @@ namespace IronBlock.Blocks.Controls
 
             var statement = Statements.Get("DO");
 
-            var forContext = new Context { Parent = context };
+            var forContext = new Context(parentContext: context);
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forContext);

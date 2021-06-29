@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -8,30 +9,59 @@ namespace IronBlock
 
     public class Context
     {
-        public Context(CancellationToken interruptToken = default(CancellationToken))
+        public Context(CancellationToken interruptToken = default, Context parentContext = null)
         {
-            InterruptToken = interruptToken;
+            if (parentContext != null && interruptToken != null)
+            {
+                throw new ArgumentException(
+                    "Either parentContext or interruptToken can be used;interruptToken is ony valid on root context ");
+            }
+
+            Parent = parentContext;
+            var tokens = new List<CancellationToken>();
+
+            if (interruptToken != default)
+            {
+                tokens.Add(interruptToken);
+            }
+
+            if (parentContext != null && parentContext.InterruptToken != default)
+            {
+                tokens.Add(parentContext.InterruptToken);
+            }
+
+            _interruptTokenSource = CancellationTokenSource.CreateLinkedTokenSource(tokens.ToArray());
+
+            InterruptToken = _interruptTokenSource.Token;
+
             Variables = new Dictionary<string, object>();
             Functions = new Dictionary<string, object>();
-
             Statements = new List<StatementSyntax>();
         }
 
-        public Context GetRootContext()
+        public void Interrupt()
         {
-            var parentContext = Parent;
+            _interruptTokenSource.Cancel();
+        }
 
-            while (parentContext != null)
+        public Context RootContext
+        {
+            get
             {
-                if (parentContext.Parent == null)
+                var parentContext = Parent;
+
+                while (parentContext != null)
                 {
-                    return parentContext;
+                    if (parentContext.Parent == null)
+                    {
+                        return parentContext;
+                    }
+
+                    parentContext = parentContext.Parent;
                 }
 
-                parentContext = parentContext.Parent;
+                return this;
             }
-
-            return this;
         }
 
         public virtual void InvokeBeforeEvent(IBlock block)
@@ -48,13 +78,14 @@ namespace IronBlock
             AfterEvent?.Invoke(this, block);
             Parent?.InvokeAfterEvent(block);
         }
-        
+
         public virtual void HandleBlockError(IBlock sourceBlock, string errorType, object errorArg)
         {
             throw new BlockEvaluationException(sourceBlock, errorType, errorArg);
         }
 
         public CancellationToken InterruptToken { get; }
+        private CancellationTokenSource _interruptTokenSource;
         public event BeforeAfterBlockDelegate BeforeEvent;
         public event BeforeAfterBlockDelegate AfterEvent;
 
@@ -66,6 +97,6 @@ namespace IronBlock
 
         public List<StatementSyntax> Statements { get; }
 
-        public Context Parent { get; set; }
+        public Context Parent { get; }
     }
 }

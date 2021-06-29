@@ -21,7 +21,7 @@ namespace IronBlock.Blocks.Variables
             }
             else
             {
-                var rootContext = context.GetRootContext();
+                var rootContext = context.RootContext;
 
                 if (rootContext.Variables.ContainsKey(variableName))
                 {
@@ -48,7 +48,7 @@ namespace IronBlock.Blocks.Variables
                 throw new ApplicationException("Unknown expression for value.");
             }
 
-            context.GetRootContext().Variables[variableName] = valueExpression;
+            context.RootContext.Variables[variableName] = valueExpression;
 
             var assignment = AssignmentExpression(
                 SyntaxKind.SimpleAssignmentExpression,

@@ -54,7 +54,7 @@ namespace IronBlock.Blocks.Controls
                 return base.Generate(context);
             }
 
-            var forEachContext = new Context { Parent = context };
+            var forEachContext = new Context(parentContext: context);
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forEachContext);

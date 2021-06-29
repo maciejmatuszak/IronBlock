@@ -1,7 +1,5 @@
 using System;
-using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
@@ -24,14 +22,15 @@ namespace IronBlock
     {
         public RunMode RunMode => _runMode;
 
-        private Timer _timer;
-        private SemaphoreSlim _semaphore;
+        private readonly Timer _timer;
+        private readonly SemaphoreSlim _semaphore;
         private RunMode _runMode;
 
 
         public RunnerContext(RunMode stepMode,
             double stepIntervalMilliSeconds = 1000.0,
-            CancellationToken interruptToken = default(CancellationToken)) : base(interruptToken)
+            CancellationToken interruptToken = default(CancellationToken),
+            Context parentContext = null) : base(interruptToken, parentContext)
         {
             _timer = new Timer(stepIntervalMilliSeconds);
             _timer.AutoReset = true;

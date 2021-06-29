@@ -23,11 +23,7 @@ namespace IronBlock.Blocks.Procedures
             // if the statement is missing, create a stub one
             if (null == statement)
             {
-                statement = new Statement
-                {
-                    Block = null,
-                    Name = "STACK"
-                };
+                statement = new Statement {Block = null, Name = "STACK"};
             }
 
             // tack the return value on as a block at the end of the statement
@@ -69,11 +65,7 @@ namespace IronBlock.Blocks.Procedures
             // if the statement is missing, create a stub one
             if (null == statement)
             {
-                statement = new Statement
-                {
-                    Block = null,
-                    Name = "STACK"
-                };
+                statement = new Statement {Block = null, Name = "STACK"};
             }
 
             ReturnStatementSyntax returnStatement = null;
@@ -93,7 +85,7 @@ namespace IronBlock.Blocks.Procedures
 
             var parameters = new List<ParameterSyntax>();
 
-            var procedureContext = new ProcedureContext { Parent = context };
+            var procedureContext = new ProcedureContext(parentContext: context);
 
             foreach (var mutation in Mutations.Where(x => x.Domain == "arg" && x.Name == "name"))
             {

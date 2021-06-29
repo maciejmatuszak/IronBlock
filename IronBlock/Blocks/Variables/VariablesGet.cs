@@ -12,12 +12,12 @@ namespace IronBlock.Blocks.Variables
             // Fast-Solution
             if (!context.Variables.ContainsKey(variableName))
             {
-                if (!context.GetRootContext().Variables.ContainsKey(variableName))
+                if (!context.RootContext.Variables.ContainsKey(variableName))
                 {
                     return null;
                 }
 
-                return context.GetRootContext().Variables[variableName];
+                return context.RootContext.Variables[variableName];
             }
 
             return context.Variables[variableName];

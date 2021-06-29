@@ -38,7 +38,7 @@ namespace IronBlock.Blocks.Text
                 throw new ApplicationException("Unknown expression for text.");
             }
 
-            context.GetRootContext().Variables[variableName] = textExpression;
+            context.RootContext.Variables[variableName] = textExpression;
 
             var assignment =
                 AssignmentExpression(

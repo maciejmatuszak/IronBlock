@@ -63,7 +63,7 @@ namespace IronBlock.Blocks.Controls
                 throw new ApplicationException("Unknown expression for condition.");
             }
 
-            var whileContext = new Context { Parent = context };
+            var whileContext = new Context(parentContext: context);
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(whileContext);

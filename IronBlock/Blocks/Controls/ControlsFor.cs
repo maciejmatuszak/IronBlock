@@ -63,13 +63,13 @@ namespace IronBlock.Blocks.Controls
 
             var statement = Statements.FirstOrDefault();
 
-            var rootContext = context.GetRootContext();
+            var rootContext = context.RootContext;
             if (!rootContext.Variables.ContainsKey(variableName))
             {
                 rootContext.Variables[variableName] = null;
             }
 
-            var forContext = new Context { Parent = context };
+            var forContext = new Context(parentContext: context);
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forContext);
