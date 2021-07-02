@@ -15,7 +15,8 @@ namespace IronBlock
 
         // The Evaluate Method is stopped at the beginning of the block and waits for Step();
         // The Step() is triggered automatically at specified interval
-        Timed
+        Timed,
+        Stopped
     }
 
     public class RunnerContext : Context, IDisposable
@@ -47,11 +48,13 @@ namespace IronBlock
             switch (mode)
             {
                 case RunMode.Continuous:
-
                     break;
+
                 case RunMode.Stepped:
+                case RunMode.Stopped:
                     BeforeEvent += BeforeEventHandler;
                     break;
+
                 case RunMode.Timed:
                     BeforeEvent += BeforeEventHandler;
                     _timer.Start();
@@ -61,7 +64,7 @@ namespace IronBlock
             _runMode = mode;
         }
 
-        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        protected void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Step();
         }
@@ -72,9 +75,22 @@ namespace IronBlock
             _semaphore.Wait();
         }
 
+        public override void Interrupt()
+        {
+            base.Interrupt();
+            if (RunMode == RunMode.Stepped)
+            {
+                Step();
+            }
+        }
 
         public void Step()
         {
+            if (_runMode == RunMode.Stopped)
+            {
+                return;
+            }
+
             if (_semaphore.CurrentCount == 0)
             {
                 _semaphore.Release();

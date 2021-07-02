@@ -58,48 +58,48 @@ namespace IronBlock
         {
             object result = null;
 
-            // make sure BeforeEvaluate/AfterEvaluate always come in pair
+            CheckForInterrupt(context);
+
             try
             {
-                if (context.InterruptToken.IsCancellationRequested)
-                {
-                    throw new EvaluateInterruptedException(this, false, null);
-                }
+                BeforeEvaluate(context);
+                
+                CheckForInterrupt(context);
 
-                try
-                {
-                    BeforeEvaluate(context);
-                    result = EvaluateInternal(context);
-                }
-                catch (Exception e)
-                {
-                    context.HandleBlockError(this, "exception", e);
-                }
+                BlockEvaluationErrorType = null;
+                BlockEvaluationErrorArg = null;
+                result = EvaluateInternal(context);
 
-                if (BlockEvaluationErrorType != null)
-                {
-                    context.HandleBlockError(this, BlockEvaluationErrorType, BlockEvaluationErrorArg);
-                }
+                CheckForInterrupt(context);
 
-                if (context.InterruptToken.IsCancellationRequested)
-                {
-                    throw new EvaluateInterruptedException(this, true, result);
-                }
+                AfterEvaluate(context);
             }
-            finally
+            catch (EvaluateInterruptedException)
             {
-                try
-                {
-                    AfterEvaluate(context);
-                }
-                catch (Exception e)
-                {
-                    context.HandleBlockError(this, "exception", e);
-                }
+                throw;
             }
+            catch (Exception e)
+            {
+                context.HandleBlockError(this, "exception", e);
+            }
+
+            if (BlockEvaluationErrorType != null)
+            {
+                context.HandleBlockError(this, BlockEvaluationErrorType, BlockEvaluationErrorArg);
+            }
+
+            CheckForInterrupt(context);
 
 
             return result;
+        }
+
+        private void CheckForInterrupt(Context context)
+        {
+            if (context.InterruptToken.IsCancellationRequested)
+            {
+                throw new EvaluateInterruptedException(this, false, null);
+            }
         }
 
         public virtual SyntaxNode Generate(Context context)

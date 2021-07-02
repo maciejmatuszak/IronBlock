@@ -6,8 +6,9 @@ namespace IronBlock
 {
     public class BlockEvaluationException : Exception
     {
-        public BlockEvaluationException(IBlock sourceBlock, string errorType, object errorArg)
-            : base($"Block '{sourceBlock}' evaluation failed: {errorType}")
+        public BlockEvaluationException(IBlock sourceBlock, string errorType, object errorArg,
+            Exception innerException = null)
+            : base($"Block '{sourceBlock}' evaluation failed: {errorType}", innerException: innerException)
         {
             SourceBlock = sourceBlock;
             BlockErrorType = errorType;
