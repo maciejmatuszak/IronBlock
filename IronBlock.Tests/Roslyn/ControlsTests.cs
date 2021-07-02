@@ -569,10 +569,10 @@ namespace IronBlock.Tests.Roslyn
   </block>
 </xml>
 ";
-            var output = new Parser()
+            var workspace = new Parser()
                 .AddStandardBlocks()
-                .Parse(xml)
-                .Generate();
+                .Parse(xml);
+            var output = workspace.Generate();
 
             var code = output.NormalizeWhitespace(string.Empty, " ").ToFullString();
             Assert.IsTrue(code.Contains("dynamic i; for (i = 1; i <= 3; i += 1) { Console.WriteLine(i); }"));

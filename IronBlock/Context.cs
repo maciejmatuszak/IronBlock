@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -20,9 +21,10 @@ namespace IronBlock
             }
 
             Parent = parentContext;
+            RootContext = parentContext == null ? this : parentContext.RootContext;
             InterruptToken = interruptToken;
 
-            Variables = new Dictionary<string, object>();
+            _variables = new Dictionary<string, object>();
             Functions = new Dictionary<string, object>();
             Statements = new List<StatementSyntax>();
         }
@@ -30,26 +32,6 @@ namespace IronBlock
         public virtual void Interrupt()
         {
             RootContext._interruptTokenSource.Cancel();
-        }
-
-        public Context RootContext
-        {
-            get
-            {
-                var parentContext = Parent;
-
-                while (parentContext != null)
-                {
-                    if (parentContext.Parent == null)
-                    {
-                        return parentContext;
-                    }
-
-                    parentContext = parentContext.Parent;
-                }
-
-                return this;
-            }
         }
 
         public virtual void InvokeBeforeEvent(IBlock block)
@@ -72,6 +54,122 @@ namespace IronBlock
             OnError?.Invoke(sourceBlock, errorType, errorArg);
         }
 
+        #region VariableAccess
+
+        /// <summary>
+        /// Sets the variable in this context. Note this may "hide" variable with the same name in Parent(s) context
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <param name="value"></param>
+        public void SetLocalVariable(string varName, object value)
+        {
+            _variables[varName] = value;
+        }
+
+        public void SetLocalVariable<T>(string varName, T value)
+        {
+            _variables[varName] = value;
+        }
+
+        /// <summary>
+        /// Variable setter. If the variable exists in this or any Parent context then it will be updated.
+        /// Otherwise it is set in this context 
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <param name="value"></param>
+        public void SetVariable(string varName, object value)
+        {
+            var ctx = GetVariableContext(varName);
+            // if the variable exists in any context
+            if (ctx == null)
+            {
+                _variables[varName] = value;
+            }
+            else
+            {
+                ctx._variables[varName] = value;
+            }
+        }
+
+        /// <summary>
+        /// Variable Getter, returns variable value or default value if variable does not exists
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public object GetVariable(string varName, object defaultValue)
+        {
+            var ctx = GetVariableContext(varName);
+            // if the variable exists in any context
+            if (ctx == null)
+            {
+                return defaultValue;
+            }
+
+            return ctx._variables[varName];
+        }
+
+        public T GetVariable<T>(string varName, object defaultValue)
+        {
+            return (T) GetVariable(varName, defaultValue);
+        }
+
+        /// <summary>
+        /// Variable Getter, returns variable value or throws ArgumentException if variable does not exists
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public object GetVariable(string varName)
+        {
+            var ctx = GetVariableContext(varName);
+            // lets see if the variable exists in any context
+            if (ctx == null)
+            {
+                throw new ArgumentException("Variable does not exists", nameof(varName));
+            }
+
+            return ctx._variables[varName];
+        }
+
+        public T GetVariable<T>(string varName)
+        {
+            return (T) GetVariable(varName);
+        }
+
+
+        /// <summary>
+        /// Check if variable exists in context hierarchy. 
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <returns></returns>
+        public bool DoesVariableExists(string varName)
+        {
+            return GetVariableContext(varName) != null;
+        }
+
+        public ICollection<string> GetVariableNames()
+        {
+            return _variables.Keys;
+        }
+
+        /// <summary>
+        /// Gets the context where the variable is set
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <returns></returns>
+        private Context GetVariableContext(string varName)
+        {
+            if (_variables.ContainsKey(varName))
+            {
+                return this;
+            }
+
+            return Parent?.GetVariableContext(varName);
+        }
+
+        #endregion
+
         private CancellationTokenSource _interruptTokenSource;
 
         private CancellationToken _interruptToken;
@@ -93,14 +191,15 @@ namespace IronBlock
             }
         }
 
+
         public bool IsRoot => Parent == null;
 
+        public readonly Context RootContext;
         public event BeforeAfterBlockDelegate BeforeEvent;
         public event BeforeAfterBlockDelegate AfterEvent;
         public event OnErrorDelegate OnError;
 
-        public IDictionary<string, object> Variables { get; set; }
-
+        private readonly IDictionary<string, object> _variables;
         public IDictionary<string, object> Functions { get; set; }
 
         public EscapeMode EscapeMode { get; set; }

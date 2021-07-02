@@ -18,22 +18,15 @@ namespace IronBlock.Blocks.Controls
             var byValue = (double) Values.Evaluate("BY", context);
 
             var statement = Statements.FirstOrDefault();
+            
 
-
-            if (context.Variables.ContainsKey(variableName))
+            var forContext = new Context(parentContext: context);
+            forContext.SetLocalVariable(variableName, fromValue);
+            while ((double) forContext.GetVariable(variableName) <= toValue)
             {
-                context.Variables[variableName] = fromValue;
-            }
-            else
-            {
-                context.Variables.Add(variableName, fromValue);
-            }
-
-
-            while ((double) context.Variables[variableName] <= toValue)
-            {
-                statement.Evaluate(context);
-                context.Variables[variableName] = (double) context.Variables[variableName] + byValue;
+                statement.Evaluate(forContext);
+                forContext.SetLocalVariable(variableName, forContext.GetVariable<double>(variableName) + byValue);
+                
             }
 
             return base.EvaluateInternal(context);
@@ -62,14 +55,10 @@ namespace IronBlock.Blocks.Controls
             }
 
             var statement = Statements.FirstOrDefault();
-
-            var rootContext = context.RootContext;
-            if (!rootContext.Variables.ContainsKey(variableName))
-            {
-                rootContext.Variables[variableName] = null;
-            }
-
+            
             var forContext = new Context(parentContext: context);
+            forContext.SetLocalVariable(variableName, null);
+            
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forContext);

@@ -10,16 +10,7 @@ namespace IronBlock.Blocks.Variables
             var value = Values.Evaluate("VALUE", context);
             var variableName = Fields.Get("VAR");
 
-            var rootContext = context.RootContext;
-
-            if (rootContext.Variables.ContainsKey(variableName))
-            {
-                rootContext.Variables[variableName] = value;
-            }
-            else
-            {
-                rootContext.Variables.Add(variableName, value);
-            }
+            context.RootContext.SetLocalVariable(variableName, value);
 
             return base.EvaluateInternal(context);
         }

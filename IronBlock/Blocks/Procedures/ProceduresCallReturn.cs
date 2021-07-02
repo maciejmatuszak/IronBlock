@@ -24,8 +24,8 @@ namespace IronBlock.Blocks.Procedures
             var counter = 0;
             foreach (var mutation in Mutations.Where(x => x.Domain == "arg" && x.Name == "name"))
             {
-                var value = Values.Evaluate($"ARG{counter}", context);
-                funcContext.Variables.Add(mutation.Value, value);
+                var value = Values.Evaluate($"ARG{counter}", funcContext);
+                funcContext.SetLocalVariable(mutation.Value, value);
                 counter++;
             }
 

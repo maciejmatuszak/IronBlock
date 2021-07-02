@@ -9,18 +9,7 @@ namespace IronBlock.Blocks.Variables
         {
             var variableName = Fields.Get("VAR");
 
-            // Fast-Solution
-            if (!context.Variables.ContainsKey(variableName))
-            {
-                if (!context.RootContext.Variables.ContainsKey(variableName))
-                {
-                    return null;
-                }
-
-                return context.RootContext.Variables[variableName];
-            }
-
-            return context.Variables[variableName];
+            return context.GetVariable(variableName);
         }
 
         public override SyntaxNode Generate(Context context)

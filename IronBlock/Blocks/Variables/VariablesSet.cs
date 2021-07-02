@@ -10,35 +10,16 @@ namespace IronBlock.Blocks.Variables
     {
         public override object EvaluateInternal(Context context)
         {
-            var variables = context.Variables;
             var value = Values.Evaluate("VALUE", context);
             var variableName = Fields.Get("VAR");
 
-            // Fast-Solution
-            if (variables.ContainsKey(variableName))
-            {
-                variables[variableName] = value;
-            }
-            else
-            {
-                var rootContext = context.RootContext;
-
-                if (rootContext.Variables.ContainsKey(variableName))
-                {
-                    rootContext.Variables[variableName] = value;
-                }
-                else
-                {
-                    variables.Add(variableName, value);
-                }
-            }
+            context.SetVariable(variableName, value);
 
             return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)
         {
-            var variables = context.Variables;
 
             var variableName = Fields.Get("VAR").CreateValidName();
 
@@ -48,7 +29,7 @@ namespace IronBlock.Blocks.Variables
                 throw new ApplicationException("Unknown expression for value.");
             }
 
-            context.RootContext.Variables[variableName] = valueExpression;
+            context.SetVariable(variableName, valueExpression);
 
             var assignment = AssignmentExpression(
                 SyntaxKind.SimpleAssignmentExpression,

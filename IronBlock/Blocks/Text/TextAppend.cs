@@ -10,26 +10,19 @@ namespace IronBlock.Blocks.Text
     {
         public override object EvaluateInternal(Context context)
         {
-            var variables = context.Variables;
-
+          
             var variableName = Fields.Get("VAR");
             var textToAppend = (Values.Evaluate("TEXT", context) ?? "").ToString();
 
-            if (!variables.ContainsKey(variableName))
-            {
-                variables.Add(variableName, "");
-            }
-
-            var value = variables[variableName].ToString();
-
-            variables[variableName] = value + textToAppend;
+            var value = context.GetVariable(variableName, "").ToString();
+            value += textToAppend;
+            context.SetVariable(variableName, value);
 
             return base.EvaluateInternal(context);
         }
 
         public override SyntaxNode Generate(Context context)
         {
-            var variables = context.Variables;
             var variableName = Fields.Get("VAR").CreateValidName();
 
             var textExpression = Values.Generate("TEXT", context) as ExpressionSyntax;
@@ -38,7 +31,7 @@ namespace IronBlock.Blocks.Text
                 throw new ApplicationException("Unknown expression for text.");
             }
 
-            context.RootContext.Variables[variableName] = textExpression;
+            context.SetVariable(variableName, textExpression);
 
             var assignment =
                 AssignmentExpression(

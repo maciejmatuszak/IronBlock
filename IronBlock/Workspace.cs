@@ -21,7 +21,10 @@ namespace IronBlock
             var ctx = new Context();
             if (null != arguments)
             {
-                ctx.Variables = arguments;
+                foreach (var kv in arguments)
+                {
+                    ctx.SetVariable(kv.Key, kv.Value);
+                }
             }
 
             return Evaluate(ctx);
@@ -91,9 +94,9 @@ namespace IronBlock
                 context.Statements.Insert(0, methodDeclaration);
             }
 
-            foreach (var variable in context.Variables.Reverse())
+            foreach (var variableName in context.GetVariableNames().Reverse())
             {
-                var variableDeclaration = GenerateVariableDeclaration(variable.Key);
+                var variableDeclaration = GenerateVariableDeclaration(variableName);
                 context.Statements.Insert(0, variableDeclaration);
             }
 

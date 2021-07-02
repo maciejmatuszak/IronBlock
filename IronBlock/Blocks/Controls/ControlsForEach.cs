@@ -21,18 +21,13 @@ namespace IronBlock.Blocks.Controls
                 return base.EvaluateInternal(context);
             }
 
+            var forContext = new Context(parentContext: context);
+
             foreach (var item in list)
             {
-                if (context.Variables.ContainsKey(variableName))
-                {
-                    context.Variables[variableName] = item;
-                }
-                else
-                {
-                    context.Variables.Add(variableName, item);
-                }
+                forContext.SetLocalVariable(variableName, item);
 
-                statement.Evaluate(context);
+                statement.Evaluate(forContext);
             }
 
             return base.EvaluateInternal(context);
