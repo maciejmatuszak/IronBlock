@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -76,6 +77,7 @@ namespace IronBlock
             {
                 throw new ArgumentException("Variable does not exists in this context", nameof(varName));
             }
+
             return _variables[varName];
         }
 
@@ -183,6 +185,11 @@ namespace IronBlock
             return Parent?.GetVariableContext(varName);
         }
 
+        public void OverrideVariables(IDictionary<string, object> variables)
+        {
+            _variables = variables;
+        }
+
         #endregion
 
         #region Functions
@@ -203,6 +210,7 @@ namespace IronBlock
             {
                 throw new ArgumentException("Variable does not exists in this context", funcName);
             }
+
             return _functions[funcName];
         }
 
@@ -308,7 +316,7 @@ namespace IronBlock
         public event BeforeAfterBlockDelegate AfterEvent;
         public event OnErrorDelegate OnError;
 
-        private readonly IDictionary<string, object> _variables;
+        private IDictionary<string, object> _variables;
 
         public EscapeMode EscapeMode { get; set; }
 

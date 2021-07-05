@@ -12,10 +12,10 @@ namespace IronBlock
         IContext CreateChildContext();
         IContext RootContext { get; }
         IContext Parent { get; }
-        
+
         void InvokeBeforeEvent(IBlock block);
         void InvokeAfterEvent(IBlock block);
-        
+
         void HandleBlockError(IBlock sourceBlock, string errorType, object errorArg);
 
         #region Variable Access
@@ -26,6 +26,7 @@ namespace IronBlock
         /// <param name="varName"></param>
         /// <param name="value"></param>
         void SetLocalVariable(string varName, object value);
+
         object GetLocalVariable(string varName);
 
         /// <summary>
@@ -66,6 +67,8 @@ namespace IronBlock
         ICollection<string> GetVariableNames();
         IContext GetVariableContext(string varName);
 
+        void OverrideVariables(IDictionary<string, object> variables);
+
         #endregion
 
         #region Function Access
@@ -80,11 +83,11 @@ namespace IronBlock
         IContext GetFunctionContext(string funcName);
 
         #endregion
+
         List<StatementSyntax> Statements { get; }
         EscapeMode EscapeMode { get; set; }
-        
+
         CancellationToken InterruptToken { get; set; }
         void Interrupt();
-
     }
 }

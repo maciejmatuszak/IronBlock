@@ -21,10 +21,7 @@ namespace IronBlock
             var ctx = new Context();
             if (null != arguments)
             {
-                foreach (var kv in arguments)
-                {
-                    ctx.SetVariable(kv.Key, kv.Value);
-                }
+                ctx.OverrideVariables(arguments);
             }
 
             return Evaluate(ctx);
