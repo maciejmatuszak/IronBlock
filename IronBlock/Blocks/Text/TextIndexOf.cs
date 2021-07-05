@@ -7,7 +7,7 @@ namespace IronBlock.Blocks.Text
 {
     public class TextIndexOf : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var mode = Fields.Get("END");
 
@@ -25,7 +25,7 @@ namespace IronBlock.Blocks.Text
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var textExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
             if (textExpression == null)

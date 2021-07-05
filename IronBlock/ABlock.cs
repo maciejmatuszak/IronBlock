@@ -34,17 +34,17 @@ namespace IronBlock
 
         public object BlockEvaluationErrorArg { get; set; }
 
-        public virtual void BeforeEvaluate(Context context)
+        public virtual void BeforeEvaluate(IContext context)
         {
             context.InvokeBeforeEvent(this);
         }
 
-        public virtual void AfterEvaluate(Context context)
+        public virtual void AfterEvaluate(IContext context)
         {
             context.InvokeAfterEvent(this);
         }
 
-        public virtual object EvaluateInternal(Context context)
+        public virtual object EvaluateInternal(IContext context)
         {
             if (null != Next && context.EscapeMode == EscapeMode.None)
             {
@@ -54,7 +54,7 @@ namespace IronBlock
             return null;
         }
 
-        public virtual object Evaluate(Context context)
+        public virtual object Evaluate(IContext context)
         {
             object result = null;
 
@@ -94,7 +94,7 @@ namespace IronBlock
             return result;
         }
 
-        private void CheckForInterrupt(Context context)
+        private void CheckForInterrupt(IContext context)
         {
             if (context.InterruptToken.IsCancellationRequested)
             {
@@ -102,7 +102,7 @@ namespace IronBlock
             }
         }
 
-        public virtual SyntaxNode Generate(Context context)
+        public virtual SyntaxNode Generate(IContext context)
         {
             if (null != Next && context.EscapeMode == EscapeMode.None)
             {
@@ -119,7 +119,7 @@ namespace IronBlock
             return null;
         }
 
-        public SyntaxNode Statement(SyntaxNode syntaxNode, SyntaxNode nextSyntaxNode, Context context)
+        public SyntaxNode Statement(SyntaxNode syntaxNode, SyntaxNode nextSyntaxNode, IContext context)
         {
             if (nextSyntaxNode == null)
             {

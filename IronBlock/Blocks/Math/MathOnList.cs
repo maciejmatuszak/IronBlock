@@ -11,7 +11,7 @@ namespace IronBlock.Blocks.Math
     {
         private static readonly Random rnd = new Random();
 
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var op = Fields.Get("OP");
             var list = Values.Evaluate("LIST", context) as IEnumerable<object>;
@@ -45,7 +45,7 @@ namespace IronBlock.Blocks.Math
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var listExpression = Values.Generate("LIST", context) as ExpressionSyntax;
             if (listExpression == null)

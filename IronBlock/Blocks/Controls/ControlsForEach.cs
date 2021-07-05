@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Controls
 {
     public class ControlsForEach : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var variableName = Fields.Get("VAR");
             var list = Values.Evaluate("LIST", context) as IEnumerable<object>;
@@ -21,7 +21,7 @@ namespace IronBlock.Blocks.Controls
                 return base.EvaluateInternal(context);
             }
 
-            var forContext = new Context(parentContext: context);
+            var forContext = context.CreateChildContext();
 
             foreach (var item in list)
             {
@@ -33,7 +33,7 @@ namespace IronBlock.Blocks.Controls
             return base.EvaluateInternal(context);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var variableName = Fields.Get("VAR").CreateValidName();
             var listExpression = Values.Generate("LIST", context) as ExpressionSyntax;
@@ -49,7 +49,7 @@ namespace IronBlock.Blocks.Controls
                 return base.Generate(context);
             }
 
-            var forEachContext = new Context(parentContext: context);
+            var forEachContext = context.CreateChildContext();
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forEachContext);

@@ -6,7 +6,7 @@ namespace IronBlock.Blocks.Controls
 {
     public class ControlsFlowStatement : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var flow = Fields.Get("FLOW");
             if (flow == "CONTINUE")
@@ -24,7 +24,7 @@ namespace IronBlock.Blocks.Controls
             throw new NotSupportedException($"{flow} flow is not supported");
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var flow = Fields.Get("FLOW");
             if (flow == "CONTINUE")

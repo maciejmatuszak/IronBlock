@@ -9,30 +9,36 @@ namespace IronBlock.Blocks.Controls
 {
     public class ControlsFor : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
-            var variableName = Fields.Get("VAR");
 
-            var fromValue = (double) Values.Evaluate("FROM", context);
-            var toValue = (double) Values.Evaluate("TO", context);
-            var byValue = (double) Values.Evaluate("BY", context);
 
-            var statement = Statements.FirstOrDefault();
-            
-
-            var forContext = new Context(parentContext: context);
-            forContext.SetLocalVariable(variableName, fromValue);
-            while ((double) forContext.GetVariable(variableName) <= toValue)
+            if (Statements.Count > 0)
             {
-                statement.Evaluate(forContext);
-                forContext.SetLocalVariable(variableName, forContext.GetVariable<double>(variableName) + byValue);
+                var variableName = Fields.Get("VAR");
+
+                var value = (double) Values.Evaluate("FROM", context);
+                var toValue = (double) Values.Evaluate("TO", context);
+                var byValue = (double) Values.Evaluate("BY", context);
                 
+                var statement = Statements[0];
+
+                var forContext = context.CreateChildContext();
+
+                while (value <= toValue)
+                {
+                    forContext.SetLocalVariable(variableName, value);
+
+                    statement.Evaluate(forContext);
+
+                    value += byValue;
+                }
             }
 
             return base.EvaluateInternal(context);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var variableName = Fields.Get("VAR").CreateValidName();
 
@@ -55,10 +61,11 @@ namespace IronBlock.Blocks.Controls
             }
 
             var statement = Statements.FirstOrDefault();
-            
-            var forContext = new Context(parentContext: context);
-            forContext.SetLocalVariable(variableName, null);
-            
+
+            context.RootContext.SetLocalVariable(variableName, null);
+
+            var forContext = context.CreateChildContext();
+
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forContext);

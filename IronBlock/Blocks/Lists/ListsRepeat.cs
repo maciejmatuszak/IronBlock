@@ -10,7 +10,7 @@ namespace IronBlock.Blocks.Lists
 {
     public class ListsRepeat : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var item = Values.Evaluate("ITEM", context);
             var num = (double) Values.Evaluate("NUM", context);
@@ -24,7 +24,7 @@ namespace IronBlock.Blocks.Lists
             return list;
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var itemExpression = Values.Generate("ITEM", context) as ExpressionSyntax;
             if (itemExpression == null)

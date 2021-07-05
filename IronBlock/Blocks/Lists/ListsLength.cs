@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Lists
 {
     public class ListsLength : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var value = Values.Evaluate("VALUE", context) as IEnumerable<object>;
             if (null == value)
@@ -20,7 +20,7 @@ namespace IronBlock.Blocks.Lists
             return (double) value.Count();
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var valueExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
             if (valueExpression == null)

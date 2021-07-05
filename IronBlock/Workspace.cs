@@ -30,8 +30,7 @@ namespace IronBlock
             return Evaluate(ctx);
         }
 
-        public virtual object Evaluate(Context context)
-
+        public virtual object Evaluate(IContext context)
         {
             // TODO: variables
             object returnValue = null;
@@ -58,7 +57,7 @@ namespace IronBlock
             return returnValue;
         }
 
-        public virtual SyntaxNode Generate(Context context)
+        public virtual SyntaxNode Generate(IContext context)
         {
             foreach (var block in Blocks)
             {
@@ -83,9 +82,9 @@ namespace IronBlock
                 context.Statements.Add(statement);
             }
 
-            foreach (var function in context.Functions.Reverse())
+            foreach (var functionName in context.GetFunctionNames().Reverse())
             {
-                var methodDeclaration = function.Value as LocalFunctionStatementSyntax;
+                var methodDeclaration = context.GetFunction(functionName) as LocalFunctionStatementSyntax;
                 if (methodDeclaration == null)
                 {
                     continue;

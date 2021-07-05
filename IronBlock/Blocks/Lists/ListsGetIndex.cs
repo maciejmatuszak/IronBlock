@@ -13,7 +13,7 @@ namespace IronBlock.Blocks.Lists
     {
         private static readonly Random rnd = new Random();
 
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var values = Values.Evaluate("VALUE", context) as List<object>;
             var mode = Fields.Get("MODE");
@@ -65,7 +65,7 @@ namespace IronBlock.Blocks.Lists
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var valueExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
             if (valueExpression == null)

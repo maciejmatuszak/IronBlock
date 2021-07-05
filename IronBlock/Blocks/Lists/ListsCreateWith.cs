@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Lists
 {
     public class ListsCreateWith : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var list = new List<object>();
             foreach (var value in Values)
@@ -20,7 +20,7 @@ namespace IronBlock.Blocks.Lists
             return list;
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var expressions = new List<ExpressionSyntax>();
 

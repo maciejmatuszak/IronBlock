@@ -10,7 +10,7 @@ namespace IronBlock.Blocks.Procedures
 {
     public class ProceduresDef : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var name = Fields.Get("NAME");
             var statement = Statements.FirstOrDefault(x => x.Name == "STACK");
@@ -40,19 +40,12 @@ namespace IronBlock.Blocks.Procedures
                 }
             }
 
-            if (context.Functions.ContainsKey(name))
-            {
-                context.Functions[name] = statement;
-            }
-            else
-            {
-                context.Functions.Add(name, statement);
-            }
+            context.SetLocalFunction(name, statement);
 
             return null;
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var name = Fields.Get("NAME").CreateValidName();
             var statement = Statements.FirstOrDefault(x => x.Name == "STACK");
@@ -142,7 +135,7 @@ namespace IronBlock.Blocks.Procedures
                         );
             }
 
-            context.Functions[name] = methodDeclaration;
+            context.SetLocalFunction(name, methodDeclaration);
 
             return base.Generate(context);
         }
@@ -167,7 +160,7 @@ namespace IronBlock.Blocks.Procedures
                 this.value = value;
             }
 
-            public override object EvaluateInternal(Context context)
+            public override object EvaluateInternal(IContext context)
             {
                 return value.Evaluate(context);
             }

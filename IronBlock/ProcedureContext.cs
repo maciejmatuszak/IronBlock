@@ -5,9 +5,9 @@ namespace IronBlock
 {
     public class ProcedureContext : Context
     {
-        public ProcedureContext(CancellationToken interruptToken = default(CancellationToken),
-            Context parentContext = null)
-            : base(interruptToken, parentContext)
+        public ProcedureContext(IContext parentContext = null,
+            CancellationToken interruptToken = default)
+            : base(parentContext, interruptToken)
         {
             Parameters = new Dictionary<string, object>();
         }

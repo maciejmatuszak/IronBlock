@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Controls
 {
     public class ControlsWhileUntil : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var mode = Fields.Get("MODE");
             var value = Values.FirstOrDefault(x => x.Name == "BOOL");
@@ -45,7 +45,7 @@ namespace IronBlock.Blocks.Controls
             return base.EvaluateInternal(context);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var mode = Fields.Get("MODE");
             var value = Values.FirstOrDefault(x => x.Name == "BOOL");
@@ -63,7 +63,7 @@ namespace IronBlock.Blocks.Controls
                 throw new ApplicationException("Unknown expression for condition.");
             }
 
-            var whileContext = new Context(parentContext: context);
+            var whileContext = context.CreateChildContext();
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(whileContext);

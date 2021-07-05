@@ -2,7 +2,7 @@
 {
     public class ColourPicker : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             return Fields.Get("COLOUR") ?? "#000000";
         }

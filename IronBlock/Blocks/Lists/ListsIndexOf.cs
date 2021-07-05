@@ -7,7 +7,7 @@ namespace IronBlock.Blocks.Lists
 {
     public class ListsIndexOf : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var direction = Fields.Get("END");
             var value = Values.Evaluate("VALUE", context) as IEnumerable<object>;
@@ -26,7 +26,7 @@ namespace IronBlock.Blocks.Lists
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             throw new NotImplementedException();
         }

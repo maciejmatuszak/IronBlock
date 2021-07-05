@@ -6,7 +6,7 @@ namespace IronBlock.Blocks.Colour
     {
         private Random random = new Random();
 
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var colour1 = (Values.Evaluate("COLOUR1", context) ?? "").ToString();
             var colour2 = (Values.Evaluate("COLOUR2", context) ?? "").ToString();

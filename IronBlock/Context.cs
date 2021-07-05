@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -10,28 +9,33 @@ namespace IronBlock
 
     public delegate void OnErrorDelegate(IBlock senderBlock, string errorType, object errorAr);
 
-    public class Context
+    public class Context : IContext
     {
-        public Context(CancellationToken interruptToken = default, Context parentContext = null)
+        public Context() : this(null, default)
         {
-            if (parentContext != null && interruptToken != default)
-            {
-                throw new ArgumentException(
-                    "Either parentContext or interruptToken can be used;interruptToken is ony valid on root context ");
-            }
+        }
 
+        public Context(CancellationToken interruptToken) : this(null, interruptToken)
+        {
+        }
+
+        public Context(IContext parentContext) : this(parentContext, default)
+        {
+        }
+
+        public Context(IContext parentContext, CancellationToken interruptToken)
+        {
+            InterruptToken = interruptToken;
             Parent = parentContext;
             RootContext = parentContext == null ? this : parentContext.RootContext;
-            InterruptToken = interruptToken;
-
             _variables = new Dictionary<string, object>();
-            Functions = new Dictionary<string, object>();
+            _functions = new Dictionary<string, object>();
             Statements = new List<StatementSyntax>();
         }
 
-        public virtual void Interrupt()
+        public IContext CreateChildContext()
         {
-            RootContext._interruptTokenSource.Cancel();
+            return new Context(parentContext: this);
         }
 
         public virtual void InvokeBeforeEvent(IBlock block)
@@ -66,10 +70,15 @@ namespace IronBlock
             _variables[varName] = value;
         }
 
-        public void SetLocalVariable<T>(string varName, T value)
+        public object GetLocalVariable(string varName)
         {
-            _variables[varName] = value;
+            if (!_variables.ContainsKey(varName))
+            {
+                throw new ArgumentException("Variable does not exists in this context", nameof(varName));
+            }
+            return _variables[varName];
         }
+
 
         /// <summary>
         /// Variable setter. If the variable exists in this or any Parent context then it will be updated.
@@ -87,7 +96,7 @@ namespace IronBlock
             }
             else
             {
-                ctx._variables[varName] = value;
+                ctx.SetLocalVariable(varName, value);
             }
         }
 
@@ -106,7 +115,7 @@ namespace IronBlock
                 return defaultValue;
             }
 
-            return ctx._variables[varName];
+            return ctx.GetLocalVariable(varName);
         }
 
         public T GetVariable<T>(string varName, object defaultValue)
@@ -126,10 +135,10 @@ namespace IronBlock
             // lets see if the variable exists in any context
             if (ctx == null)
             {
-                throw new ArgumentException("Variable does not exists", nameof(varName));
+                throw new ArgumentException("Variable does not exists", varName);
             }
 
-            return ctx._variables[varName];
+            return ctx.GetLocalVariable(varName);
         }
 
         public T GetVariable<T>(string varName)
@@ -150,7 +159,13 @@ namespace IronBlock
 
         public ICollection<string> GetVariableNames()
         {
-            return _variables.Keys;
+            var varsNames = new List<string>(_variables.Keys);
+            if (Parent != null)
+            {
+                varsNames.AddRange(Parent.GetVariableNames());
+            }
+
+            return varsNames;
         }
 
         /// <summary>
@@ -158,7 +173,7 @@ namespace IronBlock
         /// </summary>
         /// <param name="varName"></param>
         /// <returns></returns>
-        private Context GetVariableContext(string varName)
+        public IContext GetVariableContext(string varName)
         {
             if (_variables.ContainsKey(varName))
             {
@@ -170,17 +185,111 @@ namespace IronBlock
 
         #endregion
 
-        private CancellationTokenSource _interruptTokenSource;
+        #region Functions
 
-        private CancellationToken _interruptToken;
+        public void SetLocalFunction(string funcName, object value)
+        {
+            _functions[funcName] = value;
+        }
+
+        public void SetLocalFunction<T>(string funcName, T value)
+        {
+            _functions[funcName] = value;
+        }
+
+        public object GetLocalFunction(string funcName)
+        {
+            if (!_functions.ContainsKey(funcName))
+            {
+                throw new ArgumentException("Variable does not exists in this context", funcName);
+            }
+            return _functions[funcName];
+        }
+
+        public object GetFunction(string funcName)
+        {
+            var ctx = GetFunctionContext(funcName);
+            // lets see if the variable exists in any context
+            if (ctx == null)
+            {
+                throw new MissingMethodException(GetType().FullName, funcName);
+            }
+
+            return ctx.GetLocalFunction(funcName);
+        }
+
+        public T GetFunction<T>(string funcName)
+        {
+            return (T) GetFunction(funcName);
+        }
+
+        public bool DoesFunctionExists(string funcName)
+        {
+            return GetFunctionContext(funcName) != null;
+        }
+
+        public ICollection<string> GetFunctionNames()
+        {
+            var functionNames = new List<string>(_functions.Keys);
+            if (Parent != null)
+            {
+                functionNames.AddRange(Parent.GetFunctionNames());
+            }
+
+            return functionNames;
+        }
+
+        public IContext GetFunctionContext(string funcName)
+        {
+            if (_functions.ContainsKey(funcName))
+            {
+                return this;
+            }
+
+            return Parent?.GetFunctionContext(funcName);
+        }
+
+        private IDictionary<string, object> _functions { get; set; }
+
+        #endregion
+
+
+        private CancellationToken _interruptToken = default;
+        private CancellationTokenSource _interruptTokenSource = null;
+
+        public virtual void Interrupt()
+        {
+            if (IsRoot)
+            {
+                _interruptTokenSource?.Cancel();
+            }
+            else
+            {
+                RootContext.Interrupt();
+            }
+        }
 
         public CancellationToken InterruptToken
         {
-            get => RootContext._interruptToken;
-            private set
+            get
             {
                 if (IsRoot)
                 {
+                    return _interruptToken;
+                }
+
+                return RootContext.InterruptToken;
+            }
+
+            set
+            {
+                if (IsRoot)
+                {
+                    if (_interruptTokenSource != null)
+                    {
+                        throw new Exception("Can not change Interrupt Token");
+                    }
+
                     _interruptTokenSource = CancellationTokenSource.CreateLinkedTokenSource(value);
                     _interruptToken = _interruptTokenSource.Token;
                 }
@@ -194,18 +303,17 @@ namespace IronBlock
 
         public bool IsRoot => Parent == null;
 
-        public readonly Context RootContext;
+        public IContext RootContext { get; }
         public event BeforeAfterBlockDelegate BeforeEvent;
         public event BeforeAfterBlockDelegate AfterEvent;
         public event OnErrorDelegate OnError;
 
         private readonly IDictionary<string, object> _variables;
-        public IDictionary<string, object> Functions { get; set; }
 
         public EscapeMode EscapeMode { get; set; }
 
         public List<StatementSyntax> Statements { get; }
 
-        public Context Parent { get; }
+        public IContext Parent { get; }
     }
 }

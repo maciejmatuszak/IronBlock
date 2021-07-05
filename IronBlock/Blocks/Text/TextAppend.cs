@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Text
 {
     public class TextAppend : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
           
             var variableName = Fields.Get("VAR");
@@ -21,7 +21,7 @@ namespace IronBlock.Blocks.Text
             return base.EvaluateInternal(context);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var variableName = Fields.Get("VAR").CreateValidName();
 
@@ -31,7 +31,7 @@ namespace IronBlock.Blocks.Text
                 throw new ApplicationException("Unknown expression for text.");
             }
 
-            context.SetVariable(variableName, textExpression);
+            context.RootContext.SetLocalVariable(variableName, textExpression);
 
             var assignment =
                 AssignmentExpression(

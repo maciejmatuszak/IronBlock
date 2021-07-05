@@ -12,7 +12,7 @@ namespace IronBlock.Blocks.Lists
 {
     public class ListsSplit : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var mode = Fields.Get("MODE");
             var input = Values.Evaluate("INPUT", context);
@@ -37,7 +37,7 @@ namespace IronBlock.Blocks.Lists
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var mode = Fields.Get("MODE");
             var inputExpression = Values.Generate("INPUT", context) as ExpressionSyntax;

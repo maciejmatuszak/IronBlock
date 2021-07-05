@@ -6,7 +6,7 @@ namespace IronBlock.Blocks.Colour
     {
         private Random random = new Random();
 
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var red = Convert.ToByte(Values.Evaluate("RED", context));
             var green = Convert.ToByte(Values.Evaluate("GREEN", context));

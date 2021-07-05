@@ -6,12 +6,12 @@ namespace IronBlock.Blocks.Logic
 {
     public class LogicBoolean : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             return bool.Parse(Fields.Get("BOOL"));
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var value = bool.Parse(Fields.Get("BOOL"));
             if (value)

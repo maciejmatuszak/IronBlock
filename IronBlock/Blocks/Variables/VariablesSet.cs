@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Variables
 {
     public class VariablesSet : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var value = Values.Evaluate("VALUE", context);
             var variableName = Fields.Get("VAR");
@@ -18,7 +18,7 @@ namespace IronBlock.Blocks.Variables
             return base.EvaluateInternal(context);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
 
             var variableName = Fields.Get("VAR").CreateValidName();
@@ -29,7 +29,7 @@ namespace IronBlock.Blocks.Variables
                 throw new ApplicationException("Unknown expression for value.");
             }
 
-            context.SetVariable(variableName, valueExpression);
+            context.RootContext.SetLocalVariable(variableName, valueExpression);
 
             var assignment = AssignmentExpression(
                 SyntaxKind.SimpleAssignmentExpression,

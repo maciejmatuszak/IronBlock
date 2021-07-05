@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Logic
 {
     public class LogicCompare : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var opValue = Fields.Get("OP");
 
@@ -42,7 +42,7 @@ namespace IronBlock.Blocks.Logic
             throw new ApplicationException("unexpected value type");
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var firstExpression = Values.Generate("A", context) as ExpressionSyntax;
             if (firstExpression == null)

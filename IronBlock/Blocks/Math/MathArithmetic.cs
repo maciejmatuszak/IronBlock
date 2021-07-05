@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Math
 {
     public class MathArithmetic : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var a = (double) Values.Evaluate("A", context);
             var b = (double) Values.Evaluate("B", context);
@@ -34,7 +34,7 @@ namespace IronBlock.Blocks.Math
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var firstExpression = Values.Generate("A", context) as ExpressionSyntax;
             if (firstExpression == null)

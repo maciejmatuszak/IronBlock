@@ -11,7 +11,7 @@ namespace IronBlock.BlazorSample
     {
         public List<string> Text { get; set; } = new List<string>();
 
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             Text.Add((Values.FirstOrDefault(x => x.Name == "TEXT")?.Evaluate(context) ?? "").ToString());
             return base.EvaluateInternal(context);

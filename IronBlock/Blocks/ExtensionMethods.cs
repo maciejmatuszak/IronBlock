@@ -17,7 +17,7 @@ namespace IronBlock.Blocks
 {
     public static class Extensions
     {
-        public static object Evaluate(this IEnumerable<Value> values, string name, Context context)
+        public static object Evaluate(this IEnumerable<Value> values, string name, IContext context)
         {
             var value = values.FirstOrDefault(x => x.Name == name);
             if (null == value)
@@ -28,7 +28,7 @@ namespace IronBlock.Blocks
             return value.Evaluate(context);
         }
 
-        public static SyntaxNode Generate(this IEnumerable<Value> values, string name, Context context)
+        public static SyntaxNode Generate(this IEnumerable<Value> values, string name, IContext context)
         {
             var value = values.FirstOrDefault(x => x.Name == name);
             if (null == value)
@@ -80,7 +80,7 @@ namespace IronBlock.Blocks
             return workspace.Generate(context);
         }
 
-        public static StatementSyntax GenerateStatement(this IFragment fragment, Context context)
+        public static StatementSyntax GenerateStatement(this IFragment fragment, IContext context)
         {
             var syntaxNode = fragment.Generate(context);
 

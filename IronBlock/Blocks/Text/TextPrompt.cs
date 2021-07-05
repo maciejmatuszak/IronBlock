@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Text
 {
     public class TextPrompt : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var inputType = Mutations.GetValue("type") ?? "TEXT";
 
@@ -30,7 +30,7 @@ namespace IronBlock.Blocks.Text
             return value;
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var inputType = Mutations.GetValue("type") ?? "TEXT";
 

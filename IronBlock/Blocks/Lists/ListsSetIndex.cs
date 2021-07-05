@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Lists
 {
     public class ListsSetIndex : ABlock
     {
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var listExpression = Values.Generate("LIST", context) as ExpressionSyntax;
             if (listExpression == null)

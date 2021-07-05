@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Math
 {
     public class MathSingle : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var op = Fields.Get("OP");
             var number = (double) Values.Evaluate("NUM", context);
@@ -49,7 +49,7 @@ namespace IronBlock.Blocks.Math
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var op = Fields.Get("OP");
             var numberExpression = Values.Generate("NUM", context) as ExpressionSyntax;

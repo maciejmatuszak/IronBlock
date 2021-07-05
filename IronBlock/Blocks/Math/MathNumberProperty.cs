@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Math
 {
     public class MathNumberProperty : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var op = Fields.Get("PROPERTY");
             var number = (double) Values.Evaluate("NUMBER_TO_CHECK", context);
@@ -34,7 +34,7 @@ namespace IronBlock.Blocks.Math
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var op = Fields.Get("PROPERTY");
             var numberExpression = Values.Generate("NUMBER_TO_CHECK", context) as ExpressionSyntax;

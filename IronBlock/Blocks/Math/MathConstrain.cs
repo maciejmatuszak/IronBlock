@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Math
 {
     public class MathConstrain : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var value = (double) Values.Evaluate("VALUE", context);
             var low = (double) Values.Evaluate("LOW", context);
@@ -17,7 +17,7 @@ namespace IronBlock.Blocks.Math
             return System.Math.Min(System.Math.Max(value, low), high);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var valueExpression = Values.Generate("VALUE", context) as ExpressionSyntax;
             if (valueExpression == null)

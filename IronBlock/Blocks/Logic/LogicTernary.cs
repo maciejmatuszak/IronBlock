@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Logic
 {
     public class LogicTernary : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var ifValue = (bool) Values.Evaluate("IF", context);
 
@@ -30,7 +30,7 @@ namespace IronBlock.Blocks.Logic
             return null;
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var conditionalExpression = Values.Generate("IF", context) as ExpressionSyntax;
             if (conditionalExpression == null)

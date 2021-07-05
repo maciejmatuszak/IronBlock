@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Text
 {
     public class TextPrint : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var text = Values.Evaluate("TEXT", context);
 
@@ -17,7 +17,7 @@ namespace IronBlock.Blocks.Text
             return base.EvaluateInternal(context);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var syntaxNode = Values.Generate("TEXT", context);
             var expression = syntaxNode as ExpressionSyntax;

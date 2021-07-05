@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Logic
 {
     public class LogicOperation : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var a = (bool) (Values.Evaluate("A", context) ?? false);
             var b = (bool) (Values.Evaluate("B", context) ?? false);
@@ -26,7 +26,7 @@ namespace IronBlock.Blocks.Logic
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var firstExpression = Values.Generate("A", context) as ExpressionSyntax;
             if (firstExpression == null)

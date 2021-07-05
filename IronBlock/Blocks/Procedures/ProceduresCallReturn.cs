@@ -5,21 +5,15 @@ namespace IronBlock.Blocks.Procedures
 {
     public class ProceduresCallReturn : ProceduresCallNoReturn
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             // todo: add guard for missing name
 
             var name = Mutations.GetValue("name");
 
-            if (!context.Functions.ContainsKey(name))
-            {
-                throw new MissingMethodException($"Method '{name}' not defined");
-            }
+            var statement = context.GetFunction<IFragment>(name);
 
-            var statement = (IFragment) context.Functions[name];
-
-            var funcContext = new Context(parentContext: context);
-            funcContext.Functions = context.Functions;
+            var funcContext = context.CreateChildContext();
 
             var counter = 0;
             foreach (var mutation in Mutations.Where(x => x.Domain == "arg" && x.Name == "name"))

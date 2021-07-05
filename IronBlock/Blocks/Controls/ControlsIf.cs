@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Controls
 {
     public class ControlsIf : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var ifCount = 1;
             if (null != Mutations.GetValue("elseif"))
@@ -46,7 +46,7 @@ namespace IronBlock.Blocks.Controls
             return base.EvaluateInternal(context);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var ifCount = 1;
             var elseifMutation = Mutations.GetValue("elseif");
@@ -68,7 +68,7 @@ namespace IronBlock.Blocks.Controls
 
                 var statement = Statements.Get($"DO{i}");
 
-                var ifContext = new Context(parentContext: context);
+                var ifContext = context.CreateChildContext();
                 if (statement?.Block != null)
                 {
                     var statementSyntax = statement.Block.GenerateStatement(ifContext);
@@ -87,7 +87,7 @@ namespace IronBlock.Blocks.Controls
             {
                 var statement = Statements.Get("ELSE");
 
-                var elseContext = new Context(parentContext: context);
+                var elseContext = context.CreateChildContext();
                 if (statement?.Block != null)
                 {
                     var statementSyntax = statement.Block.GenerateStatement(elseContext);

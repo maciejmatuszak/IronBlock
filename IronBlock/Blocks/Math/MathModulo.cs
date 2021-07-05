@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Math
 {
     public class MathModulo : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var dividend = (double) Values.Evaluate("DIVIDEND", context);
             var divisor = (double) Values.Evaluate("DIVISOR", context);
@@ -16,7 +16,7 @@ namespace IronBlock.Blocks.Math
             return dividend % divisor;
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var dividendExpression = Values.Generate("DIVIDEND", context) as ExpressionSyntax;
             if (dividendExpression == null)

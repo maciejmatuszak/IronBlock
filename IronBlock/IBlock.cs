@@ -14,9 +14,9 @@ namespace IronBlock
         IBlock Next { get; set; }
         IList<Mutation> Mutations { get; set; }
         IList<Comment> Comments { get; set; }
-        void BeforeEvaluate(Context context);
-        void AfterEvaluate(Context context);
-        object EvaluateInternal(Context context);
-        SyntaxNode Statement(SyntaxNode syntaxNode, SyntaxNode nextSyntaxNode, Context context);
+        void BeforeEvaluate(IContext context);
+        void AfterEvaluate(IContext context);
+        object EvaluateInternal(IContext context);
+        SyntaxNode Statement(SyntaxNode syntaxNode, SyntaxNode nextSyntaxNode, IContext context);
     }
 }

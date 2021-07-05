@@ -30,8 +30,8 @@ namespace IronBlock
 
         public RunnerContext(RunMode stepMode,
             double stepIntervalMilliSeconds = 1000.0,
-            CancellationToken interruptToken = default(CancellationToken),
-            Context parentContext = null) : base(interruptToken, parentContext)
+            CancellationToken interruptToken = default,
+            Context parentContext = null) : base(parentContext, interruptToken)
         {
             _timer = new Timer(stepIntervalMilliSeconds);
             _timer.AutoReset = true;
@@ -78,15 +78,12 @@ namespace IronBlock
         public override void Interrupt()
         {
             base.Interrupt();
-            if (RunMode == RunMode.Stepped)
-            {
-                Step();
-            }
+            Step();
         }
 
         public void Step()
         {
-            if (_runMode == RunMode.Stopped)
+            if (_runMode != RunMode.Stopped)
             {
                 return;
             }

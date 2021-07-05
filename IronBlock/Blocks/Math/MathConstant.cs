@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Math
 {
     public class MathConstant : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var constant = Fields.Get("CONSTANT");
             return GetValue(constant);
@@ -35,7 +35,7 @@ namespace IronBlock.Blocks.Math
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var constant = Fields.Get("CONSTANT");
 

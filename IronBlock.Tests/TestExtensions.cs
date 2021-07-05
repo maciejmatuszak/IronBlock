@@ -27,7 +27,7 @@ namespace IronBlock.Tests
 
             public static List<string> Text { get; set; }
 
-            public override object EvaluateInternal(Context context)
+            public override object EvaluateInternal(IContext context)
             {
                 Text.Add((Values.First(x => x.Name == "TEXT").Evaluate(context) ?? "").ToString());
                 return base.EvaluateInternal(context);

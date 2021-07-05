@@ -7,7 +7,7 @@ namespace IronBlock
         public string Name { get; set; }
         public IBlock Block { get; set; }
 
-        public object Evaluate(Context context)
+        public object Evaluate(IContext context)
         {
             if (null == Block)
             {
@@ -17,7 +17,7 @@ namespace IronBlock
             return Block.Evaluate(context);
         }
 
-        public SyntaxNode Generate(Context context)
+        public SyntaxNode Generate(IContext context)
         {
             if (null == Block)
             {

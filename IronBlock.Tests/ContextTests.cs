@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +12,6 @@ namespace IronBlock.Tests
     public class ContextTests
     {
         [TestMethod]
-        [ExpectedException(typeof(EvaluateInterruptedException))]
         public async Task Test_Interrupt()
         {
             const string xml = @"
@@ -32,6 +32,7 @@ namespace IronBlock.Tests
 
             var runner = new RunnerContext(RunMode.Stepped);
             var finished = false;
+            var interrupted = false;
             var task = Task<object>.Run(() =>
             {
                 try
@@ -43,20 +44,22 @@ namespace IronBlock.Tests
                 catch (EvaluateInterruptedException)
                 {
                     Console.WriteLine("interrupted");
+                    interrupted = true;
                 }
                 finally
                 {
                     finished = true;
                 }
             });
-            // runner.Interrupt();
-            while (! finished)
+            runner.Interrupt();
+            while (!finished)
             {
-                runner.Step();
                 await Task.Delay(100);
             }
+
             task.GetAwaiter().GetResult();
-            
+            Assert.IsTrue(interrupted);
+            Assert.IsTrue(finished);
         }
     }
 }

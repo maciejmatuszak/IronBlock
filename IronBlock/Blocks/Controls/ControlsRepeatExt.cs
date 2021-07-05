@@ -9,7 +9,7 @@ namespace IronBlock.Blocks.Controls
 {
     public class ControlsRepeatExt : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var timesValue = (double) Values.Evaluate("TIMES", context);
 
@@ -38,7 +38,7 @@ namespace IronBlock.Blocks.Controls
             return base.EvaluateInternal(context);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var timesExpression = Values.Generate("TIMES", context) as ExpressionSyntax;
             if (timesExpression == null)
@@ -53,7 +53,7 @@ namespace IronBlock.Blocks.Controls
 
             var statement = Statements.Get("DO");
 
-            var forContext = new Context(parentContext: context);
+            var forContext = context.CreateChildContext();
             if (statement?.Block != null)
             {
                 var statementSyntax = statement.Block.GenerateStatement(forContext);

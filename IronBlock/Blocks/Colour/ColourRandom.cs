@@ -7,7 +7,7 @@ namespace IronBlock.Blocks.Colour
     {
         private readonly Random random = new Random();
 
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var bytes = new byte[3];
             random.NextBytes(bytes);

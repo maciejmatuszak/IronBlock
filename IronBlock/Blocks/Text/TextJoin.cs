@@ -12,7 +12,7 @@ namespace IronBlock.Blocks.Text
 {
     public class TextJoin : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var items = int.Parse(Mutations.GetValue("items"));
 
@@ -30,7 +30,7 @@ namespace IronBlock.Blocks.Text
             return sb.ToString();
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var items = int.Parse(Mutations.GetValue("items"));
 

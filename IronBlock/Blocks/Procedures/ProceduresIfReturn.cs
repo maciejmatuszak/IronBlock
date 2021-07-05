@@ -8,7 +8,7 @@ namespace IronBlock.Blocks.Procedures
 {
     public class ProceduresIfReturn : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var condition = Values.Evaluate("CONDITION", context);
             if ((bool) condition)
@@ -19,7 +19,7 @@ namespace IronBlock.Blocks.Procedures
             return base.EvaluateInternal(context);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var condition = Values.Generate("CONDITION", context) as ExpressionSyntax;
             if (condition == null)

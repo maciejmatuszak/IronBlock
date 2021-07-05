@@ -6,7 +6,7 @@ namespace IronBlock.Blocks.Math
     {
         private static readonly Random rand = new Random();
 
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var from = (double) Values.Evaluate("FROM", context);
             var to = (double) Values.Evaluate("TO", context);

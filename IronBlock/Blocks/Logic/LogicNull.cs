@@ -6,12 +6,12 @@ namespace IronBlock.Blocks.Logic
 {
     public class LogicNull : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             return null;
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             return ReturnStatement(
                 LiteralExpression(

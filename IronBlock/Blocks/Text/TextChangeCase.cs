@@ -10,7 +10,7 @@ namespace IronBlock.Blocks.Text
 {
     public class TextCaseChange : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             var toCase = Fields.Get("CASE");
             var text = (Values.Evaluate("TEXT", context) ?? "").ToString();
@@ -34,7 +34,7 @@ namespace IronBlock.Blocks.Text
             }
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var textExpression = Values.Generate("TEXT", context) as ExpressionSyntax;
             if (textExpression == null)

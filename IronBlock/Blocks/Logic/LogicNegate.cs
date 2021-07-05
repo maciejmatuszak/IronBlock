@@ -8,12 +8,12 @@ namespace IronBlock.Blocks.Logic
 {
     public class LogicNegate : ABlock
     {
-        public override object EvaluateInternal(Context context)
+        public override object EvaluateInternal(IContext context)
         {
             return !(bool) (Values.Evaluate("BOOL", context) ?? false);
         }
 
-        public override SyntaxNode Generate(Context context)
+        public override SyntaxNode Generate(IContext context)
         {
             var boolExpression = Values.Generate("BOOL", context) as ExpressionSyntax;
             if (boolExpression == null)
