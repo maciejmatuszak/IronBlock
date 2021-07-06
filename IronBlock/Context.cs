@@ -159,15 +159,9 @@ namespace IronBlock
             return GetVariableContext(varName) != null;
         }
 
-        public ICollection<string> GetVariableNames()
+        public ICollection<string> GetLocalVariableNames()
         {
-            var varsNames = new List<string>(_variables.Keys);
-            if (Parent != null)
-            {
-                varsNames.AddRange(Parent.GetVariableNames());
-            }
-
-            return varsNames;
+            return _variables.Keys.ToList();
         }
 
         /// <summary>
@@ -236,15 +230,9 @@ namespace IronBlock
             return GetFunctionContext(funcName) != null;
         }
 
-        public ICollection<string> GetFunctionNames()
+        public ICollection<string> GetLocalFunctionNames()
         {
-            var functionNames = new List<string>(_functions.Keys);
-            if (Parent != null)
-            {
-                functionNames.AddRange(Parent.GetFunctionNames());
-            }
-
-            return functionNames;
+            return _functions.Keys.ToList();
         }
 
         public IContext GetFunctionContext(string funcName)

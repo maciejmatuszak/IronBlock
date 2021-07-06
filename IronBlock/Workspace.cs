@@ -79,7 +79,7 @@ namespace IronBlock
                 context.Statements.Add(statement);
             }
 
-            foreach (var functionName in context.GetFunctionNames().Reverse())
+            foreach (var functionName in context.GetLocalFunctionNames().Reverse())
             {
                 var methodDeclaration = context.GetFunction(functionName) as LocalFunctionStatementSyntax;
                 if (methodDeclaration == null)
@@ -90,7 +90,7 @@ namespace IronBlock
                 context.Statements.Insert(0, methodDeclaration);
             }
 
-            foreach (var variableName in context.GetVariableNames().Reverse())
+            foreach (var variableName in context.GetLocalVariableNames().Reverse())
             {
                 var variableDeclaration = GenerateVariableDeclaration(variableName);
                 context.Statements.Insert(0, variableDeclaration);

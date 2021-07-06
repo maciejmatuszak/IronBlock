@@ -64,7 +64,7 @@ namespace IronBlock
         /// <returns></returns>
         bool DoesVariableExists(string varName);
 
-        ICollection<string> GetVariableNames();
+        ICollection<string> GetLocalVariableNames();
         IContext GetVariableContext(string varName);
 
         void OverrideVariables(IDictionary<string, object> variables);
@@ -79,7 +79,7 @@ namespace IronBlock
         object GetFunction(string funcName);
         T GetFunction<T>(string funcName);
         bool DoesFunctionExists(string funcName);
-        ICollection<string> GetFunctionNames();
+        ICollection<string> GetLocalFunctionNames();
         IContext GetFunctionContext(string funcName);
 
         #endregion
