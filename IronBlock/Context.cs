@@ -193,16 +193,11 @@ namespace IronBlock
             _functions[funcName] = value;
         }
 
-        public void SetLocalFunction<T>(string funcName, T value)
-        {
-            _functions[funcName] = value;
-        }
-
         public object GetLocalFunction(string funcName)
         {
             if (!_functions.ContainsKey(funcName))
             {
-                throw new ArgumentException("Variable does not exists in this context", funcName);
+                throw new MissingMethodException(GetType().FullName, funcName);
             }
 
             return _functions[funcName];

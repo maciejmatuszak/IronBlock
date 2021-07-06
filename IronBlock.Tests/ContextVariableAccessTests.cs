@@ -8,14 +8,14 @@ namespace IronBlock.Tests
     public class ContextVariableAccessTests
     {
         [TestMethod]
-        public void Test_VariableAccess_Empty()
+        public void Test_Empty()
         {
             var ctx = new Context();
             Assert.AreEqual(0, ctx.GetLocalVariableNames().Count);
         }
 
         [TestMethod]
-        public void Test_VariableAccess_Hierarchic()
+        public void Test_Hierarchic()
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
@@ -34,7 +34,7 @@ namespace IronBlock.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_VariableAccess_Hierarchic_GetLocalVariable_notExists()
+        public void Test_Hierarchic_GetLocalVariable_notExists()
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
@@ -46,7 +46,7 @@ namespace IronBlock.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_VariableAccess_Hierarchic_notExists()
+        public void Test_Hierarchic_notExists()
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
@@ -57,7 +57,7 @@ namespace IronBlock.Tests
         }
 
         [TestMethod]
-        public void Test_VariableAccess_Hierarchic_Local_Override()
+        public void Test_Hierarchic_Local_Override()
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
@@ -76,7 +76,7 @@ namespace IronBlock.Tests
         }
 
         [TestMethod]
-        public void Test_VariableAccess_parentIsolation()
+        public void Test_parentIsolation()
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
@@ -91,7 +91,7 @@ namespace IronBlock.Tests
         }
 
         [TestMethod]
-        public void Test_VariableAccess_GetVariableWithDefault()
+        public void Test_GetVariableWithDefault()
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
@@ -106,7 +106,7 @@ namespace IronBlock.Tests
         }
 
         [TestMethod]
-        public void Test_VariableAccess_OverrideVariables()
+        public void Test_OverrideVariables()
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
@@ -122,7 +122,7 @@ namespace IronBlock.Tests
         }
 
         [TestMethod]
-        public void Test_VariableAccess_DoesExists()
+        public void Test_DoesExists()
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
@@ -141,7 +141,7 @@ namespace IronBlock.Tests
         }
         
         [TestMethod]
-        public void Test_VariableAccess_GenericAccess()
+        public void Test_GenericAccess()
         {
             var parent = new Context();
             var child = parent.CreateChildContext();

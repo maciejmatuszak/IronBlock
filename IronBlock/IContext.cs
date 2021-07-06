@@ -75,7 +75,6 @@ namespace IronBlock
 
         void SetLocalFunction(string funcName, object value);
         object GetLocalFunction(string funcName);
-        void SetLocalFunction<T>(string funcName, T value);
         object GetFunction(string funcName);
         T GetFunction<T>(string funcName);
         bool DoesFunctionExists(string funcName);
