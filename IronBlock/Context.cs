@@ -34,11 +34,19 @@ namespace IronBlock
             Statements = new List<StatementSyntax>();
         }
 
-        public IContext CreateChildContext()
+        /// <summary>
+        /// Create default child context
+        /// </summary>
+        /// <returns></returns>
+        public virtual IContext CreateChildContext()
         {
             return new Context(parentContext: this);
         }
 
+        /// <summary>
+        /// Triggers BeforeEvent event in entire context chain
+        /// </summary>
+        /// <param name="block"></param>
         public virtual void InvokeBeforeEvent(IBlock block)
         {
             BeforeEvent?.Invoke(this, block);
@@ -48,15 +56,26 @@ namespace IronBlock
             }
         }
 
+        /// <summary>
+        /// Triggers AfterEvent event in entire context chain
+        /// </summary>
+        /// <param name="block"></param>
         public virtual void InvokeAfterEvent(IBlock block)
         {
             AfterEvent?.Invoke(this, block);
             Parent?.InvokeAfterEvent(block);
         }
 
+        /// <summary>
+        /// triggers OnError event in entire context chain
+        /// </summary>
+        /// <param name="sourceBlock"></param>
+        /// <param name="errorType"></param>
+        /// <param name="errorArg"></param>
         public virtual void HandleBlockError(IBlock sourceBlock, string errorType, object errorArg)
         {
             OnError?.Invoke(sourceBlock, errorType, errorArg);
+            Parent?.HandleBlockError(sourceBlock, errorType, errorArg);
         }
 
         #region VariableAccess
@@ -66,12 +85,17 @@ namespace IronBlock
         /// </summary>
         /// <param name="varName"></param>
         /// <param name="value"></param>
-        public void SetLocalVariable(string varName, object value)
+        public virtual void SetLocalVariable(string varName, object value)
         {
             _variables[varName] = value;
         }
 
-        public object GetLocalVariable(string varName)
+        /// <summary>
+        /// returns this context variable or throws ArgumentException exception if it does not exists  
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <returns></returns>
+        public virtual object GetLocalVariable(string varName)
         {
             if (!_variables.ContainsKey(varName))
             {
@@ -88,7 +112,7 @@ namespace IronBlock
         /// </summary>
         /// <param name="varName"></param>
         /// <param name="value"></param>
-        public void SetVariable(string varName, object value)
+        public virtual void SetVariable(string varName, object value)
         {
             var ctx = GetVariableContext(varName);
             // if the variable exists in any context
@@ -108,7 +132,7 @@ namespace IronBlock
         /// <param name="varName"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public object GetVariable(string varName, object defaultValue)
+        public virtual object GetVariable(string varName, object defaultValue)
         {
             var ctx = GetVariableContext(varName);
             // if the variable exists in any context
@@ -120,7 +144,15 @@ namespace IronBlock
             return ctx.GetLocalVariable(varName);
         }
 
-        public T GetVariable<T>(string varName, object defaultValue)
+        /// <summary>
+        /// Generic variable Getter, returns variable value or default value if variable does not exists in context chain
+        /// if exists variable is cast to T
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <param name="defaultValue"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public virtual T GetVariable<T>(string varName, object defaultValue)
         {
             return (T) GetVariable(varName, defaultValue);
         }
@@ -131,7 +163,7 @@ namespace IronBlock
         /// <param name="varName"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public object GetVariable(string varName)
+        public virtual object GetVariable(string varName)
         {
             var ctx = GetVariableContext(varName);
             // lets see if the variable exists in any context
@@ -143,7 +175,14 @@ namespace IronBlock
             return ctx.GetLocalVariable(varName);
         }
 
-        public T GetVariable<T>(string varName)
+        /// <summary>
+        /// Variable Getter, returns variable value or throws ArgumentException if variable does not exists
+        /// if exists variable is cast to T
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public virtual T GetVariable<T>(string varName)
         {
             return (T) GetVariable(varName);
         }
@@ -154,22 +193,26 @@ namespace IronBlock
         /// </summary>
         /// <param name="varName"></param>
         /// <returns></returns>
-        public bool DoesVariableExists(string varName)
+        public virtual bool DoesVariableExists(string varName)
         {
             return GetVariableContext(varName) != null;
         }
 
-        public ICollection<string> GetLocalVariableNames()
+        /// <summary>
+        /// Returns collection of local variables in this context
+        /// </summary>
+        /// <returns></returns>
+        public virtual ICollection<string> GetLocalVariableNames()
         {
             return _variables.Keys.ToList();
         }
 
         /// <summary>
-        /// Gets the context where the variable is set
+        /// Check the context chain from this to Root. It returns first context that holds variable with specified name 
         /// </summary>
         /// <param name="varName"></param>
         /// <returns></returns>
-        public IContext GetVariableContext(string varName)
+        public virtual IContext GetVariableContext(string varName)
         {
             if (_variables.ContainsKey(varName))
             {
@@ -179,7 +222,11 @@ namespace IronBlock
             return Parent?.GetVariableContext(varName);
         }
 
-        public void OverrideVariables(IDictionary<string, object> variables)
+        /// <summary>
+        /// Overrides variable storage dictionary. Any modification to the context variables will affect the dictionary as well  
+        /// </summary>
+        /// <param name="variables"></param>
+        public virtual void OverrideVariables(IDictionary<string, object> variables)
         {
             _variables = variables;
         }
@@ -188,12 +235,23 @@ namespace IronBlock
 
         #region Functions
 
-        public void SetLocalFunction(string funcName, object value)
+        /// <summary>
+        /// stores function definition in this context
+        /// note that this may hide function definition from Parent(s) context chain
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <param name="value"></param>
+        public virtual void SetLocalFunction(string funcName, object value)
         {
             _functions[funcName] = value;
         }
 
-        public object GetLocalFunction(string funcName)
+        /// <summary>
+        /// gets function from this context or throws MissingMethodException 
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <returns></returns>
+        public virtual object GetLocalFunction(string funcName)
         {
             if (!_functions.ContainsKey(funcName))
             {
@@ -203,7 +261,12 @@ namespace IronBlock
             return _functions[funcName];
         }
 
-        public object GetFunction(string funcName)
+        /// <summary>
+        /// gets function from context chain or throws MissingMethodException 
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <returns></returns>
+        public virtual object GetFunction(string funcName)
         {
             var ctx = GetFunctionContext(funcName);
             // lets see if the variable exists in any context
@@ -215,22 +278,43 @@ namespace IronBlock
             return ctx.GetLocalFunction(funcName);
         }
 
-        public T GetFunction<T>(string funcName)
+        /// <summary>
+        /// gets function from context chain or throws MissingMethodException
+        /// function object is casted to T
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public virtual T GetFunction<T>(string funcName)
         {
             return (T) GetFunction(funcName);
         }
 
-        public bool DoesFunctionExists(string funcName)
+        /// <summary>
+        /// check if function exists in context chain
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <returns></returns>
+        public virtual bool DoesFunctionExists(string funcName)
         {
             return GetFunctionContext(funcName) != null;
         }
 
-        public ICollection<string> GetLocalFunctionNames()
+        /// <summary>
+        /// Gets list of functions defined in this context
+        /// </summary>
+        /// <returns></returns>
+        public virtual ICollection<string> GetLocalFunctionNames()
         {
             return _functions.Keys.ToList();
         }
 
-        public IContext GetFunctionContext(string funcName)
+        /// <summary>
+        /// gets first context in chain that defines the function with name specified
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <returns></returns>
+        public virtual IContext GetFunctionContext(string funcName)
         {
             if (_functions.ContainsKey(funcName))
             {
@@ -245,9 +329,13 @@ namespace IronBlock
         #endregion
 
 
-        private CancellationToken _interruptToken = default;
-        private CancellationTokenSource _interruptTokenSource = null;
+        private CancellationToken _interruptToken;
+        private CancellationTokenSource _interruptTokenSource;
 
+
+        /// <summary>
+        /// Method to trigger the interruption
+        /// </summary>
         public virtual void Interrupt()
         {
             if (IsRoot)
@@ -260,6 +348,11 @@ namespace IronBlock
             }
         }
 
+        /// <summary>
+        /// InterruptToken used to break evaluation.
+        /// If interrupted the current Evaluate function will throw EvaluateInterruptedException
+        /// token is always sets/gets from RootContext without regard to which context it is sets/gets on     
+        /// </summary>
         public CancellationToken InterruptToken
         {
             get
@@ -271,6 +364,7 @@ namespace IronBlock
 
                 return RootContext.InterruptToken;
             }
+
 
             set
             {

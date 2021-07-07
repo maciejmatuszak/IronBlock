@@ -9,13 +9,33 @@ namespace IronBlock
 {
     public interface IContext
     {
+        /// <summary>
+        /// Create default child context
+        /// </summary>
+        /// <returns></returns>
         IContext CreateChildContext();
+        
         IContext RootContext { get; }
         IContext Parent { get; }
 
+        /// <summary>
+        /// method intended to be invoked before evaluation of each block
+        /// </summary>
+        /// <param name="block"></param>
         void InvokeBeforeEvent(IBlock block);
+        
+        /// <summary>
+        /// method intended to be invoked after evaluation of each block
+        /// </summary>
+        /// <param name="block"></param>
         void InvokeAfterEvent(IBlock block);
 
+        /// <summary>
+        /// method intended to be called when there are errors during block evaluation
+        /// </summary>
+        /// <param name="sourceBlock"></param>
+        /// <param name="errorType"></param>
+        /// <param name="errorArg"></param>
         void HandleBlockError(IBlock sourceBlock, string errorType, object errorArg);
 
         #region Variable Access
@@ -27,6 +47,11 @@ namespace IronBlock
         /// <param name="value"></param>
         void SetLocalVariable(string varName, object value);
 
+        /// <summary>
+        /// returns this context variable or throws ArgumentException exception if it does not exists  
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <returns></returns>
         object GetLocalVariable(string varName);
 
         /// <summary>
@@ -38,13 +63,21 @@ namespace IronBlock
         void SetVariable(string varName, object value);
 
         /// <summary>
-        /// Variable Getter, returns variable value or default value if variable does not exists
+        /// Variable Getter, returns variable value or default value if variable does not exists in context chain
         /// </summary>
         /// <param name="varName"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         object GetVariable(string varName, object defaultValue);
 
+        /// <summary>
+        /// Generic variable Getter, returns variable value or default value if variable does not exists in context chain
+        /// if exists variable is cast to T
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <param name="defaultValue"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         T GetVariable<T>(string varName, object defaultValue);
 
         /// <summary>
@@ -55,6 +88,13 @@ namespace IronBlock
         /// <exception cref="ArgumentException"></exception>
         object GetVariable(string varName);
 
+        /// <summary>
+        /// Variable Getter, returns variable value or throws ArgumentException if variable does not exists
+        /// if exists variable is cast to T
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         T GetVariable<T>(string varName);
 
         /// <summary>
@@ -64,29 +104,100 @@ namespace IronBlock
         /// <returns></returns>
         bool DoesVariableExists(string varName);
 
+        /// <summary>
+        /// Returns collection of local variables in this context
+        /// </summary>
+        /// <returns></returns>
         ICollection<string> GetLocalVariableNames();
+        
+        /// <summary>
+        /// Check the context chain from this to Root. It returns first context that holds variable with specified name 
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <returns></returns>
         IContext GetVariableContext(string varName);
 
+        /// <summary>
+        /// Overrides variable storage dictionary. Any modification to the context variables will affect the dictionary as well  
+        /// </summary>
+        /// <param name="variables"></param>
         void OverrideVariables(IDictionary<string, object> variables);
 
         #endregion
 
         #region Function Access
 
+        /// <summary>
+        /// stores function definition in this context
+        /// note that this may hide function definition from Parent(s) context chain
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <param name="value"></param>
         void SetLocalFunction(string funcName, object value);
+        
+        /// <summary>
+        /// gets function from this context or throws MissingMethodException 
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <returns></returns>
         object GetLocalFunction(string funcName);
+        
+        /// <summary>
+        /// gets function from context chain or throws MissingMethodException 
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <returns></returns>
         object GetFunction(string funcName);
+        
+        /// <summary>
+        /// gets function from context chain or throws MissingMethodException
+        /// function object is casted to T
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         T GetFunction<T>(string funcName);
+        
+        /// <summary>
+        /// check if function exists in context chain
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <returns></returns>
         bool DoesFunctionExists(string funcName);
+        
+        /// <summary>
+        /// Gets list of functions defined in this context
+        /// </summary>
+        /// <returns></returns>
         ICollection<string> GetLocalFunctionNames();
+        
+        /// <summary>
+        /// gets first context in chain that defines the function with name specified
+        /// </summary>
+        /// <param name="funcName"></param>
+        /// <returns></returns>
         IContext GetFunctionContext(string funcName);
 
         #endregion
 
+        
+        
         List<StatementSyntax> Statements { get; }
+        
+        /// <summary>
+        /// Escape mode used to break/continue from loops  
+        /// </summary>
         EscapeMode EscapeMode { get; set; }
 
+        /// <summary>
+        /// InterruptToken used to break evaluation.
+        /// If interrupted the current Evaluate function will throw EvaluateInterruptedException 
+        /// </summary>
         CancellationToken InterruptToken { get; set; }
+        
+        /// <summary>
+        /// Method to trigger the interruption
+        /// </summary>
         void Interrupt();
     }
 }
