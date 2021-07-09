@@ -135,7 +135,7 @@ namespace IronBlock.Blocks.Procedures
                         );
             }
 
-            context.SetLocalFunction(name, methodDeclaration);
+            context.SetLocalFunction(name, new Statement(){GenerateBlock = methodDeclaration});
 
             return base.Generate(context);
         }

@@ -45,7 +45,7 @@ namespace IronBlock
         public RunnerContext(RunMode stepMode,
             double stepIntervalMilliSeconds = 1000.0,
             CancellationToken interruptToken = default,
-            Context parentContext = null) : base(parentContext, interruptToken)
+            IContext parentContext = null) : base(parentContext, interruptToken)
         {
             _timer = new Timer(stepIntervalMilliSeconds);
             _timer.AutoReset = true;
@@ -62,11 +62,14 @@ namespace IronBlock
             switch (mode)
             {
                 case RunMode.Continuous:
+                    Step();
                     break;
 
                 case RunMode.Stepped:
-                case RunMode.Stopped:
                     BeforeEvent += BeforeEventHandler;
+                    break;
+                
+                case RunMode.Stopped:
                     break;
 
                 case RunMode.Timed:

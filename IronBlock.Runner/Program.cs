@@ -44,7 +44,7 @@ Specify any of the following as a second argument
 
                 var xml = File.ReadAllText(filename);
 
-                var parser =
+                var workspace =
                     new Parser()
                         .AddStandardBlocks()
                         .Parse(xml);
@@ -52,13 +52,13 @@ Specify any of the following as a second argument
                 var mode = args.Skip(1).FirstOrDefault();
                 if (mode?.Equals("-g") ?? false)
                 {
-                    var syntaxTree = parser.Generate();
+                    var syntaxTree = workspace.Generate();
                     var code = syntaxTree.NormalizeWhitespace().ToFullString();
                     Console.WriteLine(code);
                 }
                 else if (mode?.Equals("-co") ?? false)
                 {
-                    var syntaxTree = parser.Generate();
+                    var syntaxTree = workspace.Generate();
                     var code = syntaxTree.NormalizeWhitespace().ToFullString();
                     var script = GenerateScript(code);
 
@@ -85,7 +85,7 @@ Specify any of the following as a second argument
                     ctx.BeforeEvent += OnCtxOnBeforeEvent;
                     ctx.AfterEvent += OnCtxOnAfterEvent;
 
-                    parser.Evaluate(ctx);
+                    workspace.Evaluate(ctx);
 
 
                     ctx.BeforeEvent -= OnCtxOnBeforeEvent;
@@ -95,7 +95,7 @@ Specify any of the following as a second argument
                 else // -ex
                 {
                     // execute
-                    var syntaxTree = parser.Generate();
+                    var syntaxTree = workspace.Generate();
                     var code = syntaxTree.NormalizeWhitespace().ToFullString();
                     var script = GenerateScript(code);
 

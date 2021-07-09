@@ -36,7 +36,7 @@ namespace IronBlock
         /// <param name="sourceBlock"></param>
         /// <param name="errorType"></param>
         /// <param name="errorArg"></param>
-        void HandleBlockError(IBlock sourceBlock, string errorType, object errorArg);
+        void BlockEvaluationError(IBlock sourceBlock, string errorType, object errorArg);
 
         #region Variable Access
 
@@ -133,31 +133,22 @@ namespace IronBlock
         /// </summary>
         /// <param name="funcName"></param>
         /// <param name="value"></param>
-        void SetLocalFunction(string funcName, object value);
+        void SetLocalFunction(string funcName, Statement value);
         
         /// <summary>
         /// gets function from this context or throws MissingMethodException 
         /// </summary>
         /// <param name="funcName"></param>
         /// <returns></returns>
-        object GetLocalFunction(string funcName);
+        Statement GetLocalFunction(string funcName);
         
         /// <summary>
         /// gets function from context chain or throws MissingMethodException 
         /// </summary>
         /// <param name="funcName"></param>
         /// <returns></returns>
-        object GetFunction(string funcName);
-        
-        /// <summary>
-        /// gets function from context chain or throws MissingMethodException
-        /// function object is casted to T
-        /// </summary>
-        /// <param name="funcName"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        T GetFunction<T>(string funcName);
-        
+        Statement GetFunction(string funcName);
+
         /// <summary>
         /// check if function exists in context chain
         /// </summary>

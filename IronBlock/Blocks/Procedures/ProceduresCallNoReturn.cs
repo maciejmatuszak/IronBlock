@@ -15,7 +15,7 @@ namespace IronBlock.Blocks.Procedures
 
             var name = Mutations.GetValue("name");
 
-            var statement = context.GetFunction<IFragment>(name);
+            var statement = context.GetFunction(name);
 
             var funcContext = context.CreateChildContext();
             

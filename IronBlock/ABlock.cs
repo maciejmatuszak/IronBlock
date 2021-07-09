@@ -80,12 +80,12 @@ namespace IronBlock
             }
             catch (Exception e)
             {
-                context.HandleBlockError(this, "exception", e);
+                context.BlockEvaluationError(this, "exception", e);
             }
 
             if (BlockEvaluationErrorType != null)
             {
-                context.HandleBlockError(this, BlockEvaluationErrorType, BlockEvaluationErrorArg);
+                context.BlockEvaluationError(this, BlockEvaluationErrorType, BlockEvaluationErrorArg);
             }
 
             CheckForInterrupt(context);

@@ -81,13 +81,13 @@ namespace IronBlock
 
             foreach (var functionName in context.GetLocalFunctionNames().Reverse())
             {
-                var methodDeclaration = context.GetFunction(functionName) as LocalFunctionStatementSyntax;
-                if (methodDeclaration == null)
+                if (context.GetFunction(functionName) is Statement stmt)
                 {
-                    continue;
+                    if (stmt.GenerateBlock != null)
+                    {
+                        context.Statements.Insert(0, stmt.GenerateBlock);
+                    }
                 }
-
-                context.Statements.Insert(0, methodDeclaration);
             }
 
             foreach (var variableName in context.GetLocalVariableNames().Reverse())

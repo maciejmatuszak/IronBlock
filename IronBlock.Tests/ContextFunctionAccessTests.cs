@@ -20,11 +20,13 @@ namespace IronBlock.Tests
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
-            parent.SetLocalFunction("f1", "fp");
-            child.SetLocalFunction("f1", "fc");
+            var fp = new Statement();
+            var fc = new Statement();
+            parent.SetLocalFunction("f1", fp);
+            child.SetLocalFunction("f1", fc);
             
-            Assert.AreEqual("fc", child.GetFunction("f1"));
-            Assert.AreEqual("fp", parent.GetFunction("f1"));
+            Assert.AreEqual(fc, child.GetFunction("f1"));
+            Assert.AreEqual(fp, parent.GetFunction("f1"));
         }
         
         [TestMethod]
@@ -32,10 +34,11 @@ namespace IronBlock.Tests
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
-            parent.SetLocalFunction("f1", "fp");
+            var fp = new Statement();
+            parent.SetLocalFunction("f1", fp);
             
-            Assert.AreEqual("fp", child.GetFunction("f1"));
-            Assert.AreEqual("fp", parent.GetFunction("f1"));
+            Assert.AreEqual(fp, child.GetFunction("f1"));
+            Assert.AreEqual(fp, parent.GetFunction("f1"));
         }
         
         [TestMethod]
@@ -44,7 +47,9 @@ namespace IronBlock.Tests
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
-            parent.SetLocalFunction("f1", "fp");
+            var fp = new Statement();
+            
+            parent.SetLocalFunction("f1", fp);
             child.GetFunction("missing");
         }
         
@@ -54,7 +59,8 @@ namespace IronBlock.Tests
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
-            parent.SetLocalFunction("f1", "fp");
+            var fp = new Statement();
+            parent.SetLocalFunction("f1", fp);
             child.GetLocalFunction("f1");
         }
         
@@ -63,8 +69,10 @@ namespace IronBlock.Tests
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
-            parent.SetLocalFunction("f1", "fp");
-            Assert.AreEqual("fp", child.GetFunction<string>("f1"));
+            var fp = new Statement();
+            
+            parent.SetLocalFunction("f1", fp);
+            Assert.AreEqual(fp, child.GetFunction("f1"));
         }
         
         [TestMethod]
@@ -72,7 +80,10 @@ namespace IronBlock.Tests
         {
             var parent = new Context();
             var child = parent.CreateChildContext();
-            child.SetLocalFunction("f1", "fp");
+            var fp = new Statement();
+            var fc = new Statement();
+            
+            child.SetLocalFunction("f1", fp);
             Assert.IsTrue(child.DoesFunctionExists("f1"));
             Assert.IsFalse(parent.DoesFunctionExists("f1"));
         }

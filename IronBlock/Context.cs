@@ -30,7 +30,7 @@ namespace IronBlock
             Parent = parentContext;
             RootContext = parentContext == null ? this : parentContext.RootContext;
             _variables = new Dictionary<string, object>();
-            _functions = new Dictionary<string, object>();
+            _functions = new Dictionary<string, Statement>();
             Statements = new List<StatementSyntax>();
         }
 
@@ -72,10 +72,10 @@ namespace IronBlock
         /// <param name="sourceBlock"></param>
         /// <param name="errorType"></param>
         /// <param name="errorArg"></param>
-        public virtual void HandleBlockError(IBlock sourceBlock, string errorType, object errorArg)
+        public virtual void BlockEvaluationError(IBlock sourceBlock, string errorType, object errorArg)
         {
             OnError?.Invoke(sourceBlock, errorType, errorArg);
-            Parent?.HandleBlockError(sourceBlock, errorType, errorArg);
+            Parent?.BlockEvaluationError(sourceBlock, errorType, errorArg);
         }
 
         #region VariableAccess
@@ -241,7 +241,7 @@ namespace IronBlock
         /// </summary>
         /// <param name="funcName"></param>
         /// <param name="value"></param>
-        public virtual void SetLocalFunction(string funcName, object value)
+        public virtual void SetLocalFunction(string funcName, Statement value)
         {
             _functions[funcName] = value;
         }
@@ -251,7 +251,7 @@ namespace IronBlock
         /// </summary>
         /// <param name="funcName"></param>
         /// <returns></returns>
-        public virtual object GetLocalFunction(string funcName)
+        public virtual Statement GetLocalFunction(string funcName)
         {
             if (!_functions.ContainsKey(funcName))
             {
@@ -266,7 +266,7 @@ namespace IronBlock
         /// </summary>
         /// <param name="funcName"></param>
         /// <returns></returns>
-        public virtual object GetFunction(string funcName)
+        public virtual Statement GetFunction(string funcName)
         {
             var ctx = GetFunctionContext(funcName);
             // lets see if the variable exists in any context
@@ -276,18 +276,6 @@ namespace IronBlock
             }
 
             return ctx.GetLocalFunction(funcName);
-        }
-
-        /// <summary>
-        /// gets function from context chain or throws MissingMethodException
-        /// function object is casted to T
-        /// </summary>
-        /// <param name="funcName"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public virtual T GetFunction<T>(string funcName)
-        {
-            return (T) GetFunction(funcName);
         }
 
         /// <summary>
@@ -324,7 +312,7 @@ namespace IronBlock
             return Parent?.GetFunctionContext(funcName);
         }
 
-        private IDictionary<string, object> _functions { get; set; }
+        private IDictionary<string, Statement> _functions { get; set; }
 
         #endregion
 

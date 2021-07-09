@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IronBlock
 {
@@ -6,6 +8,7 @@ namespace IronBlock
     {
         public string Name { get; set; }
         public IBlock Block { get; set; }
+        public LocalFunctionStatementSyntax GenerateBlock { get; set; }
 
         public object Evaluate(IContext context)
         {
@@ -27,4 +30,5 @@ namespace IronBlock
             return Block.Generate(context);
         }
     }
+    
 }
